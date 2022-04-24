@@ -1,11 +1,14 @@
 package uk.ac.soton.comp1206.scene;
 
 import javafx.event.ActionEvent;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import uk.ac.soton.comp1206.App;
 import uk.ac.soton.comp1206.ui.GamePane;
 import uk.ac.soton.comp1206.ui.GameWindow;
 
@@ -49,11 +52,36 @@ public class MenuScene extends BaseScene {
         mainPane.setTop(title);
 
         //For now, let us just add a button that starts the game. I'm sure you'll do something way better.
-        var button = new Button("Play");
-        mainPane.setCenter(button);
+
+        var menu = new VBox(10);
+        menu.setPadding(new Insets(15));
+        menu.setAlignment(Pos.CENTER);
+        mainPane.setBottom(menu);
+        //menu.getStyleClass().add("menuItem");
+
+        var local = new Text("Local");
+        local.getStyleClass().add("menuItem");
+        menu.getChildren().add(local);
+
+        var online = new Text("Online");
+        online.getStyleClass().add("menuItem");
+        menu.getChildren().add(online);
+
+        var instructions = new Text("Instructions");
+        instructions.getStyleClass().add("menuItem");
+        menu.getChildren().add(instructions);
+
+        var settings = new Text("Settings");
+        settings.getStyleClass().add("menuItem");
+        menu.getChildren().add(settings);
+
+        var quit = new Text("Quit");
+        quit.getStyleClass().add("menuItem");
+        quit.setOnMouseClicked((e) -> App.getInstance().shutdown());
+        menu.getChildren().add(quit);
 
         //Bind the button action to the startGame method in the menu
-        button.setOnAction(this::startGame);
+        //local.setOnAction(this::startGame);
     }
 
     /**
