@@ -3,8 +3,11 @@ package uk.ac.soton.comp1206.scene;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.layout.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,6 +24,7 @@ public class MenuScene extends BaseScene {
 
     /**
      * Create a new menu scene
+     *
      * @param gameWindow the Game Window this will be displayed in
      */
     public MenuScene(GameWindow gameWindow) {
@@ -35,7 +39,7 @@ public class MenuScene extends BaseScene {
     public void build() {
         logger.info("Building " + this.getClass().getName());
 
-        root = new GamePane(gameWindow.getWidth(),gameWindow.getHeight());
+        root = new GamePane(gameWindow.getWidth(), gameWindow.getHeight());
 
         var menuPane = new StackPane();
         menuPane.setMaxWidth(gameWindow.getWidth());
@@ -46,18 +50,19 @@ public class MenuScene extends BaseScene {
         var mainPane = new BorderPane();
         menuPane.getChildren().add(mainPane);
 
-        //Awful title
-        var title = new Text("TetrECS");
-        title.getStyleClass().add("title");
-        mainPane.setTop(title);
+        // Logo
+        Image image = new Image((getClass().getResource("/images/TetrECS.png").toExternalForm()));
+        ImageView logo = new ImageView(image);
 
-        //For now, let us just add a button that starts the game. I'm sure you'll do something way better.
+        logo.setFitHeight(130);
+        logo.setPreserveRatio(true);
+        mainPane.setCenter(logo);
 
+        // Menu items
         var menu = new VBox(10);
         menu.setPadding(new Insets(15));
         menu.setAlignment(Pos.CENTER);
         mainPane.setBottom(menu);
-        //menu.getStyleClass().add("menuItem");
 
         var local = new Text("Local");
         local.getStyleClass().add("menuItem");
@@ -94,6 +99,7 @@ public class MenuScene extends BaseScene {
 
     /**
      * Handle when the Start Game button is pressed
+     *
      * @param event event
      */
     private void startGame(ActionEvent event) {
