@@ -1,0 +1,209 @@
+.gamepane {
+    -fx-background-color: black;
+}
+
+.intro {
+    -fx-background-color: black;
+}
+
+.menu-background {
+    -fx-background-image: url("../images/1.jpg");
+    -fx-background-size: cover;
+}
+
+.challenge-background {
+    -fx-background-image: url("../images/2.jpg");
+    -fx-background-size: cover;
+}
+
+.menu {
+    -fx-padding: 10;
+}
+
+.menuItem {
+    -fx-fill: white;
+    -fx-font-family: 'Orbitron';
+    -fx-font-size: 32px;
+    -fx-font-weight: 700;
+    -fx-border-color: black;
+    -fx-stroke: black;
+    -fx-effect: dropshadow(gaussian, black, 1, 1.0, 1, 1);
+}
+
+.menuItem:hover {
+    -fx-fill: yellow;
+}
+
+.menuItem.selected {
+    -fx-fill: yellow;
+}
+
+.bigtitle {
+    -fx-fill: yellow;
+    -fx-font-family: 'Orbitron';
+    -fx-font-size: 64px;
+    -fx-font-weight: 900;
+    -fx-border-color: black;
+    -fx-stroke: black;
+    -fx-effect: dropshadow(gaussian, black, 1, 1.0, 1, 1);
+}
+
+.title {
+    -fx-fill: white;
+    -fx-font-family: 'Orbitron';
+    -fx-font-size: 32px;
+    -fx-font-weight: 900;
+    -fx-border-color: black;
+    -fx-stroke: black;
+    -fx-effect: dropshadow(gaussian, black, 1, 1.0, 1, 1);
+}
+
+.heading {
+    -fx-fill: white;
+    -fx-font-family: 'Orbitron';
+    -fx-font-size: 20px;
+    -fx-font-weight: 700;
+    -fx-border-color: black;
+    -fx-stroke: black;
+    -fx-effect: dropshadow(gaussian, black, 1, 1.0, 1, 1);
+}
+
+.score {
+    -fx-fill: yellow;
+    -fx-font-family: 'Orbitron';
+    -fx-font-size: 36px;
+    -fx-font-weight: 700;
+    -fx-border-color: black;
+    -fx-stroke: black;
+    -fx-text-alignment: center;
+    -fx-effect: dropshadow(gaussian, black, 1, 1.0, 1, 1);
+}
+
+.level {
+    -fx-fill: #ff6600;
+    -fx-font-family: 'Orbitron';
+    -fx-font-size: 24px;
+    -fx-font-weight: 700;
+    -fx-border-color: black;
+    -fx-stroke: black;
+    -fx-text-alignment: center;
+    -fx-effect: dropshadow(gaussian, black, 1, 1.0, 1, 1);
+}
+
+.hiscore {
+    -fx-fill: orange;
+    -fx-font-family: 'Orbitron';
+    -fx-font-size: 24px;
+    -fx-font-weight: 700;
+    -fx-border-color: black;
+    -fx-stroke: black;
+    -fx-text-alignment: center;
+    -fx-effect: dropshadow(gaussian, black, 1, 1.0, 1, 1);
+}
+
+.lives {
+    -fx-fill: yellow;
+    -fx-font-family: 'Orbitron';
+    -fx-font-size: 36px;
+    -fx-font-weight: 700;
+    -fx-border-color: black;
+    -fx-stroke: black;
+    -fx-text-alignment: center;
+    -fx-effect: dropshadow(gaussian, black, 1, 1.0, 1, 1);
+}
+
+.scorelist {
+    -fx-font-size: 20px;
+    -fx-font-family: 'Orbitron';
+}
+
+.scoreitem {
+
+}
+
+.scorer {
+
+}
+
+.myscore {
+    -fx-font-weight: 700;
+}
+
+.deadscore {
+    -fx-strikethrough: true;
+}
+
+.points {
+}
+
+.channelList {
+
+}
+
+.channelItem {
+    -fx-fill: white;
+    -fx-font-family: 'Orbitron';
+    -fx-font-size: 16px;
+    -fx-font-weight: 700;
+    -fx-border-color: black;
+    -fx-stroke: black;
+}
+.channelItem.selected {
+    -fx-fill: yellow;
+}
+
+.leaderboard {
+    -fx-font-size: 16px;
+}
+
+.gameBox {
+    -fx-padding: 10;
+    -fx-background-color: rgba(0, 0, 0, 0.5);
+    -fx-border-color: white;
+    -fx-border-width: 1;
+}
+
+.scroller {
+    -fx-background-color: transparent;
+}
+
+.scroller .viewport {
+    -fx-background-color: transparent;
+}
+
+.messages {
+    -fx-background-color: transparent;
+    -fx-font-size: 12px;
+    -fx-font-family: 'Orbitron';
+}
+
+.messages Text {
+    -fx-fill: white;
+}
+
+TextField {
+    -fx-border-color: white;
+    -fx-border-width: 1px;
+    -fx-background-color: rgba(0,0,0,0.5);
+    -fx-text-fill: white;
+    -fx-prompt-text-fill: grey;
+}
+
+.playerBox {
+    -fx-font-size: 14px;
+    -fx-font-family: 'Orbitron';
+}
+
+.playerBox Text {
+    -fx-fill: white;
+}
+
+.myname {
+    -fx-font-weight: 700;
+}
+
+.instructions {
+    -fx-font-size: 10px;
+    -fx-font-family: 'Orbitron';
+    -fx-fill: white;
+}
