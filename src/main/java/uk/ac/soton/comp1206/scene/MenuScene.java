@@ -1,7 +1,6 @@
 package uk.ac.soton.comp1206.scene;
 
 import javafx.animation.Animation;
-import javafx.animation.Interpolator;
 import javafx.animation.RotateTransition;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
@@ -79,6 +78,7 @@ public class MenuScene extends BaseScene {
         var local = new Text("Local");
         local.getStyleClass().add("menuItem");
         menu.getChildren().add(local);
+        local.setOnMouseClicked(e -> gameWindow.startChallenge());
 
         var online = new Text("Online");
         online.getStyleClass().add("menuItem");
@@ -96,9 +96,6 @@ public class MenuScene extends BaseScene {
         quit.getStyleClass().add("menuItem");
         quit.setOnMouseClicked((e) -> App.getInstance().shutdown());
         menu.getChildren().add(quit);
-
-        //Bind the button action to the startGame method in the menu
-        //local.setOnAction(this::startGame);
     }
 
     /**

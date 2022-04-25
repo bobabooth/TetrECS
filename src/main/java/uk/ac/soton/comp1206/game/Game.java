@@ -1,10 +1,10 @@
 package uk.ac.soton.comp1206.game;
 
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import uk.ac.soton.comp1206.component.GameBlock;
-import uk.ac.soton.comp1206.component.GameBlockCoordinate;
 import uk.ac.soton.comp1206.ui.Multimedia;
 
 import java.util.HashSet;
@@ -40,6 +40,13 @@ public class Game {
      */
     protected GamePiece currentPiece;
 
+    /**
+     * Initial values
+     */
+    public IntegerProperty score = new SimpleIntegerProperty(0);
+    public IntegerProperty level = new SimpleIntegerProperty(0);
+    public IntegerProperty lives = new SimpleIntegerProperty(3);
+    public IntegerProperty multiplier = new SimpleIntegerProperty(1);
 
     /**
      * Create a new game with the specified rows and columns. Creates a corresponding grid model.
