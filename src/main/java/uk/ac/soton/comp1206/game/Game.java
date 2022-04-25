@@ -103,6 +103,7 @@ public class Game {
      */
     public void afterPiece() {
         var clear = new HashSet<IntegerProperty>();
+        int linesCleared = 0;
 
         // Check for full horizontal lines (rows) --
         for (int x = 0; x < cols; x++) {
@@ -112,6 +113,7 @@ public class Game {
                 counter++;
             }
             if (counter == rows) {
+                linesCleared++;
                 for (int y = 0; y < rows; y++) {
                     clear.add(grid.getGridProperty(x, y));
                 }
@@ -125,15 +127,40 @@ public class Game {
                 counter++;
             }
             if (counter == cols) {
+                linesCleared++;
                 for (int x = 0; x < this.cols; x++) {
                     clear.add(grid.getGridProperty(x, y));
                 }
             }
         }
-        // Clear block
-        for (IntegerProperty block : clear) {
-            block.set(0);
+
+        // Check if lines cleared
+        if (linesCleared > 0) {
+            // Clear block
+            for (IntegerProperty block : clear) {
+                block.set(0);
+            }
+            score(linesCleared, clear.size());
+
+            // Multiplier increase by 1 if the next piece also clears lines
+            multiplier.set(multiplier.add(1).get());
+
+            // Sets the level
+            level.set(Math.floorDiv(score.get(), 1000));
+        } else {
+            // Multiplier resets to 1 if no lines cleared
+            multiplier.set(1);
         }
+    }
+
+    /**
+     * Calculate the score
+     * @param lines number of lines cleared
+     * @param blocks number of grid blocks cleared
+     */
+    public void score(int lines, int blocks) {
+        int multiplayer = multiplier.get();
+        score.set(score.add(lines * blocks * 10 * multiplayer).get());
     }
 
     /**
