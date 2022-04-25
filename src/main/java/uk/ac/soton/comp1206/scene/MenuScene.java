@@ -1,5 +1,8 @@
 package uk.ac.soton.comp1206.scene;
 
+import javafx.animation.Animation;
+import javafx.animation.Interpolator;
+import javafx.animation.RotateTransition;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -9,6 +12,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import uk.ac.soton.comp1206.App;
@@ -53,10 +57,17 @@ public class MenuScene extends BaseScene {
         // Logo
         Image image = new Image((getClass().getResource("/images/TetrECS.png").toExternalForm()));
         ImageView logo = new ImageView(image);
-
         logo.setFitHeight(130);
         logo.setPreserveRatio(true);
         mainPane.setCenter(logo);
+
+        // Logo animation
+        RotateTransition rt = new RotateTransition(Duration.millis(2000), logo);
+        rt.setToAngle(5);
+        rt.setFromAngle(-5);
+        rt.setAutoReverse(true);
+        rt.setCycleCount(Animation.INDEFINITE);
+        rt.play();
 
         // Menu items
         var menu = new VBox(10);
