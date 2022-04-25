@@ -18,6 +18,7 @@ import org.apache.logging.log4j.Logger;
 import uk.ac.soton.comp1206.App;
 import uk.ac.soton.comp1206.ui.GamePane;
 import uk.ac.soton.comp1206.ui.GameWindow;
+import uk.ac.soton.comp1206.ui.Multimedia;
 
 /**
  * The main menu of the game. Provides a gateway to the rest of the game.
@@ -105,7 +106,7 @@ public class MenuScene extends BaseScene {
      */
     @Override
     public void initialise() {
-
+        Multimedia.playMusic("menu.mp3");
     }
 
     /**
