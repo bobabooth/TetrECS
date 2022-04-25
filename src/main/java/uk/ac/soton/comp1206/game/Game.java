@@ -1,8 +1,15 @@
 package uk.ac.soton.comp1206.game;
 
+import javafx.beans.property.IntegerProperty;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import uk.ac.soton.comp1206.component.GameBlock;
+import uk.ac.soton.comp1206.component.GameBlockCoordinate;
+
+import java.util.HashSet;
+import java.util.Random;
+
+import static uk.ac.soton.comp1206.game.GamePiece.PIECES;
 
 /**
  * The Game class handles the main logic, state and properties of the TetrECS game. Methods to manipulate the game state
@@ -26,6 +33,12 @@ public class Game {
      * The grid model linked to the game
      */
     protected final Grid grid;
+
+    /**
+     * Keep track of the current piece
+     */
+    protected GamePiece currentPiece;
+
 
     /**
      * Create a new game with the specified rows and columns. Creates a corresponding grid model.
@@ -64,15 +77,71 @@ public class Game {
         int x = gameBlock.getX();
         int y = gameBlock.getY();
 
-        //Get the new value for this block
-        int previousValue = grid.get(x,y);
-        int newValue = previousValue + 1;
-        if (newValue  > GamePiece.PIECES) {
-            newValue = 0;
+        // Place the current piece
+        if (grid.playPiece(currentPiece, x, y)){
+            afterPiece();
+            nextPiece();
+        }
+        else {
+            //"fail.wav"
         }
 
-        //Update the grid with the new value
-        grid.set(x,y,newValue);
+        // Check for lines to clear
+        afterPiece();
+    }
+
+    /**
+     * Handle the clearance of lines
+     */
+    public void afterPiece() {
+        var clear = new HashSet<IntegerProperty>();
+
+        // Check for full horizontal lines (rows) --
+        for (int x = 0; x < cols; x++) {
+            int counter = 0;
+            for (int y = 0; y < rows; y++) {
+                if (grid.get(x, y) == 0) break;
+                counter++;
+            }
+            if (counter == rows) {
+                for (int y = 0; y < rows; y++) {
+                    clear.add(grid.getGridProperty(x, y));
+                }
+            }
+        }
+        // Check for full vertical lines (columns) ||
+        for (int y = 0; y < rows; y++) {
+            int counter = 0;
+            for (int x = 0; x < cols; x++) {
+                if (grid.get(x, y) == 0) break;
+                counter++;
+            }
+            if (counter == cols) {
+                for (int x = 0; x < this.cols; x++) {
+                    clear.add(grid.getGridProperty(x, y));
+                }
+            }
+        }
+        // Clear block
+        for (IntegerProperty block : clear) {
+            block.set(0);
+        }
+    }
+
+    /**
+     * Create a randomly generated piece
+     * @return GamePiece
+     */
+    public GamePiece spawnPiece() {
+        Random random = new Random();
+        return GamePiece.createPiece(random.nextInt(PIECES));
+    }
+
+    /**
+     * Replace the current piece with a new piece
+     */
+    public void nextPiece() {
+        currentPiece = spawnPiece();
     }
 
     /**

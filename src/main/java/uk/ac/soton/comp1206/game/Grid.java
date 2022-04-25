@@ -103,4 +103,56 @@ public class Grid {
         return rows;
     }
 
+    /**
+     * Takes a GamePiece with a given x and y of the grid will return true or false if that piece can be played
+     * @param piece game piece
+     * @param placeX x
+     * @param placeY y
+     * @return true if the piece can be played
+     */
+    public boolean canPlayPiece(GamePiece piece, int placeX, int placeY) {
+        placeX -= 1;
+        placeY -= 1;
+        int[][] blocks = piece.getBlocks();
+        // Loop through every part of the game piece
+        for (int x = 0; x < blocks.length; x++) {
+            for (int y = 0; y < blocks[x].length; y++) {
+                int value = blocks[x][y];
+                // If there isn't a block, then ignore
+                if (value == 0) continue;
+                int gridValue = get(x + placeX, y + placeY);
+                if (gridValue > 0) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Takes a GamePiece with a given x and y of the grid will place that piece in the grid
+     * @param piece game piece
+     * @param placeX x
+     * @param placeY y
+     * @return true if piece is played
+     */
+    public boolean playPiece(GamePiece piece, int placeX, int placeY) {
+        if (!canPlayPiece(piece, placeX, placeY)) {
+            return false;
+        }
+        placeX -= 1;
+        placeY -= 1;
+        int[][] blocks = piece.getBlocks();
+
+        // Loop through every part of the game piece
+        for (int x = 0; x < blocks.length; x++) {
+            for (int y = 0; y < blocks[x].length; y++) {
+                int value = blocks[x][y];
+                // If there isn't a block, then ignore
+                if (value == 0) continue;
+                set(x + placeX, y + placeY, value);
+            }
+        }
+        return true;
+    }
 }
