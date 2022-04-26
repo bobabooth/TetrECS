@@ -18,7 +18,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import uk.ac.soton.comp1206.component.ScoresList;
 import uk.ac.soton.comp1206.game.Game;
-import uk.ac.soton.comp1206.network.Communicator;
 import uk.ac.soton.comp1206.ui.GamePane;
 import uk.ac.soton.comp1206.ui.GameWindow;
 import uk.ac.soton.comp1206.ui.Multimedia;
@@ -33,7 +32,6 @@ public class ScoresScene extends BaseScene {
 
     private final StringProperty currentName = new SimpleStringProperty("");
     private final BooleanProperty provideScore = new SimpleBooleanProperty(false);
-    private final Communicator communicator;
     private ObservableList<Pair<String, Integer>> localScoresList;
     private ScoresList localScores;
     private VBox centerBox;
@@ -44,7 +42,6 @@ public class ScoresScene extends BaseScene {
     public ScoresScene(GameWindow gameWindow, Game game) {
         super(gameWindow);
         this.game = game;
-        communicator = gameWindow.getCommunicator();
     }
 
     /**
