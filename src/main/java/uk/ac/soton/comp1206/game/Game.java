@@ -38,7 +38,7 @@ public class Game {
     /**
      * Keep track of the current piece
      */
-    protected GamePiece currentPiece;
+    public GamePiece currentPiece;
 
     /**
      * Initial values

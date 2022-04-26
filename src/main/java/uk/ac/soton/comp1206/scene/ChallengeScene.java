@@ -8,6 +8,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import uk.ac.soton.comp1206.component.GameBlock;
 import uk.ac.soton.comp1206.component.GameBoard;
+import uk.ac.soton.comp1206.component.PieceBoard;
 import uk.ac.soton.comp1206.game.Game;
 import uk.ac.soton.comp1206.ui.GamePane;
 import uk.ac.soton.comp1206.ui.GameWindow;
@@ -20,6 +21,7 @@ public class ChallengeScene extends BaseScene {
 
     private static final Logger logger = LogManager.getLogger(MenuScene.class);
     protected Game game;
+    protected PieceBoard currentPiece;
 
     /**
      * Create a new Single Player challenge scene
@@ -103,7 +105,7 @@ public class ChallengeScene extends BaseScene {
         /*
          Right
          */
-        VBox rightBar = new VBox();
+        var rightBar = new VBox();
         rightBar.setAlignment(Pos.CENTER);
         rightBar.setPadding(new Insets(0, 20, 0, 0));
         mainPane.setRight(rightBar);
@@ -128,7 +130,13 @@ public class ChallengeScene extends BaseScene {
         multiplierNum.getStyleClass().add("heading");
         multiplierNum.textProperty().bind(game.multiplier.asString());
 
-        rightBar.getChildren().addAll(highScoreText, highScoreNum, levelText, levelNum, multiplierText, multiplierNum);
+        // Incoming piece
+        var incomingText = new Text("Incoming");
+        incomingText.getStyleClass().add("heading");
+        currentPiece = new PieceBoard(100,100);
+        currentPiece.getStyleClass().add("gameBox");
+
+        rightBar.getChildren().addAll(highScoreText, highScoreNum, levelText, levelNum, multiplierText, multiplierNum, incomingText, currentPiece);
 
         var board = new GameBoard(game.getGrid(), (float) gameWindow.getWidth() / 2, (float) gameWindow.getWidth() / 2);
         mainPane.setCenter(board);
@@ -165,5 +173,4 @@ public class ChallengeScene extends BaseScene {
         Multimedia.playMusic("game_start.wav");
         game.start();
     }
-
 }
