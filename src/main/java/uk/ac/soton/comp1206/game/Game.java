@@ -191,6 +191,7 @@ public class Game {
                 linesCleared++;
                 for (int y = 0; y < rows; y++) {
                     clear.add(grid.getGridProperty(x, y));
+                    cleared.add(new GameBlockCoordinate(x, y));
                 }
             }
         }
@@ -205,6 +206,7 @@ public class Game {
                 linesCleared++;
                 for (int x = 0; x < this.cols; x++) {
                     clear.add(grid.getGridProperty(x, y));
+                    cleared.add(new GameBlockCoordinate(x, y));
                 }
             }
         }
