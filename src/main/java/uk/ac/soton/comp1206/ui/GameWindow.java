@@ -83,12 +83,23 @@ public class GameWindow {
     /**
      * Display the single player challenge
      */
-    public void startChallenge() { loadScene(new ChallengeScene(this)); }
+    public void startChallenge() {
+        loadScene(new ChallengeScene(this));
+    }
+
+    /**
+     * Display instructions
+     */
+    public void startInstructions() {
+        loadScene(new ChallengeScene(this));
+    }
 
     /**
      * Display settings
      */
-    public void startSettings() { loadScene(new SettingsScene(this));}
+    public void startSettings() {
+        loadScene(new SettingsScene(this));
+    }
 
     /**
      * Setup the default settings for the stage itself (the window), such as the title and minimum width and height.

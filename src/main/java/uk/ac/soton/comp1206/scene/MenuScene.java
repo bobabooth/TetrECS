@@ -77,14 +77,27 @@ public class MenuScene extends BaseScene {
 
         var local = new Text("Play");
         local.getStyleClass().add("menuItem");
-        local.setOnMouseClicked(e -> gameWindow.startChallenge());
+        local.setOnMouseClicked(
+                e -> {
+                    Multimedia.playAudio("select.mp3");
+                    gameWindow.startChallenge();
+                });
 
         var instructions = new Text("Instructions");
         instructions.getStyleClass().add("menuItem");
+        instructions.setOnMouseClicked(
+                e -> {
+                    Multimedia.playAudio("select.mp3");
+                    gameWindow.startInstructions();
+                });
 
         var settings = new Text("Settings");
         settings.getStyleClass().add("menuItem");
-        settings.setOnMouseClicked(e -> gameWindow.startSettings());
+        settings.setOnMouseClicked(
+                e -> {
+                    Multimedia.playAudio("select.mp3");
+                    gameWindow.startSettings();
+                });
 
         var quit = new Text("Quit");
         quit.getStyleClass().add("menuItem");
