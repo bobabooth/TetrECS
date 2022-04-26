@@ -244,10 +244,8 @@ public class ChallengeScene extends BaseScene {
      */
     protected void fadeLine(HashSet<GameBlockCoordinate> set) {
         logger.info("Line cleared");
+        board.fadeOut(set);
         Multimedia.playAudio("clear.wav");
-        for (GameBlockCoordinate block : set) {
-            board.fadeOut(board.getBlock(block.getX(), block.getY()));
-        }
     }
 
     /**

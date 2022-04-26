@@ -161,9 +161,9 @@ public class Game {
 
         // Place the current piece
         if (grid.playPiece(currentPiece, x, y)){
+            Multimedia.playAudio("place.wav");
             afterPiece();
             nextPiece();
-            Multimedia.playAudio("place.wav");
             restartLoop();
         }
         else {

@@ -196,7 +196,7 @@ public class GameBlock extends Canvas {
     /**
      * Color fade for timer animation
      */
-    public void fade() {
+    public void fadeOut() {
         GameBlockTimer myTimer = new GameBlockTimer();
         myTimer.start();
     }
