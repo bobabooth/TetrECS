@@ -160,7 +160,7 @@ public class ScoresScene extends BaseScene {
                 localScoresList.add(finalScoreNumber, new Pair<>(nameField.getText().replace(":", ""), currentScore));
             }
             writeScores(localScoresList);
-            communicator.send("HISCORES");
+            Platform.runLater(this::revealMethod);
             newLocalScore = false;
             Multimedia.playAudio("victory.mp3");
         };
@@ -211,8 +211,8 @@ public class ScoresScene extends BaseScene {
         if (!game.getScores().isEmpty()) {
             currentName.set(game.name.getValue());
         }
-        communicator.send("HISCORES");
-        communicator.addListener(message -> Platform.runLater(this::revealMethod));
+
+        Platform.runLater(this::revealMethod);
         scene.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.ESCAPE) {
                 Multimedia.playAudio("back.mp3");
