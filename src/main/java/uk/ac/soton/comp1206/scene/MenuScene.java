@@ -7,6 +7,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -75,27 +76,21 @@ public class MenuScene extends BaseScene {
         menu.setAlignment(Pos.CENTER);
         mainPane.setBottom(menu);
 
-        var local = new Text("Local");
+        var local = new Text("PLay");
         local.getStyleClass().add("menuItem");
-        menu.getChildren().add(local);
         local.setOnMouseClicked(e -> gameWindow.startChallenge());
-
-        var online = new Text("Online");
-        online.getStyleClass().add("menuItem");
-        menu.getChildren().add(online);
 
         var instructions = new Text("Instructions");
         instructions.getStyleClass().add("menuItem");
-        menu.getChildren().add(instructions);
 
         var settings = new Text("Settings");
         settings.getStyleClass().add("menuItem");
-        menu.getChildren().add(settings);
 
         var quit = new Text("Quit");
         quit.getStyleClass().add("menuItem");
         quit.setOnMouseClicked((e) -> App.getInstance().shutdown());
-        menu.getChildren().add(quit);
+
+        menu.getChildren().addAll(local, instructions, settings, quit);
     }
 
     /**
@@ -104,6 +99,12 @@ public class MenuScene extends BaseScene {
     @Override
     public void initialise() {
         Multimedia.playMusic("menu.mp3");
+        scene.setOnKeyPressed(
+                e -> {
+                    if (e.getCode() == KeyCode.ESCAPE) {
+                        App.getInstance().shutdown();
+                    }
+                });
     }
 
     /**
