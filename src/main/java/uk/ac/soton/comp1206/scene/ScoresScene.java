@@ -36,7 +36,7 @@ public class ScoresScene extends BaseScene {
     private final Communicator communicator;
     private ObservableList<Pair<String, Integer>> localScoresList;
     private ScoresList localScores;
-    private VBox layout;
+    private VBox centerBox;
     private Text highScoreText;
     private boolean newLocalScore = false;
     private boolean getScores = true;
@@ -121,35 +121,6 @@ public class ScoresScene extends BaseScene {
     }
 
     /**
-     * Handle HISCORES message
-     */
-    private void receiveOnlineMessage(String message) {
-        String[] parts = message.split(" ", 2);
-        if (parts[0].equals("HISCORES")) {
-            if (parts.length <= 1) {
-                splitMessage();
-            } else {
-                splitMessage();
-            }
-        }
-    }
-
-    /**
-     * Get the online scores into an array
-     */
-    private void splitMessage() {
-        revealMethod();
-    }
-
-    /**
-     * Request for the online scores
-     */
-
-    private void loadOnlineScores() {
-        communicator.send("HISCORES");
-    }
-
-    /**
      * Reveal the scores
      */
     public void revealMethod() {
@@ -183,13 +154,13 @@ public class ScoresScene extends BaseScene {
 
         highScoreInterface r = () -> {
             currentName.set(nameField.getText().replace(":", ""));
-            layout.getChildren().remove(2);
-            layout.getChildren().remove(2);
+            centerBox.getChildren().remove(2);
+            centerBox.getChildren().remove(2);
             if (newLocalScore) {
                 localScoresList.add(finalScoreNumber, new Pair<>(nameField.getText().replace(":", ""), currentScore));
             }
             writeScores(localScoresList);
-            loadOnlineScores();
+            communicator.send("HISCORES");
             newLocalScore = false;
             Multimedia.playAudio("victory.mp3");
         };
@@ -202,7 +173,6 @@ public class ScoresScene extends BaseScene {
                 scoreNumber++;
             }
         }
-
         // New high score prompt
         if (newLocalScore) {
             highScoreText.setText("Congratulations, New High Score!");
@@ -215,11 +185,11 @@ public class ScoresScene extends BaseScene {
             });
             nameField.setAlignment(Pos.CENTER);
             nameField.requestFocus();
-            layout.getChildren().add(2, nameField);
+            centerBox.getChildren().add(2, nameField);
             // Save button (text)
-            var saveText = new Text("Save");
-            saveText.getStyleClass().add("bigWords");
-            layout.getChildren().add(3, saveText);
+            var saveText = new Text("Confirm");
+            saveText.getStyleClass().add("heading-selectable");
+            centerBox.getChildren().add(3, saveText);
             saveText.setOnMouseClicked(e -> r.run());
         }
         // Show past scores if no new high score
@@ -241,8 +211,8 @@ public class ScoresScene extends BaseScene {
         if (!game.getScores().isEmpty()) {
             currentName.set(game.name.getValue());
         }
-        loadOnlineScores();
-        communicator.addListener(message -> Platform.runLater(() -> receiveOnlineMessage(message)));
+        communicator.send("HISCORES");
+        communicator.addListener(message -> Platform.runLater(this::revealMethod));
         scene.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.ESCAPE) {
                 Multimedia.playAudio("back.mp3");
@@ -257,42 +227,46 @@ public class ScoresScene extends BaseScene {
     @Override
     public void build() {
         logger.info("Building " + this.getClass().getName());
+
         root = new GamePane(gameWindow.getWidth(), gameWindow.getHeight());
 
-        StackPane challengePane = new StackPane();
+        var scoresPane = new StackPane();
+        scoresPane.setMaxWidth(gameWindow.getWidth());
+        scoresPane.setMaxHeight(gameWindow.getHeight());
+        scoresPane.getStyleClass().add(SettingsScene.getStyle());
+        root.getChildren().add(scoresPane);
+
+        var mainPane = new BorderPane();
+        scoresPane.getChildren().add(mainPane);
+
         Text gameOverText = new Text("Game Over");
-        challengePane.setMaxWidth(gameWindow.getWidth());
-        challengePane.setMaxHeight(gameWindow.getHeight());
-        BorderPane mainPane = new BorderPane();
-        challengePane.getStyleClass().add(SettingsScene.getStyle());
-        root.getChildren().add(challengePane);
-        challengePane.getChildren().add(mainPane);
-        layout = new VBox();
-        highScoreText = new Text("High Scores");
         gameOverText.getStyleClass().add("bigtitle");
         gameOverText.setTextAlignment(TextAlignment.CENTER);
-        layout.setAlignment(Pos.TOP_CENTER);
-        layout.setSpacing(40);
-        mainPane.setCenter(layout);
-        GridPane gridPane = new GridPane();
+
+        centerBox = new VBox();
+        highScoreText = new Text("High Scores");
+
+        centerBox.setAlignment(Pos.TOP_CENTER);
+        centerBox.setSpacing(40);
+        mainPane.setCenter(centerBox);
         highScoreText.getStyleClass().add("title");
         highScoreText.setTextAlignment(TextAlignment.CENTER);
-
-        gridPane.setAlignment(Pos.CENTER);
-        gridPane.setHgap(100);
-        gridPane.visibleProperty().bind(provideScore);
-
-        layout.getChildren().addAll(gameOverText, highScoreText, gridPane);
 
         Text local = new Text("Local Scores");
         local.getStyleClass().add("heading");
         localScores = new ScoresList();
-        gridPane.add(local, 0, 0);
-        gridPane.add(localScores, 0, 1);
         localScores.setAlignment(Pos.CENTER);
 
-        localScoresList = FXCollections.observableArrayList(loadScores());
+        var gridPane = new GridPane();
+        gridPane.setAlignment(Pos.CENTER);
+        gridPane.setHgap(100);
+        gridPane.visibleProperty().bind(provideScore);
+        gridPane.add(local, 0, 0);
+        gridPane.add(localScores, 0, 1);
 
+        centerBox.getChildren().addAll(gameOverText, highScoreText, gridPane);
+
+        localScoresList = FXCollections.observableArrayList(loadScores());
         localScoresList.sort((score1, score2) -> (score2.getValue().compareTo(score1.getValue())));
         SimpleListProperty<Pair<String, Integer>> localScore = new SimpleListProperty<>(localScoresList);
         localScores.getScoreProperty().bind(localScore);

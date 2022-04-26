@@ -28,7 +28,7 @@ public class ScoresList extends VBox {
 
     private static final Logger logger = LogManager.getLogger(ScoresList.class);
     protected static Text name;
-    public final SimpleListProperty<Pair<String, Integer>> scores = new SimpleListProperty();
+    public final SimpleListProperty<Pair<String, Integer>> scores = new SimpleListProperty<>();
     private final ArrayList<HBox> scoreSpaces = new ArrayList<>();
     private final StringProperty nameProperty = new SimpleStringProperty();
 
@@ -39,7 +39,6 @@ public class ScoresList extends VBox {
         getStyleClass().add("scorelist");
         this.setAlignment(Pos.CENTER);
         scores.addListener((ListChangeListener<? super Pair<String, Integer>>) e -> update());
-        nameProperty.addListener(e -> update());
     }
 
     public ListProperty<Pair<String, Integer>> getScoreProperty() {
@@ -58,19 +57,19 @@ public class ScoresList extends VBox {
 
         scoreSpaces.clear();
         getChildren().clear();
-        int scoresNumber = 0;
+        int counter = 0;
 
         for (Pair<String, Integer> score : scores) {
-            scoresNumber++;
-            if (scoresNumber > 10) {
+            counter++;
+            if (counter > 10) {
                 break;
             }
-            HBox scoreBox = new HBox();
+            var scoreBox = new HBox();
             name = new Text(score.getKey() + ":" + score.getValue());
             scoreBox.getStyleClass().add("scoreitem");
             scoreBox.setAlignment(Pos.CENTER);
 
-            name.setFill(GameBlock.COLOURS[scoresNumber]);
+            name.setFill(GameBlock.COLOURS[counter]);
             name.setTextAlignment(TextAlignment.CENTER);
             scoreBox.getChildren().add(name);
 
