@@ -16,6 +16,26 @@
     -fx-background-size: cover;
 }
 
+.background3 {
+    -fx-background-image: url("../images/3.jpg");
+    -fx-background-size: cover;
+}
+
+.background4 {
+    -fx-background-image: url("../images/4.jpg");
+    -fx-background-size: cover;
+}
+
+.background5 {
+    -fx-background-image: url("../images/5.jpg");
+    -fx-background-size: cover;
+}
+
+.background6 {
+    -fx-background-image: url("../images/6.jpg");
+    -fx-background-size: cover;
+}
+
 .menu {
     -fx-padding: 10;
 }
