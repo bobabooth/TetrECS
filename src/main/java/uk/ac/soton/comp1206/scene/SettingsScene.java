@@ -138,7 +138,7 @@ public class SettingsScene extends BaseScene{
         /*
         Center
          */
-        var centerBox = new VBox();
+        var centerBox = new VBox(10);
         centerBox.setAlignment(Pos.CENTER);
         mainPane.setCenter(centerBox);
 
@@ -249,6 +249,20 @@ public class SettingsScene extends BaseScene{
             style = new Text("background6");
             logger.info("Set theme to 6");
         });
+
+        /*
+        Bottom
+         */
+        var bottomBar = new HBox();
+        bottomBar.setAlignment(Pos.CENTER);
+        BorderPane.setMargin(bottomBar, new Insets(0, 0, 15, 0));
+        mainPane.setBottom(bottomBar);
+
+        // Save settings button
+        var saveText = new Text("Save");
+        saveText.getStyleClass().add("heading-selectable");
+        saveText.setOnMouseClicked(e -> quit());
+        bottomBar.getChildren().add(saveText);
 
         centerBox.getChildren().addAll(volumeControl, volumeBox, themeGrid);
     }

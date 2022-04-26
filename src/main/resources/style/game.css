@@ -88,6 +88,24 @@
     -fx-effect: dropshadow(gaussian, black, 1, 1.0, 1, 1);
 }
 
+.heading-selectable {
+    -fx-fill: white;
+    -fx-font-family: 'Orbitron';
+    -fx-font-size: 20px;
+    -fx-font-weight: 700;
+    -fx-border-color: black;
+    -fx-stroke: black;
+    -fx-effect: dropshadow(gaussian, black, 1, 1.0, 1, 1);
+}
+
+.heading-selectable:hover {
+    -fx-fill: yellow;
+}
+
+.heading-selectable.selected {
+    -fx-fill: yellow;
+}
+
 .score {
     -fx-fill: yellow;
     -fx-font-family: 'Orbitron';
