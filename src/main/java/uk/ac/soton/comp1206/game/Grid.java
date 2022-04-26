@@ -111,8 +111,6 @@ public class Grid {
      * @return true if the piece can be played
      */
     public boolean canPlayPiece(GamePiece piece, int placeX, int placeY) {
-        placeX -= 1;
-        placeY -= 1;
         int[][] blocks = piece.getBlocks();
         // Loop through every part of the game piece
         for (int x = 0; x < blocks.length; x++) {
@@ -140,8 +138,6 @@ public class Grid {
         if (!canPlayPiece(piece, placeX, placeY)) {
             return false;
         }
-        placeX -= 1;
-        placeY -= 1;
         int[][] blocks = piece.getBlocks();
 
         // Loop through every part of the game piece

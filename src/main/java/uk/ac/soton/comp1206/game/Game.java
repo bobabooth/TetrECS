@@ -82,8 +82,8 @@ public class Game {
      */
     public void blockClicked(GameBlock gameBlock) {
         //Get the position of this block
-        int x = gameBlock.getX();
-        int y = gameBlock.getY();
+        int x = gameBlock.getX() - 1;
+        int y = gameBlock.getY() - 1;
 
         // Place the current piece
         if (grid.playPiece(currentPiece, x, y)){
