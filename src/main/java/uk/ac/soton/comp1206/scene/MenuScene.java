@@ -49,7 +49,7 @@ public class MenuScene extends BaseScene {
         var menuPane = new StackPane();
         menuPane.setMaxWidth(gameWindow.getWidth());
         menuPane.setMaxHeight(gameWindow.getHeight());
-        menuPane.getStyleClass().add("menu-background");
+        menuPane.getStyleClass().add(SettingsScene.getStyle());
         root.getChildren().add(menuPane);
 
         var mainPane = new BorderPane();

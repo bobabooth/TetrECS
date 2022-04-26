@@ -35,6 +35,32 @@ public class SettingsScene extends BaseScene{
     }
 
     /**
+     * Get the music
+     *
+     * @return music volume
+     */
+    public static double getMusicVolume() {
+        return musicVolume;
+    }
+
+    /**
+     * Get the audio
+     *
+     * @return audio volume
+     */
+    public static double getAudioVolume() {
+        return audioVolume;
+    }
+
+    /**
+     * Get the background
+     * @return background
+     */
+    public static String getStyle() {
+        return style.getText();
+    }
+
+    /**
      * Try to read saved file.
      * If nothing found, then call method to create new file
      */
@@ -115,7 +141,7 @@ public class SettingsScene extends BaseScene{
         var settingsPane = new StackPane();
         settingsPane.setMaxWidth(gameWindow.getWidth());
         settingsPane.setMaxHeight(gameWindow.getHeight());
-        settingsPane.getStyleClass().add("menu-background");
+        settingsPane.getStyleClass().add(SettingsScene.getStyle());
         root.getChildren().add(settingsPane);
 
         var mainPane = new BorderPane();

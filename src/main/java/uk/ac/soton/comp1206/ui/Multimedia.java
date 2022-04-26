@@ -5,6 +5,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import uk.ac.soton.comp1206.scene.SettingsScene;
 
 /**
  * Responsible for playing background music and audio effects
@@ -24,6 +25,8 @@ public class Multimedia {
         }
         String toPlay = Multimedia.class.getResource("/music/" + music).toExternalForm();
         musicPlayer = new MediaPlayer(new Media(toPlay));
+        musicPlayer.setVolume(SettingsScene.getMusicVolume() / 100);
+        musicPlayer.setCycleCount(MediaPlayer.INDEFINITE);
         musicPlayer.play();
         logger.info("Music played: " + music);
     }
@@ -35,6 +38,7 @@ public class Multimedia {
     public static void playAudio(String sound) {
         String toPlay = Multimedia.class.getResource("/sounds/" + sound).toExternalForm();
         audioPlayer = new MediaPlayer(new Media(toPlay));
+        audioPlayer.setVolume(SettingsScene.getAudioVolume() / 100);
         audioPlayer.play();
         logger.info("Audio played: " + sound);
     }
