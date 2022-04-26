@@ -119,7 +119,7 @@ public class Grid {
                 // If there isn't a block, then ignore
                 if (value == 0) continue;
                 int gridValue = get(x + placeX, y + placeY);
-                if (gridValue > 0) {
+                if (gridValue != 0) {
                     return false;
                 }
             }
