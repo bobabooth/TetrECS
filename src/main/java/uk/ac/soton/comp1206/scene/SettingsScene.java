@@ -5,6 +5,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Slider;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import org.apache.logging.log4j.LogManager;
@@ -12,6 +13,8 @@ import org.apache.logging.log4j.Logger;
 import uk.ac.soton.comp1206.ui.GamePane;
 import uk.ac.soton.comp1206.ui.GameWindow;
 import uk.ac.soton.comp1206.ui.Multimedia;
+
+import java.io.*;
 
 public class SettingsScene extends BaseScene{
     private static final Logger logger = LogManager.getLogger(SettingsScene.class);
@@ -29,11 +32,79 @@ public class SettingsScene extends BaseScene{
     public SettingsScene(GameWindow gameWindow) {
         super(gameWindow);
         logger.info("Creating Settings Scene");
+        SettingsScene.loadSettings();
+    }
+
+    /**
+     * Try to read saved file.
+     * If nothing found, then call method to create new file
+     */
+    public static void loadSettings() {
+        if (new File("settings.txt").exists()) {
+            try {
+                FileInputStream reader = new FileInputStream("settings.txt");
+                BufferedReader br = new BufferedReader(new InputStreamReader(reader));
+                try {
+                    String line = br.readLine();
+                    String[] parts = line.split(" ");
+                    musicVolume = Double.parseDouble(parts[0]);
+                    audioVolume = Double.parseDouble(parts[1]);
+                    style.setText(parts[2]);
+                    br.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+                logger.info("File not found");
+            }
+        } else {
+            writeSettings();
+        }
+    }
+
+    /**
+     * Save config and theme to settings.txt
+     */
+    public static void writeSettings() {
+        try {
+            if (new File("settings.txt").createNewFile()) {
+                logger.info("File created");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            logger.info("File creation error");
+        }
+        try {
+            BufferedWriter settingsWriter = new BufferedWriter(new FileWriter("settings.txt"));
+            settingsWriter.write(musicVolume + " ");
+            settingsWriter.write(audioVolume + " ");
+            settingsWriter.write(style.getText());
+            settingsWriter.close();
+            logger.info("Settings saved");
+        } catch (IOException e) {
+            e.printStackTrace();
+            logger.info("Settings save error");
+        }
+    }
+
+    /**
+     * Return to menu
+     */
+    public void quit() {
+        writeSettings();
+        Multimedia.playAudio("back.mp3");
+        gameWindow.startMenu();
     }
 
     @Override
     public void initialise() {
         logger.info("Initializing " + this.getClass().getName());
+        scene.setOnKeyPressed(e -> {
+            if (e.getCode() == KeyCode.ESCAPE) {
+                quit();
+            }
+        });
     }
 
     @Override
@@ -71,13 +142,11 @@ public class SettingsScene extends BaseScene{
         centerBox.setAlignment(Pos.CENTER);
         mainPane.setCenter(centerBox);
 
-        var volumeControl = new Text("Volume Control");
-        volumeControl.getStyleClass().add("heading");
-        centerBox.getChildren().add(volumeControl);
-
         var volumeBox = new HBox(100);
         volumeBox.setAlignment(Pos.CENTER);
-        centerBox.getChildren().add(volumeBox);
+
+        var volumeControl = new Text("Volume Control");
+        volumeControl.getStyleClass().add("heading");
 
         // Music
         var musicBox = new VBox(10);
@@ -113,7 +182,6 @@ public class SettingsScene extends BaseScene{
 
         // Background editor
         var themeGrid = new GridPane();
-        centerBox.getChildren().add(themeGrid);
         themeGrid.setHgap(15);
         themeGrid.setVgap(15);
         themeGrid.setAlignment(Pos.CENTER);
@@ -181,5 +249,7 @@ public class SettingsScene extends BaseScene{
             style = new Text("background6");
             logger.info("Set theme to 6");
         });
+
+        centerBox.getChildren().addAll(volumeControl, volumeBox, themeGrid);
     }
 }
