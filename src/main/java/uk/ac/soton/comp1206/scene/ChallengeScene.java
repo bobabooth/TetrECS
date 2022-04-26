@@ -156,6 +156,7 @@ public class ChallengeScene extends BaseScene {
         highScoreText.getStyleClass().add("heading");
         var highScoreNum = new Text();
         highScoreNum.getStyleClass().add("hiscore");
+        highScoreNum.textProperty().bind(highscore.asString());
 
         // Level
         var levelText = new Text("Level");
