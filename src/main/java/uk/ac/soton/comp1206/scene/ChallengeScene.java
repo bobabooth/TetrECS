@@ -74,7 +74,7 @@ public class ChallengeScene extends BaseScene {
         var challengePane = new StackPane();
         challengePane.setMaxWidth(gameWindow.getWidth());
         challengePane.setMaxHeight(gameWindow.getHeight());
-        challengePane.getStyleClass().add("menu-background");
+        challengePane.getStyleClass().add(SettingsScene.getStyle());
         root.getChildren().add(challengePane);
 
         var mainPane = new BorderPane();
@@ -123,11 +123,25 @@ public class ChallengeScene extends BaseScene {
         leftBar.setPadding(new Insets(0, 0, 0, 20));
         mainPane.setLeft(leftBar);
 
-        // Test
-        var test = new Text("test");
-        test.getStyleClass().add("heading");
+        var skipPieceText = new Text("Skip piece");
+        skipPieceText.getStyleClass().add("heading-selectable");
+        skipPieceText.setOnMouseClicked(e -> game.skipPiece());
+        Text skipPieceText2 = new Text("Costs 50 points\n\n");
+        skipPieceText2.getStyleClass().add("channelItem");
 
-        leftBar.getChildren().addAll(test);
+        var addLifeText = new Text("Buy one life");
+        addLifeText.getStyleClass().add("bigWords");
+        addLifeText.setOnMouseClicked(e -> game.addLives());
+        var addLifeText2 = new Text("Costs 100 points\n\n");
+        addLifeText2.getStyleClass().add("words");
+
+        var clearGridText = new Text("Clear grid");
+        clearGridText.getStyleClass().add("bigWords");
+        clearGridText.setOnMouseClicked(e -> game.clearAll());
+        var clearGridText2 = new Text("Costs 200 points");
+        clearGridText2.getStyleClass().add("words");
+
+        leftBar.getChildren().addAll(skipPieceText, skipPieceText2, addLifeText, addLifeText2, clearGridText, clearGridText2);
 
         /*
          Right

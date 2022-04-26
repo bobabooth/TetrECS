@@ -379,4 +379,48 @@ public class Game {
     public int getRows() {
         return rows;
     }
+    /**
+     * Skip current piece with 100 points
+     */
+    public void skipPiece() {
+        if (scoreProperty().get() >= 50) {
+            score.set(score.get() - 50);
+            nextPiece();
+            Multimedia.playAudio("transition.wav");
+            logger.info("Skipped piece");
+        } else {
+            Multimedia.playAudio("fail.wav");
+            logger.info("Not enough points");
+        }
+    }
+
+    /**
+     * Buy one life with 300 points
+     */
+    public void addLives() {
+        if (scoreProperty().get() >= 100) {
+            score.set(score.get() - 100);
+            lives.set(lives.get() + 1);
+            Multimedia.playAudio("lifegain.wav");
+            logger.info("Added one life");
+        } else {
+            Multimedia.playAudio("fail.wav");
+            logger.info("Not enough points");
+        }
+    }
+
+    /**
+     * Clear the whole grid with 500 points
+     */
+    public void clearAll() {
+        if (scoreProperty().get() >= 200) {
+            score.set(score.get() - 200);
+            grid.clean();
+            Multimedia.playAudio("explode.wav");
+            logger.info("Grid cleaned");
+        } else {
+            Multimedia.playAudio("fail.wav");
+            logger.info("Not enough points");
+        }
+    }
 }
