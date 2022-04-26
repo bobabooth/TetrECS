@@ -85,7 +85,6 @@ public class ChallengeScene extends BaseScene {
          */
         var topBar = new HBox(200);
         topBar.setAlignment(Pos.CENTER);
-        //BorderPane.setAlignment(topBar, Pos.CENTER);
         BorderPane.setMargin(topBar, new Insets(10, 0, 0, 0));
         mainPane.setTop(topBar);
 
@@ -186,7 +185,7 @@ public class ChallengeScene extends BaseScene {
 
         rightBar.getChildren().addAll(highScoreText, highScoreNum, levelText, levelNum, multiplierText, multiplierNum, incomingText, currentPiece, nextPiece);
 
-        var board = new GameBoard(game.getGrid(), (float) gameWindow.getWidth() / 2, (float) gameWindow.getWidth() / 2);
+        board = new GameBoard(game.getGrid(), (float) gameWindow.getWidth() / 2, (float) gameWindow.getWidth() / 2);
         mainPane.setCenter(board);
 
         timer = new StackPane();
