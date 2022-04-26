@@ -19,6 +19,9 @@ public class Multimedia {
      * @param music music name
      */
     public static void playMusic(String music) {
+        if (musicPlayer != null) {
+            musicPlayer.stop();
+        }
         String toPlay = Multimedia.class.getResource("/music/" + music).toExternalForm();
         musicPlayer = new MediaPlayer(new Media(toPlay));
         musicPlayer.play();
@@ -37,9 +40,9 @@ public class Multimedia {
     }
 
     /**
-     * Theme selector
-     * @param file theme name
-     * @return selected theme
+     * Retrieve image
+     * @param file image name
+     * @return selected image
      */
     public static Image getImage(String file) {
         logger.info("Image " + file + " selected");

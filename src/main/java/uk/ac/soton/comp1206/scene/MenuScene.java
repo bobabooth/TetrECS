@@ -5,7 +5,6 @@ import javafx.animation.RotateTransition;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
@@ -35,6 +34,7 @@ public class MenuScene extends BaseScene {
     public MenuScene(GameWindow gameWindow) {
         super(gameWindow);
         logger.info("Creating Menu Scene");
+        SettingsScene.loadSettings();
     }
 
     /**

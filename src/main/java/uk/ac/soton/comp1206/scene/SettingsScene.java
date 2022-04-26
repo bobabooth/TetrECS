@@ -32,7 +32,6 @@ public class SettingsScene extends BaseScene{
     public SettingsScene(GameWindow gameWindow) {
         super(gameWindow);
         logger.info("Creating Settings Scene");
-        SettingsScene.loadSettings();
     }
 
     /**
@@ -250,6 +249,8 @@ public class SettingsScene extends BaseScene{
             logger.info("Set theme to 6");
         });
 
+        centerBox.getChildren().addAll(volumeControl, volumeBox, themeGrid);
+
         /*
         Bottom
          */
@@ -258,12 +259,10 @@ public class SettingsScene extends BaseScene{
         BorderPane.setMargin(bottomBar, new Insets(0, 0, 15, 0));
         mainPane.setBottom(bottomBar);
 
-        // Save settings button
+        // Save button
         var saveText = new Text("Save");
         saveText.getStyleClass().add("heading-selectable");
         saveText.setOnMouseClicked(e -> quit());
         bottomBar.getChildren().add(saveText);
-
-        centerBox.getChildren().addAll(volumeControl, volumeBox, themeGrid);
     }
 }
