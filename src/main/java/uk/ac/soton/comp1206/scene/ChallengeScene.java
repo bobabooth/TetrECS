@@ -130,16 +130,16 @@ public class ChallengeScene extends BaseScene {
         skipPieceText2.getStyleClass().add("channelItem");
 
         var addLifeText = new Text("Buy one life");
-        addLifeText.getStyleClass().add("bigWords");
+        addLifeText.getStyleClass().add("heading-selectable");
         addLifeText.setOnMouseClicked(e -> game.addLives());
         var addLifeText2 = new Text("Costs 100 points\n\n");
-        addLifeText2.getStyleClass().add("words");
+        addLifeText2.getStyleClass().add("channelItem");
 
         var clearGridText = new Text("Clear grid");
-        clearGridText.getStyleClass().add("bigWords");
+        clearGridText.getStyleClass().add("heading-selectable");
         clearGridText.setOnMouseClicked(e -> game.clearAll());
         var clearGridText2 = new Text("Costs 200 points");
-        clearGridText2.getStyleClass().add("words");
+        clearGridText2.getStyleClass().add("channelItem");
 
         leftBar.getChildren().addAll(skipPieceText, skipPieceText2, addLifeText, addLifeText2, clearGridText, clearGridText2);
 
