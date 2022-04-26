@@ -2,6 +2,7 @@ package uk.ac.soton.comp1206.scene;
 
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
+import uk.ac.soton.comp1206.game.Game;
 import uk.ac.soton.comp1206.ui.GamePane;
 import uk.ac.soton.comp1206.ui.GameWindow;
 
@@ -14,6 +15,8 @@ public abstract class BaseScene {
 
     protected GamePane root;
     protected Scene scene;
+    protected Game game;
+
 
     /**
      * Create a new scene, passing in the GameWindow the scene will be displayed in

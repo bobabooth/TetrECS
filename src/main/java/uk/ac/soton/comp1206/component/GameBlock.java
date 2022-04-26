@@ -6,8 +6,6 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.paint.*;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 /**
  * The Visual User Interface component representing a single block in the grid.
@@ -19,8 +17,6 @@ import org.apache.logging.log4j.Logger;
  * The GameBlock value should be bound to a corresponding block in the Grid model.
  */
 public class GameBlock extends Canvas {
-
-    private static final Logger logger = LogManager.getLogger(GameBlock.class);
 
     /**
      * The set of colours for different pieces
@@ -123,6 +119,14 @@ public class GameBlock extends Canvas {
             gc.setFill(Color.rgb(255, 255, 255, 0.5));
             gc.fillOval(width / 4, height / 4, width / 2, height / 2);
         }
+        // Hoovering over the block
+        if (this.hoveredBlock) {
+            var gc = getGraphicsContext2D();
+
+            // Hover block properties
+            gc.setFill(Color.rgb(204, 204, 204, 0.4));
+            gc.fillRect(0, 0, width, height);
+        }
     }
 
     /**
@@ -185,6 +189,14 @@ public class GameBlock extends Canvas {
         //Colour fill
         gc.setFill(colour);
         gc.fillRect(0,0, width, height);
+
+        // Creates 3D effect on piece
+        gc.setFill(Color.rgb(59, 59, 59, 0.2));
+        gc.fillPolygon(new double[]{0, 0, width}, new double[]{0, height, height}, 3);
+        gc.setFill(Color.rgb(161, 161, 161, 0.3));
+        gc.fillRect(0, 0, 3, height);
+        gc.setFill(Color.rgb(255, 255, 255, 0.3));
+        gc.fillRect(0, 0, width, 3);
 
         //Border
         gc.setStroke(Color.BLACK);
