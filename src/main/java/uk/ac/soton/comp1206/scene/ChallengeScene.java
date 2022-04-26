@@ -172,13 +172,14 @@ public class ChallengeScene extends BaseScene {
         multiplierNum.getStyleClass().add("heading");
         multiplierNum.textProperty().bind(game.multiplier.asString());
 
-        // Incoming piece
+        // Current piece
         var incomingText = new Text("Incoming");
         incomingText.getStyleClass().add("heading");
         currentPiece = new PieceBoard(100,100);
         currentPiece.colorCenter();
         currentPiece.setOnMouseClicked(e -> this.rotate());
 
+        // Next piece
         nextPiece = new PieceBoard(75, 75);
         nextPiece.setPadding(new Insets(15, 0, 0, 0));
         nextPiece.setOnMouseClicked(e -> this.swap());
@@ -195,7 +196,7 @@ public class ChallengeScene extends BaseScene {
         timer.getChildren().add(timerBar);
         StackPane.setAlignment(timerBar, Pos.CENTER_RIGHT);
 
-        //Handle block on gameboard grid being clicked
+        //Handle block on game-board grid being clicked
         board.setOnBlockClick(this::blockClicked);
     }
 

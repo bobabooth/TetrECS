@@ -169,9 +169,6 @@ public class Game {
         else {
             Multimedia.playAudio("fail.wav");
         }
-
-        // Check for lines to clear
-        afterPiece();
     }
 
     /**
@@ -214,10 +211,7 @@ public class Game {
 
         // Check if lines cleared
         if (linesCleared > 0) {
-            // Clear block
-            for (IntegerProperty block : clear) {
-                block.set(0);
-            }
+
             score(linesCleared, clear.size());
 
             // Multiplier increase by 1 if the next piece also clears lines
@@ -229,12 +223,17 @@ public class Game {
             // Plays sound when level up
             levelSounds(level.get());
 
+            // Clear block
+            for (IntegerProperty block : clear) {
+                block.set(0);
+            }
+
             if (this.lineClearedListener != null) {
                 this.lineClearedListener.lineCleared(cleared);
             }
         } else {
             // Multiplier resets to 1 if no lines cleared
-            multiplier.set(1);
+            multiplierReset();
         }
     }
 
