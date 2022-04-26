@@ -3,6 +3,9 @@ package uk.ac.soton.comp1206.scene;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.input.KeyEvent;
@@ -40,6 +43,11 @@ public class ChallengeScene extends BaseScene {
     protected int posX = 0;
     protected int posY = 0;
     protected Rectangle timerBar;
+
+    protected IntegerProperty highscore = new SimpleIntegerProperty();
+
+    protected IntegerProperty score = new SimpleIntegerProperty();
+
 
 
     /**
@@ -333,6 +341,37 @@ public class ChallengeScene extends BaseScene {
     }
 
     /**
+     * Get the stored high score and display it
+     * If the player exceeds it, replace old high score with the current high score
+     * If the player spends points, decrease the current high score accordingly
+     *
+     * @param observable   observable
+     * @param oldHighScore old recorded high score
+     * @param newHighScore new recorded high score
+     */
+    protected void getHighScore(ObservableValue<? extends Number> observable, Number oldHighScore, Number newHighScore) {
+        logger.info("Updated high score");
+        if (newHighScore.intValue() > this.highscore.get()) {
+            this.highscore.set(newHighScore.intValue());
+        }
+        if (newHighScore.intValue() < this.highscore.get()) {
+            if (newHighScore.intValue() > ScoresScene.loadScores().get(0).getValue()) {
+                this.highscore.set(newHighScore.intValue());
+            } else {
+                this.highscore.set(ScoresScene.loadScores().get(0).getValue());
+            }
+        }
+        Timeline timeline = new Timeline();
+        KeyValue oldScore = new KeyValue(score, oldHighScore);
+        KeyValue newLocalScore = new KeyValue(score, newHighScore);
+        KeyFrame oldScoreFrame = new KeyFrame(new Duration(0), oldScore);
+        KeyFrame newScoreFrame = new KeyFrame(new Duration(100), newLocalScore);
+        timeline.getKeyFrames().add(oldScoreFrame);
+        timeline.getKeyFrames().add(newScoreFrame);
+        timeline.play();
+    }
+
+    /**
      * Initialise the scene and start the game
      */
     @Override
@@ -340,11 +379,15 @@ public class ChallengeScene extends BaseScene {
         logger.info("Initialising Challenge");
         Multimedia.playMusic("game_start.wav");
         game.setNextPieceListener(this::nextPiece);
+        game.setOnLineCleared(this::fadeLine);
+        game.setOnGameLoop(this::timer);
+        game.scoreProperty().addListener(this::getHighScore);
+        highscore.set(ScoresScene.loadScores().get(0).getValue());
         game.start();
         scene.setOnKeyPressed(this::keyboard);
         game.setOnGameOver(() -> {
             game.stopTimer();
-            //gameWindow.startScores(game);
+            gameWindow.startScores(game);
         });
     }
 }

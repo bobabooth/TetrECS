@@ -3,6 +3,8 @@ package uk.ac.soton.comp1206.game;
 import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.util.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,6 +19,7 @@ import uk.ac.soton.comp1206.ui.Multimedia;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
+import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
@@ -73,9 +76,8 @@ public class Game {
     protected GameOverListener gameOverListener = null;
     protected ArrayList<Pair<String, Integer>> scores = new ArrayList<>();
 
-    public IntegerProperty scoreProperty() {
-        return score;
-    }
+    public StringProperty name = new SimpleStringProperty();
+
 
     public ArrayList<Pair<String, Integer>> getScores() {
         return this.scores;
@@ -93,6 +95,7 @@ public class Game {
 
         //Create a new grid model to represent the game state
         this.grid = new Grid(cols,rows);
+        timer = Executors.newSingleThreadScheduledExecutor();
     }
 
     /**
@@ -101,10 +104,16 @@ public class Game {
     public void start() {
         logger.info("Starting game");
         initialiseGame();
+        loop = timer.schedule(this::gameLoop, getTimerDelay(), TimeUnit.MILLISECONDS);
+        gameLoopListener();
     }
 
     public void setNextPieceListener(NextPieceListener listener) {
         nextPieceListener = listener;
+    }
+
+    public IntegerProperty scoreProperty() {
+        return score;
     }
 
     public void setOnLineCleared(LineClearedListener listener) {
@@ -115,6 +124,10 @@ public class Game {
         if (gameLoopListener != null) {
             gameLoopListener.gameLoop(getTimerDelay());
         }
+    }
+
+    public void setOnGameLoop(GameLoopListener listener) {
+        gameLoopListener = listener;
     }
 
     public void setOnGameOver(GameOverListener listener) {
