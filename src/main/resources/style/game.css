@@ -167,10 +167,6 @@
     -fx-font-weight: 700;
 }
 
-.deadscore {
-    -fx-strikethrough: true;
-}
-
 .points {
 }
 

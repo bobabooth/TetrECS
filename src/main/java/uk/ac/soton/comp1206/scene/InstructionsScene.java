@@ -1,5 +1,6 @@
 package uk.ac.soton.comp1206.scene;
 
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -17,13 +18,11 @@ import uk.ac.soton.comp1206.ui.GameWindow;
 import uk.ac.soton.comp1206.ui.Multimedia;
 
 public class InstructionsScene extends BaseScene {
-
     private static final Logger logger = LogManager.getLogger(InstructionsScene.class);
 
     public InstructionsScene(GameWindow gameWindow) {
         super(gameWindow);
     }
-
 
     /**
      * Initialize the scene
@@ -46,53 +45,61 @@ public class InstructionsScene extends BaseScene {
     @Override
     public void build() {
         logger.info("Building " + this.getClass().getName());
+
         root = new GamePane(this.gameWindow.getWidth(), this.gameWindow.getHeight());
 
-        var instructions = new StackPane();
-        instructions.setMaxWidth(gameWindow.getWidth());
-        instructions.setMaxHeight(gameWindow.getHeight());
-        instructions.getStyleClass().add(SettingsScene.getStyle());
-        root.getChildren().add(instructions);
+        var instructionsPane = new StackPane();
+        instructionsPane.setMaxWidth(gameWindow.getWidth());
+        instructionsPane.setMaxHeight(gameWindow.getHeight());
+        instructionsPane.getStyleClass().add(SettingsScene.getStyle());
+        root.getChildren().add(instructionsPane);
 
-        var pane = new BorderPane();
-        instructions.getChildren().add(pane);
+        var mainPane = new BorderPane();
+        instructionsPane.getChildren().add(mainPane);
 
-        var vBox = new VBox();
-        vBox.setAlignment(Pos.TOP_CENTER);
-        BorderPane.setAlignment(vBox, Pos.CENTER);
-        pane.setCenter(vBox);
+        /*
+         Top
+         */
+        var topBar = new HBox();
+        topBar.setAlignment(Pos.CENTER);
+        BorderPane.setMargin(topBar, new Insets(10, 0, 0, 0));
+        mainPane.setTop(topBar);
 
-        var heading = new Text("Instructions");
-        heading.getStyleClass().add("title");
-        vBox.getChildren().add(heading);
+        var instructionsText = new Text("Instructions");
+        instructionsText.getStyleClass().add("title");
+        topBar.getChildren().add(instructionsText);
+
+        /*
+        Center
+         */
+        var centerBox = new VBox();
+        centerBox.setAlignment(Pos.CENTER);
+        mainPane.setCenter(centerBox);
 
         ImageView image = new ImageView(Multimedia.getImage("Instructions.png"));
-        image.setFitHeight(350);
+        image.setFitHeight(340);
         image.setPreserveRatio(true);
-        vBox.getChildren().add(image);
 
-        var pieces = new Text("Game Pieces");
-        pieces.getStyleClass().add("heading");
-        vBox.getChildren().add(pieces);
+        var piecesText = new Text("Game Pieces");
+        piecesText.getStyleClass().add("heading");
 
-        VBox grid = new VBox();
+        var grid = new VBox();
         grid.setAlignment(Pos.CENTER);
         grid.setSpacing(10);
 
+        // Dynamically generated game pieces
         for (int x = 0; x < 3; x++) {
-            HBox hBox = new HBox();
+            var hBox = new HBox();
             grid.getChildren().add(hBox);
             hBox.setAlignment(Pos.CENTER);
-            int y = 0;
             hBox.setSpacing(10);
-            while (y < 5) {
-                PieceBoard pieceBoard = new PieceBoard( 50, 50);
+            for (int y = 0; y < 5; y++) {
+                PieceBoard pieceBoard = new PieceBoard(50, 50);
                 GamePiece gamePiece = GamePiece.createPiece(x * 5 + y);
                 pieceBoard.showPiece(gamePiece);
                 hBox.getChildren().add(pieceBoard);
-                y++;
             }
         }
-        vBox.getChildren().add(grid);
+        centerBox.getChildren().addAll(image, piecesText, grid);
     }
 }

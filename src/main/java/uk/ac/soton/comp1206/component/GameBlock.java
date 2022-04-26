@@ -164,15 +164,15 @@ public class GameBlock extends Canvas {
     private void paintEmpty() {
         var gc = getGraphicsContext2D();
 
-        //Clear
+        // Clear
         gc.clearRect(0,0,width,height);
 
-        //Fill
-        gc.setFill(Color.WHITE);
-        gc.fillRect(0,0, width, height);
+        // Fill
+        gc.setFill(Color.rgb(0, 0, 0, 0.3));
+        gc.fillRect(0, 0, width, height);
 
-        //Border
-        gc.setStroke(Color.BLACK);
+        // Border
+        gc.setStroke(Color.WHITE);
         gc.strokeRect(0,0,width,height);
     }
 
