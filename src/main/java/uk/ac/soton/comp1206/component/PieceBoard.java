@@ -18,8 +18,8 @@ public class PieceBoard extends GameBoard{
      * Color the center of the piece
      */
     public void colorCenter() {
-        int x = (rows / 2);
-        int y = (cols / 2);
+        int x = rows / 2;
+        int y = cols / 2;
         this.blocks[x][y].setCenter(true);
     }
 }
