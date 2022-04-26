@@ -99,7 +99,7 @@ public class GameWindow {
      * Display instructions
      */
     public void startInstructions() {
-        loadScene(new ChallengeScene(this));
+        loadScene(new InstructionsScene(this));
     }
 
     /**
