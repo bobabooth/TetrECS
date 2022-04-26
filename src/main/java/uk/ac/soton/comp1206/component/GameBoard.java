@@ -24,12 +24,12 @@ public class GameBoard extends GridPane {
     /**
      * Number of columns in the board
      */
-    private final int cols;
+    protected final int cols;
 
     /**
      * Number of rows in the board
      */
-    private final int rows;
+    protected final int rows;
 
     /**
      * The visual width of the board - has to be specified due to being a Canvas
@@ -50,6 +50,9 @@ public class GameBoard extends GridPane {
      * The blocks inside the grid
      */
     GameBlock[][] blocks;
+
+    private GameBlock hoveredBlock;
+
 
     /**
      * The listener to call when a specific block is clicked
@@ -148,7 +151,32 @@ public class GameBoard extends GridPane {
         //Add a mouse click handler to the block to trigger GameBoard blockClicked method
         block.setOnMouseClicked((e) -> blockClicked(e, block));
 
+        // Create hover effect when cursor is over grid
+        block.setOnMouseEntered((e) -> hover(block));
+
+        // Remove hover effect when cursor is not on grid
+        block.setOnMouseExited((e) -> block.setHovering(false));
+
+
         return block;
+    }
+
+    /**
+     * Hovering effect
+     */
+    public void hover(GameBlock gameBlock) {
+        if (this.hoveredBlock != null) {
+            this.hoveredBlock.setHovering(false);
+        }
+        this.hoveredBlock = gameBlock;
+        gameBlock.setHovering(true);
+    }
+
+    /**
+     * Fadeout effect
+     */
+    public void fadeOut(GameBlock gameBlock) {
+        gameBlock.fade();
     }
 
     /**

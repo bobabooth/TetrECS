@@ -1,5 +1,6 @@
 package uk.ac.soton.comp1206.component;
 
+import javafx.animation.AnimationTimer;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ObservableValue;
@@ -63,6 +64,11 @@ public class GameBlock extends Canvas {
      */
     private final IntegerProperty value = new SimpleIntegerProperty(0);
 
+    private boolean center = false;
+    private boolean hoveredBlock = false;
+
+
+
     /**
      * Create a new single Game Block
      * @param gameBoard the board this block belongs to
@@ -110,6 +116,42 @@ public class GameBlock extends Canvas {
             //If the block is not empty, paint with the colour represented by the value
             paintColor(COLOURS[value.get()]);
         }
+        // Painting the center circle
+        if (this.center) {
+            var gc = getGraphicsContext2D();
+
+            gc.setFill(Color.rgb(255, 255, 255, 0.5));
+            gc.fillOval(width / 4, height / 4, width / 2, height / 2);
+        }
+    }
+
+    /**
+     * Create a timer for the fading animation after a line is deleted
+     */
+    private class GameBlockTimer extends AnimationTimer {
+        double opacity = 1;
+
+        @Override
+        public void handle(long a) {
+            // Fade the line by removing 0.05 opacity until gone
+            GameBlock.this.paintEmpty();
+            opacity -= 0.02;
+            if (opacity <= 0) {
+                stop();
+                return;
+            }
+            var gc = GameBlock.this.getGraphicsContext2D();
+            gc.setFill(Color.rgb(0, 1, 0, this.opacity));
+            gc.fillRect(0, 0, GameBlock.this.width, GameBlock.this.height);
+        }
+    }
+
+    /**
+     * Color fade for timer animation
+     */
+    public void fade() {
+        GameBlockTimer myTimer = new GameBlockTimer();
+        myTimer.start();
     }
 
     /**
@@ -147,6 +189,22 @@ public class GameBlock extends Canvas {
         //Border
         gc.setStroke(Color.BLACK);
         gc.strokeRect(0,0,width,height);
+    }
+
+    /**
+     * Paint circle in the center of block
+     */
+    public void setCenter(boolean center) {
+        this.center = center;
+        paint();
+    }
+
+    /**
+     * Set hovering
+     */
+    public void setHovering(boolean hoveredBlock) {
+        this.hoveredBlock = hoveredBlock;
+        paint();
     }
 
     /**

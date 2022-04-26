@@ -1,18 +1,29 @@
 package uk.ac.soton.comp1206.scene;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import uk.ac.soton.comp1206.component.GameBlock;
+import uk.ac.soton.comp1206.component.GameBlockCoordinate;
 import uk.ac.soton.comp1206.component.GameBoard;
 import uk.ac.soton.comp1206.component.PieceBoard;
 import uk.ac.soton.comp1206.game.Game;
+import uk.ac.soton.comp1206.game.GamePiece;
 import uk.ac.soton.comp1206.ui.GamePane;
 import uk.ac.soton.comp1206.ui.GameWindow;
 import uk.ac.soton.comp1206.ui.Multimedia;
+
+import java.util.HashSet;
 
 /**
  * The Single Player challenge scene. Holds the UI for the single player challenge mode in the game.
@@ -22,6 +33,14 @@ public class ChallengeScene extends BaseScene {
     private static final Logger logger = LogManager.getLogger(MenuScene.class);
     protected Game game;
     protected PieceBoard currentPiece;
+    protected PieceBoard nextPiece;
+    protected GameBoard board;
+    protected StackPane timer;
+
+    protected int posX = 0;
+    protected int posY = 0;
+    protected Rectangle timerBar;
+
 
     /**
      * Create a new Single Player challenge scene
@@ -134,15 +153,164 @@ public class ChallengeScene extends BaseScene {
         var incomingText = new Text("Incoming");
         incomingText.getStyleClass().add("heading");
         currentPiece = new PieceBoard(100,100);
-        currentPiece.getStyleClass().add("gameBox");
+        currentPiece.colorCenter();
+        currentPiece.setOnMouseClicked(e -> this.rotate());
 
-        rightBar.getChildren().addAll(highScoreText, highScoreNum, levelText, levelNum, multiplierText, multiplierNum, incomingText, currentPiece);
+        nextPiece = new PieceBoard(75, 75);
+        nextPiece.setPadding(new Insets(15, 0, 0, 0));
+        nextPiece.setOnMouseClicked(e -> this.swap());
+
+        rightBar.getChildren().addAll(highScoreText, highScoreNum, levelText, levelNum, multiplierText, multiplierNum, incomingText, currentPiece, nextPiece);
 
         var board = new GameBoard(game.getGrid(), (float) gameWindow.getWidth() / 2, (float) gameWindow.getWidth() / 2);
         mainPane.setCenter(board);
 
+        timer = new StackPane();
+        mainPane.setBottom(timer);
+        timerBar = new Rectangle();
+        timerBar.setHeight(10);
+        timer.getChildren().add(timerBar);
+        StackPane.setAlignment(timerBar, Pos.CENTER_RIGHT);
+
         //Handle block on gameboard grid being clicked
         board.setOnBlockClick(this::blockClicked);
+    }
+
+    /**
+     * Support keyboard input
+     *
+     * @param key keyboard input
+     */
+    protected void keyboard(KeyEvent key) {
+        switch (key.getCode()) {
+            case W:
+            case UP:
+                if (posY > 0) {
+                    posY--;
+                    this.board.hover(this.board.getBlock(posX, posY));
+                }
+                break;
+            case A:
+            case LEFT:
+                if (posX > 0) {
+                    posX--;
+                    this.board.hover(this.board.getBlock(posX, posY));
+                }
+                break;
+            case S:
+            case DOWN:
+                if (posY < game.getRows() - 1) {
+                    posY++;
+                    this.board.hover(this.board.getBlock(posX, posY));
+                }
+                break;
+            case D:
+            case RIGHT:
+                if (posX < game.getCols() - 1) {
+                    posX++;
+                    this.board.hover(this.board.getBlock(posX, posY));
+                }
+                break;
+            case Q:
+            case Z:
+            case OPEN_BRACKET:
+                rotateLeft();
+                break;
+            case E:
+            case C:
+            case CLOSE_BRACKET:
+                rotate();
+                break;
+            case X:
+            case ENTER:
+                blockClicked(board.getBlock(posX, posY));
+                logger.info("challenge");
+                break;
+            case R:
+            case SPACE:
+                swap();
+                break;
+            case ESCAPE:
+                game.stopTimer();
+                Multimedia.playAudio("back.mp3");
+                gameWindow.startMenu();
+                break;
+        }
+    }
+
+    /**
+     * Replace the current piece with a new piece
+     */
+    protected void nextPiece(GamePiece piece) {
+        currentPiece.showPiece(piece);
+        nextPiece.showPiece(game.nextPiece);
+    }
+
+    /**
+     * Rotate the piece right
+     */
+    protected void rotate() {
+        logger.info("Block rotated right");
+        Multimedia.playAudio("rotate.wav");
+        game.rotateCurrentPiece(1);
+        currentPiece.showPiece(game.currentPiece);
+    }
+
+    /**
+     * Rotate the piece left
+     */
+    protected void rotateLeft() {
+        logger.info("Block rotated left");
+        Multimedia.playAudio("rotate.wav");
+        game.rotateCurrentPiece(3);
+        currentPiece.showPiece(game.currentPiece);
+    }
+
+    /**
+     * Swap current piece with next piece
+     */
+    protected void swap() {
+        logger.info("Block swapped");
+        Multimedia.playAudio("pling.wav");
+        game.swapCurrentPiece();
+        currentPiece.showPiece(game.currentPiece);
+        nextPiece.showPiece(game.nextPiece);
+    }
+
+    /**
+     * Fade animation after line is cleared
+     *
+     * @param set set
+     */
+    protected void fadeLine(HashSet<GameBlockCoordinate> set) {
+        logger.info("Line cleared");
+        Multimedia.playAudio("clear.wav");
+        for (GameBlockCoordinate block : set) {
+            board.fadeOut(board.getBlock(block.getX(), block.getY()));
+        }
+    }
+
+    /**
+     * Timer at the bottom
+     *
+     * @param time time
+     */
+    protected void timer(int time) {
+        Timeline timeline = new Timeline();
+
+        KeyValue start = new KeyValue(timerBar.widthProperty(), timer.getWidth());
+        KeyValue green = new KeyValue(timerBar.fillProperty(), Color.GREEN);
+        KeyValue yellow = new KeyValue(timerBar.fillProperty(), Color.YELLOW);
+        KeyValue red = new KeyValue(timerBar.fillProperty(), Color.RED);
+        KeyValue end = new KeyValue(timerBar.widthProperty(), 0);
+
+        timeline.getKeyFrames().add(new KeyFrame(new Duration(0), start));
+        timeline.getKeyFrames().add(new KeyFrame(new Duration(0), green));
+        timeline.getKeyFrames().add(new KeyFrame(new Duration((float) time / 2), yellow));
+        timeline.getKeyFrames().add(new KeyFrame(new Duration((float) time * 3 / 4), red));
+        timeline.getKeyFrames().add(new KeyFrame(new Duration(time), end));
+
+        timeline.play();
     }
 
     /**
@@ -171,6 +339,12 @@ public class ChallengeScene extends BaseScene {
     public void initialise() {
         logger.info("Initialising Challenge");
         Multimedia.playMusic("game_start.wav");
+        game.setNextPieceListener(this::nextPiece);
         game.start();
+        scene.setOnKeyPressed(this::keyboard);
+        game.setOnGameOver(() -> {
+            game.stopTimer();
+            //gameWindow.startScores(game);
+        });
     }
 }
