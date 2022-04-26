@@ -1,6 +1,5 @@
 package uk.ac.soton.comp1206.scene;
 
-import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Slider;
@@ -57,50 +56,56 @@ public class SettingsScene extends BaseScene{
         BorderPane.setMargin(topBar, new Insets(10, 0, 0, 0));
         mainPane.setTop(topBar);
 
+        // Title
         var title = new Text("Settings");
         title.getStyleClass().add("title");
         topBar.getChildren().add(title);
 
+        /*
+        Center
+         */
         var centerBox = new VBox();
+        centerBox.setAlignment(Pos.CENTER);
         mainPane.setCenter(centerBox);
 
         var volumeControl = new Text("Volume Control");
         volumeControl.getStyleClass().add("heading");
         centerBox.getChildren().add(volumeControl);
 
-        var volumeBox = new HBox(10);
+        var volumeBox = new HBox(100);
+        volumeBox.setAlignment(Pos.CENTER);
         centerBox.getChildren().add(volumeBox);
 
+        // Music
+        var musicBox = new VBox(10);
+        musicBox.setAlignment(Pos.CENTER);
         var musicText = new Text("Music");
-        GridPane.setHalignment(musicText, HPos.CENTER);
         musicText.getStyleClass().add("heading");
-        volumeBox.getChildren().add(musicText);
-
         musicSlider = new Slider(0, 100, musicVolume);
         musicSlider.setPrefSize(300, 20);
         musicSlider.setShowTickMarks(true);
         musicSlider.setMajorTickUnit(25);
-        volumeBox.getChildren().add(musicSlider);
-
         musicSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
             musicVolume = (int) musicSlider.getValue();
             Multimedia.musicPlayer.setVolume(musicVolume / 100);
         });
+        musicBox.getChildren().addAll(musicText, musicSlider);
 
+        // Audio
+        var audioBox = new VBox(10);
+        audioBox.setAlignment(Pos.CENTER);
         var audioText = new Text("Audio");
-        GridPane.setHalignment(audioText, HPos.CENTER);
         audioText.getStyleClass().add("heading");
-        volumeBox.getChildren().add(audioText);
-
         audioSlider = new Slider(0, 100, audioVolume);
         audioSlider.setPrefSize(300, 20);
         audioSlider.setShowTickMarks(true);
         audioSlider.setMajorTickUnit(25);
-        volumeBox.getChildren().add(audioSlider);
-
         audioSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
             audioVolume = (int) audioSlider.getValue();
             Multimedia.audioPlayer.setVolume(audioVolume / 100);
         });
+        audioBox.getChildren().addAll(audioText, audioSlider);
+
+        volumeBox.getChildren().addAll(musicBox, audioBox);
     }
 }
