@@ -55,5 +55,4 @@ public abstract class BaseScene {
     public Scene getScene() {
         return this.scene;
     }
-
 }

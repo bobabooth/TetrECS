@@ -33,15 +33,14 @@ import java.util.HashSet;
  */
 public class ChallengeScene extends BaseScene {
 
-    private static final Logger logger = LogManager.getLogger(MenuScene.class);
+    private static final Logger logger = LogManager.getLogger(ChallengeScene.class);
     protected Game game;
     protected PieceBoard currentPiece;
     protected PieceBoard nextPiece;
     protected GameBoard board;
     protected StackPane timer;
-
-    protected int posX = 0;
-    protected int posY = 0;
+    protected int x = 0;
+    protected int y = 0;
     protected Rectangle timerBar;
 
     protected IntegerProperty highscore = new SimpleIntegerProperty();
@@ -187,6 +186,8 @@ public class ChallengeScene extends BaseScene {
 
         board = new GameBoard(game.getGrid(), (float) gameWindow.getWidth() / 2, (float) gameWindow.getWidth() / 2);
         mainPane.setCenter(board);
+        //Handle block on game-board grid being clicked
+        board.setOnBlockClick(this::blockClicked);
 
         timer = new StackPane();
         mainPane.setBottom(timer);
@@ -195,70 +196,6 @@ public class ChallengeScene extends BaseScene {
         timer.getChildren().add(timerBar);
         StackPane.setAlignment(timerBar, Pos.CENTER_RIGHT);
 
-        //Handle block on game-board grid being clicked
-        board.setOnBlockClick(this::blockClicked);
-    }
-
-    /**
-     * Support keyboard input
-     *
-     * @param key keyboard input
-     */
-    protected void keyboard(KeyEvent key) {
-        switch (key.getCode()) {
-            case W:
-            case UP:
-                if (posY > 0) {
-                    posY--;
-                    this.board.hover(this.board.getBlock(posX, posY));
-                }
-                break;
-            case A:
-            case LEFT:
-                if (posX > 0) {
-                    posX--;
-                    this.board.hover(this.board.getBlock(posX, posY));
-                }
-                break;
-            case S:
-            case DOWN:
-                if (posY < game.getRows() - 1) {
-                    posY++;
-                    this.board.hover(this.board.getBlock(posX, posY));
-                }
-                break;
-            case D:
-            case RIGHT:
-                if (posX < game.getCols() - 1) {
-                    posX++;
-                    this.board.hover(this.board.getBlock(posX, posY));
-                }
-                break;
-            case Q:
-            case Z:
-            case OPEN_BRACKET:
-                rotateLeft();
-                break;
-            case E:
-            case C:
-            case CLOSE_BRACKET:
-                rotate();
-                break;
-            case X:
-            case ENTER:
-                blockClicked(board.getBlock(posX, posY));
-                logger.info("challenge");
-                break;
-            case R:
-            case SPACE:
-                swap();
-                break;
-            case ESCAPE:
-                game.stopTimer();
-                Multimedia.playAudio("back.mp3");
-                gameWindow.startMenu();
-                break;
-        }
     }
 
     /**
@@ -353,6 +290,68 @@ public class ChallengeScene extends BaseScene {
 
         //Start new game
         game = new Game(5, 5);
+    }
+
+    /**
+     * Support keyboard input
+     *
+     * @param key keyboard input
+     */
+    protected void keyboard(KeyEvent key) {
+        switch (key.getCode()) {
+            case W:
+            case UP:
+                if (y > 0) {
+                    y--;
+                    this.board.hover(this.board.getBlock(x, y));
+                }
+                break;
+            case A:
+            case LEFT:
+                if (x > 0) {
+                    x--;
+                    this.board.hover(this.board.getBlock(x, y));
+                }
+                break;
+            case S:
+            case DOWN:
+                if (y < game.getRows() - 1) {
+                    y++;
+                    this.board.hover(this.board.getBlock(x, y));
+                }
+                break;
+            case D:
+            case RIGHT:
+                if (x < game.getCols() - 1) {
+                    x++;
+                    this.board.hover(this.board.getBlock(x, y));
+                }
+                break;
+            case Q:
+            case Z:
+            case OPEN_BRACKET:
+                rotateLeft();
+                break;
+            case E:
+            case C:
+            case CLOSE_BRACKET:
+                rotate();
+                break;
+            case X:
+            case ENTER:
+                blockClicked(board.getBlock(x, y));
+                logger.info("challenge");
+                break;
+            case R:
+            case SPACE:
+                swap();
+                break;
+            case ESCAPE:
+                game.stopTimer();
+                Multimedia.playAudio("back.mp3");
+                gameWindow.startMenu();
+                break;
+        }
     }
 
     /**

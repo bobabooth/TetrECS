@@ -140,13 +140,13 @@ public class GameBoard extends GridPane {
         GameBlock block = new GameBlock(this, x, y, blockWidth, blockHeight);
 
         //Add to the GridPane
-        add(block,x,y);
+        add(block, x, y);
 
         //Add to our block directory
         blocks[x][y] = block;
 
         //Link the GameBlock component to the corresponding value in the Grid
-        block.bind(grid.getGridProperty(x,y));
+        block.bind(grid.getGridProperty(x, y));
 
         //Add a mouse click handler to the block to trigger GameBoard blockClicked method
         block.setOnMouseClicked((e) -> blockClicked(e, block));
@@ -156,7 +156,6 @@ public class GameBoard extends GridPane {
 
         // Remove hover effect when cursor is not on grid
         block.setOnMouseExited((e) -> block.setHovering(false));
-
 
         return block;
     }
@@ -194,10 +193,8 @@ public class GameBoard extends GridPane {
      */
     private void blockClicked(MouseEvent event, GameBlock block) {
         logger.info("Block clicked: {}", block);
-
         if(blockClickedListener != null) {
             blockClickedListener.blockClicked(block);
         }
     }
-
 }

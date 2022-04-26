@@ -119,14 +119,4 @@ public class MenuScene extends BaseScene {
                     }
                 });
     }
-
-    /**
-     * Handle when the Start Game button is pressed
-     *
-     * @param event event
-     */
-    private void startGame(ActionEvent event) {
-        gameWindow.startChallenge();
-    }
-
 }
