@@ -1,5 +1,6 @@
 package uk.ac.soton.comp1206.ui;
 
+import javafx.scene.image.Image;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import org.apache.logging.log4j.LogManager;
@@ -33,5 +34,15 @@ public class Multimedia {
         audioPlayer = new MediaPlayer(new Media(toPlay));
         audioPlayer.play();
         logger.info("Audio played: " + sound);
+    }
+
+    /**
+     * Theme selector
+     * @param file theme name
+     * @return selected theme
+     */
+    public static Image getImage(String file) {
+        logger.info("Image " + file + " selected");
+        return new Image(Multimedia.class.getResource("/images/" + file).toExternalForm());
     }
 }

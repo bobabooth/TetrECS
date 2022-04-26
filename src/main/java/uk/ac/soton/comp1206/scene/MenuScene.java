@@ -56,8 +56,7 @@ public class MenuScene extends BaseScene {
         menuPane.getChildren().add(mainPane);
 
         // Logo
-        Image image = new Image((getClass().getResource("/images/TetrECS.png").toExternalForm()));
-        ImageView logo = new ImageView(image);
+        ImageView logo = new ImageView(Multimedia.getImage("TetrECS.png"));
         logo.setFitHeight(130);
         logo.setPreserveRatio(true);
         mainPane.setCenter(logo);
@@ -76,7 +75,7 @@ public class MenuScene extends BaseScene {
         menu.setAlignment(Pos.CENTER);
         mainPane.setBottom(menu);
 
-        var local = new Text("PLay");
+        var local = new Text("Play");
         local.getStyleClass().add("menuItem");
         local.setOnMouseClicked(e -> gameWindow.startChallenge());
 
@@ -85,6 +84,7 @@ public class MenuScene extends BaseScene {
 
         var settings = new Text("Settings");
         settings.getStyleClass().add("menuItem");
+        settings.setOnMouseClicked(e -> gameWindow.startSettings());
 
         var quit = new Text("Quit");
         quit.getStyleClass().add("menuItem");
