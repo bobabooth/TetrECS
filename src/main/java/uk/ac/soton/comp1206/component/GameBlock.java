@@ -41,8 +41,6 @@ public class GameBlock extends Canvas {
             Color.PURPLE
     };
 
-    private final GameBoard gameBoard;
-
     private final double width;
     private final double height;
 
@@ -68,14 +66,12 @@ public class GameBlock extends Canvas {
     /**
      * Create a new single Game Block
      *
-     * @param gameBoard the board this block belongs to
      * @param x         the column the block exists in
      * @param y         the row the block exists in
      * @param width     the width of the canvas to render
      * @param height    the height of the canvas to render
      */
-    public GameBlock(GameBoard gameBoard, int x, int y, double width, double height) {
-        this.gameBoard = gameBoard;
+    public GameBlock(int x, int y, double width, double height) {
         this.width = width;
         this.height = height;
         this.x = x;

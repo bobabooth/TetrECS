@@ -188,6 +188,9 @@ public class ChallengeScene extends BaseScene {
         mainPane.setCenter(board);
         //Handle block on game-board grid being clicked
         board.setOnBlockClick(this::blockClicked);
+        //Handle rotation on block when right clicked
+        board.setOnRightClick(this::rotate);
+
 
         timer = new StackPane();
         mainPane.setBottom(timer);

@@ -1,10 +1,11 @@
 package uk.ac.soton.comp1206.component;
 
-import javafx.scene.input.MouseEvent;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.GridPane;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import uk.ac.soton.comp1206.event.BlockClickedListener;
+import uk.ac.soton.comp1206.event.RightClickedListener;
 import uk.ac.soton.comp1206.game.Grid;
 
 import java.util.HashSet;
@@ -60,6 +61,11 @@ public class GameBoard extends GridPane {
      * The listener to call when a specific block is clicked
      */
     private BlockClickedListener blockClickedListener;
+
+    /**
+     * The listener to call when a specific block is right clicked
+     */
+    protected RightClickedListener rightClickedListener;
 
 
     /**
@@ -139,7 +145,7 @@ public class GameBoard extends GridPane {
         var blockHeight = height / rows;
 
         //Create a new GameBlock UI component
-        GameBlock block = new GameBlock(this, x, y, blockWidth, blockHeight);
+        GameBlock block = new GameBlock(x, y, blockWidth, blockHeight);
 
         //Add to the GridPane
         add(block, x, y);
@@ -151,7 +157,7 @@ public class GameBoard extends GridPane {
         block.bind(grid.getGridProperty(x, y));
 
         //Add a mouse click handler to the block to trigger GameBoard blockClicked method
-        block.setOnMouseClicked((e) -> blockClicked(e, block));
+        blockClicked(block);
 
         // Create hover effect when cursor is over grid
         block.setOnMouseEntered((e) -> hover(block));
@@ -191,14 +197,32 @@ public class GameBoard extends GridPane {
     }
 
     /**
+     * Set the listener to handle an event when a block is right clicked
+     *
+     * @param listener listener to add
+     */
+    public void setOnRightClick(RightClickedListener listener) {
+        this.rightClickedListener = listener;
+    }
+
+    /**
      * Triggered when a block is clicked. Call the attached listener.
-     * @param event mouse event
      * @param block block clicked on
      */
-    private void blockClicked(MouseEvent event, GameBlock block) {
+    private void blockClicked(GameBlock block) {
         logger.info("Block clicked: {}", block);
-        if(blockClickedListener != null) {
-            blockClickedListener.blockClicked(block);
-        }
+
+        block.setOnMouseClicked(e -> {
+            if (e.getButton().equals(MouseButton.PRIMARY)) {
+                if (blockClickedListener != null) {
+                    blockClickedListener.blockClicked(block);
+                }
+            }
+            if (e.getButton().equals(MouseButton.SECONDARY)) {
+                if (rightClickedListener != null) {
+                    rightClickedListener.setOnRightClicked();
+                }
+            }
+        });
     }
 }
