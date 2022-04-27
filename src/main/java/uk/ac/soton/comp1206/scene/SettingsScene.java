@@ -16,17 +16,16 @@ import uk.ac.soton.comp1206.ui.Multimedia;
 
 import java.io.*;
 
-public class SettingsScene extends BaseScene{
+public class SettingsScene extends BaseScene {
     private static final Logger logger = LogManager.getLogger(SettingsScene.class);
     private static double musicVolume = 50;
     private static double audioVolume = 50;
+    private static Text style = new Text("challenge-background");
     private Slider musicSlider;
     private Slider audioSlider;
-    private static Text style = new Text("challenge-background");
 
     /**
      * Create a new settings scene
-     *
      * @param gameWindow the Game Window this will be displayed in
      */
     public SettingsScene(GameWindow gameWindow) {
@@ -36,7 +35,6 @@ public class SettingsScene extends BaseScene{
 
     /**
      * Get the music
-     *
      * @return music volume
      */
     public static double getMusicVolume() {
@@ -45,7 +43,6 @@ public class SettingsScene extends BaseScene{
 
     /**
      * Get the audio
-     *
      * @return audio volume
      */
     public static double getAudioVolume() {
@@ -114,7 +111,7 @@ public class SettingsScene extends BaseScene{
     }
 
     /**
-     * Return to menu
+     * Save settings and return to menu
      */
     public void quit() {
         writeSettings();
@@ -147,9 +144,7 @@ public class SettingsScene extends BaseScene{
         var mainPane = new BorderPane();
         settingsPane.getChildren().add(mainPane);
 
-        /*
-         Top
-         */
+        /* Top */
         var topBar = new HBox(170);
         topBar.setAlignment(Pos.CENTER);
         BorderPane.setMargin(topBar, new Insets(10, 0, 0, 0));
@@ -160,16 +155,13 @@ public class SettingsScene extends BaseScene{
         title.getStyleClass().add("title");
         topBar.getChildren().add(title);
 
-        /*
-        Center
-         */
+        /* Center */
         var centerBox = new VBox(10);
         centerBox.setAlignment(Pos.CENTER);
         mainPane.setCenter(centerBox);
 
         var volumeBox = new HBox(100);
         volumeBox.setAlignment(Pos.CENTER);
-
         var volumeControl = new Text("Volume Control");
         volumeControl.getStyleClass().add("heading");
 
@@ -224,7 +216,6 @@ public class SettingsScene extends BaseScene{
             style = new Text("menu-background");
             logger.info("Set theme to 1");
         });
-
         ImageView two = new ImageView(Multimedia.getImage("2.jpg"));
         themeGrid.add(two, 1, 1);
         two.setFitWidth(240);
@@ -234,7 +225,6 @@ public class SettingsScene extends BaseScene{
             style = new Text("challenge-background");
             logger.info("Set theme to 2");
         });
-
         ImageView three = new ImageView(Multimedia.getImage("3.jpg"));
         themeGrid.add(three, 2, 1);
         three.setFitWidth(240);
@@ -244,7 +234,6 @@ public class SettingsScene extends BaseScene{
             style = new Text("background3");
             logger.info("Set theme to 3");
         });
-
         ImageView four = new ImageView(Multimedia.getImage("4.jpg"));
         themeGrid.add(four, 0, 2);
         four.setFitWidth(240);
@@ -254,7 +243,6 @@ public class SettingsScene extends BaseScene{
             style = new Text("background4");
             logger.info("Set theme to 4");
         });
-
         ImageView five = new ImageView(Multimedia.getImage("5.jpg"));
         themeGrid.add(five, 1, 2);
         five.setFitWidth(240);
@@ -264,7 +252,6 @@ public class SettingsScene extends BaseScene{
             style = new Text("background5");
             logger.info("Set theme to 5");
         });
-
         ImageView six = new ImageView(Multimedia.getImage("6.jpg"));
         themeGrid.add(six, 2, 2);
         six.setFitWidth(240);
@@ -277,9 +264,7 @@ public class SettingsScene extends BaseScene{
 
         centerBox.getChildren().addAll(volumeControl, volumeBox, themeGrid);
 
-        /*
-        Bottom
-         */
+        /* Bottom */
         var bottomBar = new HBox();
         bottomBar.setAlignment(Pos.CENTER);
         BorderPane.setMargin(bottomBar, new Insets(0, 0, 15, 0));

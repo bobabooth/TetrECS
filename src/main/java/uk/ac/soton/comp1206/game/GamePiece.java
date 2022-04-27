@@ -210,7 +210,6 @@ public class GamePiece {
         blocks = rotated;
     }
 
-
     /**
      * Return the string representation of this piece
      * @return the name of this piece
@@ -218,7 +217,4 @@ public class GamePiece {
     public String toString() {
         return this.name;
     }
-
-
-
 }

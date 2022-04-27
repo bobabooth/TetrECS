@@ -9,6 +9,10 @@ public class PieceBoard extends GameBoard{
         build();
     }
 
+    /**
+     * Display the piece
+     * @param gamePiece piece to be displayed
+     */
     public void showPiece(GamePiece gamePiece) {
         this.grid.clean();
         grid.playPiece(gamePiece, 0, 0);

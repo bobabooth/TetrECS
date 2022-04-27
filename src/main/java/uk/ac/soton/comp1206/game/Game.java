@@ -53,23 +53,18 @@ public class Game {
      * Keep track of the current piece
      */
     public GamePiece currentPiece;
-    protected ScheduledFuture loop;
-
-
+    protected ScheduledFuture<?> loop;
     public GamePiece nextPiece;
-
     protected ScheduledExecutorService timer;
-
     int oldLevel = 0;
 
     /**
      * Initial values
      */
     public IntegerProperty score = new SimpleIntegerProperty(0);
-    public IntegerProperty level = new SimpleIntegerProperty(0);
+    public IntegerProperty level = new SimpleIntegerProperty(30);
     public IntegerProperty lives = new SimpleIntegerProperty(3);
     public IntegerProperty multiplier = new SimpleIntegerProperty(1);
-
     protected NextPieceListener nextPieceListener = null;
     protected LineClearedListener lineClearedListener = null;
     protected GameLoopListener gameLoopListener = null;
@@ -126,6 +121,10 @@ public class Game {
         }
     }
 
+    /**
+     * When the timer runs out, move on to the next piece and lose a life
+     * @param listener listens for timer end
+     */
     public void setOnGameLoop(GameLoopListener listener) {
         gameLoopListener = listener;
     }
@@ -164,7 +163,10 @@ public class Game {
             Multimedia.playAudio("place.wav");
             afterPiece();
             nextPiece();
-            restartLoop();
+            loop.cancel(false);
+            loop = timer.schedule(this::gameLoop, getTimerDelay(), TimeUnit.MILLISECONDS);
+            gameLoopListener();
+            logger.info("Timer reset");
         }
         else {
             Multimedia.playAudio("fail.wav");
@@ -210,26 +212,19 @@ public class Game {
                 }
             }
         }
-
         // Check if lines cleared
         if (linesCleared > 0) {
-
             score(linesCleared, clear.size());
-
             // Multiplier increase by 1 if the next piece also clears lines
             multiplier.set(multiplier.add(1).get());
-
             // Sets the level
             level.set(Math.floorDiv(score.get(), 1000));
-
             // Plays sound when level up
             levelSounds(level.get());
-
             // Clear block
             for (IntegerProperty block : clear) {
                 block.set(0);
             }
-
             if (this.lineClearedListener != null) {
                 this.lineClearedListener.lineCleared(cleared);
             }
@@ -326,61 +321,6 @@ public class Game {
     }
 
     /**
-     * Remove a life when timer ends
-     */
-    public void livesReset() {
-        if (this.lives.get() > 0) {
-            lives.set(lives.get() - 1);
-            Multimedia.playAudio("lifelose.wav");
-            logger.info("Life lost");
-        } else {
-            logger.info("Game over");
-            if (gameOverListener != null) {
-                Platform.runLater(() -> gameOverListener.gameOver());
-            }
-        }
-    }
-
-
-    /**
-     * Reset multiplier after timer ends
-     */
-    public void multiplierReset() {
-        if (this.multiplier.get() > 1) {
-            logger.info("Multiplier set to 1");
-            multiplier.set(1);
-        }
-    }
-
-    /**
-     * Loop events when timer end
-     */
-    public void gameLoop() {
-        livesReset();
-        multiplierReset();
-        nextPiece();
-        gameLoopListener();
-        loop = timer.schedule(this::gameLoop, getTimerDelay(), TimeUnit.MILLISECONDS);
-    }
-
-    /**
-     * Restart the timer after a piece is successfully placed
-     */
-    public void restartLoop() {
-        loop.cancel(false);
-        loop = timer.schedule(this::gameLoop, getTimerDelay(), TimeUnit.MILLISECONDS);
-        gameLoopListener();
-        logger.info("Timer reset");
-    }
-
-    /**
-     * Get the number of rows in this game
-     * @return number of rows
-     */
-    public int getRows() {
-        return rows;
-    }
-    /**
      * Skip current piece with 100 points
      */
     public void skipPiece() {
@@ -417,11 +357,57 @@ public class Game {
         if (scoreProperty().get() >= 200) {
             score.set(score.get() - 200);
             grid.clean();
+            multiplier.set(multiplier.add(1).get());
             Multimedia.playAudio("explode.wav");
             logger.info("Grid cleaned");
         } else {
             Multimedia.playAudio("fail.wav");
             logger.info("Not enough points");
         }
+    }
+
+    /**
+     * Remove a life when timer ends
+     */
+    public void livesReset() {
+        if (this.lives.get() > 0) {
+            lives.set(lives.get() - 1);
+            Multimedia.playAudio("lifelose.wav");
+            logger.info("Life lost");
+        } else {
+            logger.info("Game over");
+            if (gameOverListener != null) {
+                Platform.runLater(() -> gameOverListener.gameOver());
+            }
+        }
+    }
+
+    /**
+     * Reset multiplier to 1
+     */
+    public void multiplierReset() {
+        if (this.multiplier.get() > 1) {
+            logger.info("Multiplier set to 1");
+            multiplier.set(1);
+        }
+    }
+
+    /**
+     * Loop events when timer end
+     */
+    public void gameLoop() {
+        livesReset();
+        multiplierReset();
+        nextPiece();
+        gameLoopListener();
+        loop = timer.schedule(this::gameLoop, getTimerDelay(), TimeUnit.MILLISECONDS);
+    }
+
+    /**
+     * Get the number of rows in this game
+     * @return number of rows
+     */
+    public int getRows() {
+        return rows;
     }
 }

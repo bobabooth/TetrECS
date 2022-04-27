@@ -137,10 +137,11 @@ public class GameBoard extends GridPane {
 
     /**
      * Create a block at the given x and y position in the GameBoard
+     *
      * @param x column
      * @param y row
      */
-    protected GameBlock createBlock(int x, int y) {
+    protected void createBlock(int x, int y) {
         var blockWidth = width / cols;
         var blockHeight = height / rows;
 
@@ -165,7 +166,6 @@ public class GameBoard extends GridPane {
         // Remove hover effect when cursor is not on grid
         block.setOnMouseExited((e) -> block.setHovering(false));
 
-        return block;
     }
 
     /**

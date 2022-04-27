@@ -4,13 +4,11 @@ import javafx.application.Platform;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.util.Pair;
@@ -27,9 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ScoresScene extends BaseScene {
-
     private static final Logger logger = LogManager.getLogger(ScoresScene.class);
-
     private final StringProperty currentName = new SimpleStringProperty("");
     private final BooleanProperty provideScore = new SimpleBooleanProperty(false);
     private ObservableList<Pair<String, Integer>> localScoresList;
@@ -46,7 +42,6 @@ public class ScoresScene extends BaseScene {
 
     /**
      * Load scores from file, if no file found, create 10 random scores
-     *
      * @return scores
      */
     public static ArrayList<Pair<String, Integer>> loadScores() {
@@ -54,11 +49,11 @@ public class ScoresScene extends BaseScene {
         File file = new File("scores.txt");
         if (!file.exists()) {
             ArrayList<Pair<String, Integer>> scores = new ArrayList<>();
+            scores.add(new Pair<>("Guest", 300));
+            scores.add(new Pair<>("Guest", 250));
+            scores.add(new Pair<>("Guest", 200));
+            scores.add(new Pair<>("Guest", 150));
             scores.add(new Pair<>("Guest", 100));
-            scores.add(new Pair<>("Guest", 90));
-            scores.add(new Pair<>("Guest", 80));
-            scores.add(new Pair<>("Guest", 70));
-            scores.add(new Pair<>("Guest", 60));
             scores.add(new Pair<>("Guest", 50));
             scores.add(new Pair<>("Guest", 40));
             scores.add(new Pair<>("Guest", 30));
@@ -87,7 +82,7 @@ public class ScoresScene extends BaseScene {
     }
 
     /**
-     * Write scores into a file if they don't exist
+     * Create dummy scores.txt for first launch
      */
     public static void writeScores(List<Pair<String, Integer>> scores) {
         scores.sort((score1, score2) -> (score2.getValue()).compareTo(score1.getValue()));
@@ -130,15 +125,14 @@ public class ScoresScene extends BaseScene {
         localScores.reveal();
     }
 
-
     /**
      * Handle new high score
      */
     public void newHighScore() {
         if (!game.getScores().isEmpty()) {
-            logger.info("No new score");
             provideScore.set(true);
             localScores.reveal();
+            logger.info("No new score");
             return;
         }
         int scoreNumber = 0;
@@ -161,7 +155,7 @@ public class ScoresScene extends BaseScene {
             newLocalScore = false;
             Multimedia.playAudio("victory.mp3");
         };
-        // Local score update
+        // Score comparison
         if (currentScore > lowestLocalScore) {
             for (Pair<String, Integer> score : localScoresList) {
                 if (currentScore > score.getValue()) {
@@ -172,7 +166,7 @@ public class ScoresScene extends BaseScene {
         }
         // New high score prompt
         if (newLocalScore) {
-            highScoreText.setText("Congratulations, New High Score!");
+            highScoreText.setText("Score Recorded!");
             Multimedia.playAudio("transition.wav");
             highScoreText.setTextAlignment(TextAlignment.CENTER);
             nameField.setOnKeyPressed(e -> {
@@ -208,7 +202,6 @@ public class ScoresScene extends BaseScene {
         if (!game.getScores().isEmpty()) {
             currentName.set(game.name.getValue());
         }
-
         Platform.runLater(this::revealMethod);
         scene.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.ESCAPE) {
@@ -236,20 +229,26 @@ public class ScoresScene extends BaseScene {
         var mainPane = new BorderPane();
         scoresPane.getChildren().add(mainPane);
 
+        /* Top */
+        var topBar = new HBox();
+        topBar.setAlignment(Pos.CENTER);
+        BorderPane.setMargin(topBar, new Insets(10, 0, 0, 0));
+        mainPane.setTop(topBar);
+
         Text gameOverText = new Text("Game Over");
         gameOverText.getStyleClass().add("bigtitle");
-        gameOverText.setTextAlignment(TextAlignment.CENTER);
+        topBar.getChildren().add(gameOverText);
 
+        /* Center */
         centerBox = new VBox();
-        highScoreText = new Text("High Scores");
-
-        centerBox.setAlignment(Pos.TOP_CENTER);
+        centerBox.setAlignment(Pos.CENTER);
         centerBox.setSpacing(40);
         mainPane.setCenter(centerBox);
-        highScoreText.getStyleClass().add("title");
-        highScoreText.setTextAlignment(TextAlignment.CENTER);
 
-        Text local = new Text("Local Scores");
+        highScoreText = new Text("High Scores");
+        highScoreText.getStyleClass().add("title");
+
+        var local = new Text("Local Scores");
         local.getStyleClass().add("heading");
         localScores = new ScoresList();
         localScores.setAlignment(Pos.CENTER);
@@ -266,8 +265,8 @@ public class ScoresScene extends BaseScene {
         localScoresList = FXCollections.observableArrayList(loadScores());
         localScoresList.sort((score1, score2) -> (score2.getValue().compareTo(score1.getValue())));
         SimpleListProperty<Pair<String, Integer>> localScore = new SimpleListProperty<>(localScoresList);
-        localScores.getScoreProperty().bind(localScore);
         localScores.getNameProperty().bind(currentName);
+        localScores.getScoreProperty().bind(localScore);
     }
 
     interface highScoreInterface {

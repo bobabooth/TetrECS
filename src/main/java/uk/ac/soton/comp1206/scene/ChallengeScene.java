@@ -32,22 +32,17 @@ import java.util.HashSet;
  * The Single Player challenge scene. Holds the UI for the single player challenge mode in the game.
  */
 public class ChallengeScene extends BaseScene {
-
     private static final Logger logger = LogManager.getLogger(ChallengeScene.class);
     protected Game game;
     protected PieceBoard currentPiece;
     protected PieceBoard nextPiece;
     protected GameBoard board;
-    protected StackPane timer;
+    protected HBox timer;
     protected int x = 0;
     protected int y = 0;
     protected Rectangle timerBar;
-
     protected IntegerProperty highscore = new SimpleIntegerProperty();
-
     protected IntegerProperty score = new SimpleIntegerProperty();
-
-
 
     /**
      * Create a new Single Player challenge scene
@@ -65,9 +60,7 @@ public class ChallengeScene extends BaseScene {
     @Override
     public void build() {
         logger.info("Building " + this.getClass().getName());
-
         setupGame();
-
         root = new GamePane(gameWindow.getWidth(), gameWindow.getHeight());
 
         var challengePane = new StackPane();
@@ -79,9 +72,7 @@ public class ChallengeScene extends BaseScene {
         var mainPane = new BorderPane();
         challengePane.getChildren().add(mainPane);
 
-        /*
-         Top
-         */
+        /* Top */
         var topBar = new HBox(170);
         topBar.setAlignment(Pos.CENTER);
         BorderPane.setMargin(topBar, new Insets(10, 0, 0, 0));
@@ -113,9 +104,7 @@ public class ChallengeScene extends BaseScene {
 
         topBar.getChildren().addAll(scoreBox, title, livesBox);
 
-        /*
-         Left
-         */
+        /* Left */
         VBox leftBar = new VBox();
         leftBar.setAlignment(Pos.CENTER);
         leftBar.setPadding(new Insets(0, 0, 0, 20));
@@ -141,9 +130,7 @@ public class ChallengeScene extends BaseScene {
 
         leftBar.getChildren().addAll(skipPieceText, skipPieceText2, addLifeText, addLifeText2, clearGridText, clearGridText2);
 
-        /*
-         Right
-         */
+        /* Right */
         var rightBar = new VBox();
         rightBar.setAlignment(Pos.CENTER);
         rightBar.setPadding(new Insets(0, 20, 0, 0));
@@ -188,17 +175,14 @@ public class ChallengeScene extends BaseScene {
         mainPane.setCenter(board);
         //Handle block on game-board grid being clicked
         board.setOnBlockClick(this::blockClicked);
-        //Handle rotation on block when right clicked
+        //Handle rotation on block when right-clicked
         board.setOnRightClick(this::rotate);
 
-
-        timer = new StackPane();
-        mainPane.setBottom(timer);
+        timer = new HBox();
         timerBar = new Rectangle();
         timerBar.setHeight(10);
         timer.getChildren().add(timerBar);
-        StackPane.setAlignment(timerBar, Pos.CENTER_RIGHT);
-
+        mainPane.setBottom(timer);
     }
 
     /**
@@ -295,8 +279,7 @@ public class ChallengeScene extends BaseScene {
 
     /**
      * Support keyboard input
-     *
-     * @param key keyboard input
+     * @param key key pressed
      */
     protected void keyboard(KeyEvent key) {
         switch (key.getCode()) {
@@ -387,7 +370,7 @@ public class ChallengeScene extends BaseScene {
     }
 
     /**
-     * Initialise the scene and start the game
+     * Initialize the scene and start the game
      */
     @Override
     public void initialise() {
