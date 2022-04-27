@@ -79,6 +79,6 @@ public class ScoresList extends VBox {
         }
         SequentialTransition seqTransition = new SequentialTransition(transition.toArray(Animation[]::new));
         seqTransition.play();
-        logger.info("Score reveal animation");
+        logger.info("Score revealed");
     }
 }

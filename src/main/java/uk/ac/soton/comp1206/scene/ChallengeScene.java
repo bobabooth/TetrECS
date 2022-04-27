@@ -163,7 +163,7 @@ public class ChallengeScene extends BaseScene {
         var incomingText = new Text("Incoming");
         incomingText.getStyleClass().add("heading");
         currentPiece = new PieceBoard(100, 100);
-        currentPiece.setPadding(new Insets(15, 0, 0, 0));
+        currentPiece.setPadding(new Insets(5, 0, 0, 0));
         currentPiece.blocks[1][1].center();
         currentPiece.setOnMouseClicked(e -> this.rotate());
 

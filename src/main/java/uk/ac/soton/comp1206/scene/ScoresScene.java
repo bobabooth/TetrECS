@@ -33,7 +33,6 @@ public class ScoresScene extends BaseScene {
     private ObservableList<Pair<String, Integer>> localScoresList;
     private ScoresList localScores;
     private VBox centerBox;
-    private Text highScoreText;
     private boolean newLocalScore = false;
     private boolean getScores = true;
 
@@ -153,8 +152,10 @@ public class ScoresScene extends BaseScene {
 
         highScoreInterface r = () -> {
             currentName.set(nameField.getText().replace(":", ""));
-            centerBox.getChildren().remove(2);
-            centerBox.getChildren().remove(2);
+            centerBox.getChildren().remove(1);
+            centerBox.getChildren().remove(1);
+            centerBox.getChildren().remove(1);
+
             if (newLocalScore) {
                 localScoresList.add(finalScoreNumber, new Pair<>(nameField.getText().replace(":", ""), currentScore));
             }
@@ -174,7 +175,11 @@ public class ScoresScene extends BaseScene {
         }
         // New high score prompt
         if (newLocalScore) {
-            highScoreText.setText("New Score Recorded!");
+            var newScoreText = new Text("New Score Recorded!");
+            newScoreText.getStyleClass().add("title");
+            centerBox.getChildren().add(1, newScoreText);
+
+            // Text field
             nameField.setOnKeyPressed(e -> {
                 if (e.getCode().equals(KeyCode.ENTER)) {
                     r.run();
@@ -183,11 +188,12 @@ public class ScoresScene extends BaseScene {
             nameField.setAlignment(Pos.CENTER);
             nameField.requestFocus();
             centerBox.getChildren().add(2, nameField);
-            // Save button (text)
+
+            // Confirm
             var saveText = new Text("Confirm");
             saveText.getStyleClass().add("heading-selectable");
-            centerBox.getChildren().add(3, saveText);
             saveText.setOnMouseClicked(e -> r.run());
+            centerBox.getChildren().add(3, saveText);
         }
         // Show past scores if no new high score
         else {
@@ -249,22 +255,22 @@ public class ScoresScene extends BaseScene {
         /* Center */
         centerBox = new VBox();
         centerBox.setAlignment(Pos.CENTER);
-        centerBox.setSpacing(40);
+        centerBox.setSpacing(10);
         mainPane.setCenter(centerBox);
 
-        highScoreText = new Text("High Scores");
+        var highScoreText = new Text("High Scores");
         highScoreText.getStyleClass().add("title");
-
-        localScores = new ScoresList();
-        localScores.setAlignment(Pos.CENTER);
+        highScoreText.visibleProperty().bind(provideScore);
 
         var gridPane = new GridPane();
         gridPane.setAlignment(Pos.CENTER);
-        gridPane.setHgap(100);
         gridPane.visibleProperty().bind(provideScore);
-        gridPane.add(localScores, 0, 0);
 
-        centerBox.getChildren().addAll(gameOverText, highScoreText, gridPane);
+        localScores = new ScoresList();
+        localScores.setAlignment(Pos.CENTER);
+        gridPane.getChildren().add(localScores);
+
+        centerBox.getChildren().addAll(highScoreText, gridPane);
 
         localScoresList = FXCollections.observableArrayList(loadScores());
         localScoresList.sort((score1, score2) -> (score2.getValue().compareTo(score1.getValue())));

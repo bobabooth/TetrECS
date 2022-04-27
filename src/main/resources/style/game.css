@@ -221,6 +221,7 @@ TextField {
     -fx-background-color: rgba(0,0,0,0.5);
     -fx-text-fill: white;
     -fx-prompt-text-fill: grey;
+    -fx-font-family: 'Orbitron';
 }
 
 .playerBox {
