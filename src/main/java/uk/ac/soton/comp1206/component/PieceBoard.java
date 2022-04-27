@@ -17,13 +17,4 @@ public class PieceBoard extends GameBoard{
         this.grid.clean();
         grid.playPiece(gamePiece, 0, 0);
     }
-
-    /**
-     * Color the center of the piece
-     */
-    public void colorCenter() {
-        int x = rows / 2;
-        int y = cols / 2;
-        this.blocks[x][y].setCenter(true);
-    }
 }

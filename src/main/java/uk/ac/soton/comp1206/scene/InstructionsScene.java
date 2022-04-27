@@ -57,9 +57,7 @@ public class InstructionsScene extends BaseScene {
         var mainPane = new BorderPane();
         instructionsPane.getChildren().add(mainPane);
 
-        /*
-         Top
-         */
+        /* Top */
         var topBar = new HBox();
         topBar.setAlignment(Pos.CENTER);
         BorderPane.setMargin(topBar, new Insets(10, 0, 0, 0));
@@ -69,9 +67,7 @@ public class InstructionsScene extends BaseScene {
         instructionsText.getStyleClass().add("title");
         topBar.getChildren().add(instructionsText);
 
-        /*
-        Center
-         */
+        /* Center */
         var centerBox = new VBox();
         centerBox.setAlignment(Pos.CENTER);
         mainPane.setCenter(centerBox);

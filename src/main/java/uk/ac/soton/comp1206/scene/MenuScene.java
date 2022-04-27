@@ -2,7 +2,6 @@ package uk.ac.soton.comp1206.scene;
 
 import javafx.animation.Animation;
 import javafx.animation.RotateTransition;
-import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.image.ImageView;

@@ -10,7 +10,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
 import javafx.util.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -166,9 +165,7 @@ public class ScoresScene extends BaseScene {
         }
         // New high score prompt
         if (newLocalScore) {
-            highScoreText.setText("Score Recorded!");
-            Multimedia.playAudio("transition.wav");
-            highScoreText.setTextAlignment(TextAlignment.CENTER);
+            highScoreText.setText("New Score Recorded!");
             nameField.setOnKeyPressed(e -> {
                 if (e.getCode().equals(KeyCode.ENTER)) {
                     r.run();
@@ -188,6 +185,8 @@ public class ScoresScene extends BaseScene {
             Multimedia.playAudio("loser.mp3");
             logger.info("High score not achieved");
             provideScore.set(true);
+            provideScore.set(true);
+
             localScores.reveal();
         }
     }
@@ -248,8 +247,6 @@ public class ScoresScene extends BaseScene {
         highScoreText = new Text("High Scores");
         highScoreText.getStyleClass().add("title");
 
-        var local = new Text("Local Scores");
-        local.getStyleClass().add("heading");
         localScores = new ScoresList();
         localScores.setAlignment(Pos.CENTER);
 
@@ -257,16 +254,15 @@ public class ScoresScene extends BaseScene {
         gridPane.setAlignment(Pos.CENTER);
         gridPane.setHgap(100);
         gridPane.visibleProperty().bind(provideScore);
-        gridPane.add(local, 0, 0);
-        gridPane.add(localScores, 0, 1);
+        gridPane.add(localScores, 0, 0);
 
         centerBox.getChildren().addAll(gameOverText, highScoreText, gridPane);
 
         localScoresList = FXCollections.observableArrayList(loadScores());
         localScoresList.sort((score1, score2) -> (score2.getValue().compareTo(score1.getValue())));
         SimpleListProperty<Pair<String, Integer>> localScore = new SimpleListProperty<>(localScoresList);
-        localScores.getNameProperty().bind(currentName);
-        localScores.getScoreProperty().bind(localScore);
+        localScores.nameProperty.bind(currentName);
+        localScores.scores.bind(localScore);
     }
 
     interface highScoreInterface {

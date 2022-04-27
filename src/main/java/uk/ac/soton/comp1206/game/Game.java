@@ -386,7 +386,7 @@ public class Game {
      * Reset multiplier to 1
      */
     public void multiplierReset() {
-        if (this.multiplier.get() > 1) {
+        if (multiplier.get() > 1) {
             logger.info("Multiplier set to 1");
             multiplier.set(1);
         }

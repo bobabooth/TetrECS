@@ -41,8 +41,8 @@ public class ChallengeScene extends BaseScene {
     protected int x = 0;
     protected int y = 0;
     protected Rectangle timerBar;
-    protected IntegerProperty highscore = new SimpleIntegerProperty();
     protected IntegerProperty score = new SimpleIntegerProperty();
+    protected IntegerProperty highscore = new SimpleIntegerProperty();
 
     /**
      * Create a new Single Player challenge scene
@@ -161,7 +161,7 @@ public class ChallengeScene extends BaseScene {
         var incomingText = new Text("Incoming");
         incomingText.getStyleClass().add("heading");
         currentPiece = new PieceBoard(100,100);
-        currentPiece.colorCenter();
+        currentPiece.blocks[1][1].center();
         currentPiece.setOnMouseClicked(e -> this.rotate());
 
         // Next piece
@@ -237,7 +237,6 @@ public class ChallengeScene extends BaseScene {
 
     /**
      * Timer at the bottom
-     *
      * @param time time
      */
     protected void timer(int time) {
@@ -260,7 +259,6 @@ public class ChallengeScene extends BaseScene {
 
     /**
      * Handle when a block is clicked
-     *
      * @param gameBlock the Game Block that was clocked
      */
     private void blockClicked(GameBlock gameBlock) {
@@ -268,7 +266,7 @@ public class ChallengeScene extends BaseScene {
     }
 
     /**
-     * Setup the game object and model
+     * Set up the game object and model
      */
     public void setupGame() {
         logger.info("Starting a new challenge");
@@ -287,28 +285,28 @@ public class ChallengeScene extends BaseScene {
             case UP:
                 if (y > 0) {
                     y--;
-                    this.board.hover(this.board.getBlock(x, y));
+                    board.hover(board.getBlock(x, y));
                 }
                 break;
             case A:
             case LEFT:
                 if (x > 0) {
                     x--;
-                    this.board.hover(this.board.getBlock(x, y));
+                    board.hover(board.getBlock(x, y));
                 }
                 break;
             case S:
             case DOWN:
                 if (y < game.getRows() - 1) {
                     y++;
-                    this.board.hover(this.board.getBlock(x, y));
+                    board.hover(board.getBlock(x, y));
                 }
                 break;
             case D:
             case RIGHT:
                 if (x < game.getCols() - 1) {
                     x++;
-                    this.board.hover(this.board.getBlock(x, y));
+                    board.hover(board.getBlock(x, y));
                 }
                 break;
             case Q:
@@ -324,7 +322,6 @@ public class ChallengeScene extends BaseScene {
             case X:
             case ENTER:
                 blockClicked(board.getBlock(x, y));
-                logger.info("challenge");
                 break;
             case R:
             case SPACE:
@@ -361,9 +358,9 @@ public class ChallengeScene extends BaseScene {
         }
         Timeline timeline = new Timeline();
         KeyValue oldScore = new KeyValue(score, oldHighScore);
-        KeyValue newLocalScore = new KeyValue(score, newHighScore);
+        KeyValue newScore = new KeyValue(score, newHighScore);
         KeyFrame oldScoreFrame = new KeyFrame(new Duration(0), oldScore);
-        KeyFrame newScoreFrame = new KeyFrame(new Duration(100), newLocalScore);
+        KeyFrame newScoreFrame = new KeyFrame(new Duration(100), newScore);
         timeline.getKeyFrames().add(oldScoreFrame);
         timeline.getKeyFrames().add(newScoreFrame);
         timeline.play();

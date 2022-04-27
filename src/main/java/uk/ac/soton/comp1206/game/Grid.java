@@ -12,7 +12,7 @@ import javafx.beans.property.SimpleIntegerProperty;
  *
  * The Grid contains functions related to modifying the model, for example, placing a piece inside the grid.
  *
- * The Grid should be linked to a GameBoard for it's display.
+ * The Grid should be linked to a GameBoard for its display.
  */
 public class Grid {
 
@@ -106,11 +106,11 @@ public class Grid {
     /**
      * Takes a GamePiece with a given x and y of the grid will return true or false if that piece can be played
      * @param piece game piece
-     * @param placeX x
-     * @param placeY y
+     * @param posX x
+     * @param posY y
      * @return true if the piece can be played
      */
-    public boolean canPlayPiece(GamePiece piece, int placeX, int placeY) {
+    public boolean canPlayPiece(GamePiece piece, int posX, int posY) {
         int[][] blocks = piece.getBlocks();
         // Loop through every part of the game piece
         for (int x = 0; x < blocks.length; x++) {
@@ -118,7 +118,7 @@ public class Grid {
                 int value = blocks[x][y];
                 // If there isn't a block, then ignore
                 if (value == 0) continue;
-                int gridValue = get(x + placeX, y + placeY);
+                int gridValue = get(x + posX, y + posY);
                 if (gridValue != 0) {
                     return false;
                 }
@@ -130,12 +130,12 @@ public class Grid {
     /**
      * Takes a GamePiece with a given x and y of the grid will place that piece in the grid
      * @param piece game piece
-     * @param placeX x
-     * @param placeY y
+     * @param posX x
+     * @param posY y
      * @return true if piece is played
      */
-    public boolean playPiece(GamePiece piece, int placeX, int placeY) {
-        if (!canPlayPiece(piece, placeX, placeY)) {
+    public boolean playPiece(GamePiece piece, int posX, int posY) {
+        if (!canPlayPiece(piece, posX, posY)) {
             return false;
         }
         int[][] blocks = piece.getBlocks();
@@ -146,7 +146,7 @@ public class Grid {
                 int value = blocks[x][y];
                 // If there isn't a block, then ignore
                 if (value == 0) continue;
-                set(x + placeX, y + placeY, value);
+                set(x + posX, y + posY, value);
             }
         }
         return true;

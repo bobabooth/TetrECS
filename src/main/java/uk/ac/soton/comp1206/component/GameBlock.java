@@ -58,10 +58,8 @@ public class GameBlock extends Canvas {
      * The value of this block (0 = empty, otherwise specifies the colour to render as)
      */
     private final IntegerProperty value = new SimpleIntegerProperty(0);
-
     private boolean center = false;
     private boolean hoveredBlock = false;
-
 
     /**
      * Create a new single Game Block
@@ -176,15 +174,15 @@ public class GameBlock extends Canvas {
     /**
      * Paint circle in the center of block
      */
-    public void setCenter(boolean center) {
-        this.center = center;
+    public void center() {
+        this.center = true;
         paint();
     }
 
     /**
      * Set hovering
      */
-    public void setHovering(boolean hoveredBlock) {
+    public void hover(boolean hoveredBlock) {
         this.hoveredBlock = hoveredBlock;
         paint();
     }
@@ -238,7 +236,6 @@ public class GameBlock extends Canvas {
      */
     private class GameBlockTimer extends AnimationTimer {
         double opacity = 1;
-
         @Override
         public void handle(long a) {
             // Fade the line by removing 0.05 opacity until gone

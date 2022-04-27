@@ -14,7 +14,7 @@ import java.util.HashSet;
  * A GameBoard is a visual component to represent the visual GameBoard.
  * It extends a GridPane to hold a grid of GameBlocks.
  *
- * The GameBoard can hold an internal grid of it's own, for example, for displaying an upcoming block. It also be
+ * The GameBoard can hold an internal grid of its own, for example, for displaying an upcoming block. It also is
  * linked to an external grid, for the main game board.
  *
  * The GameBoard is only a visual representation and should not contain game logic or model logic in it, which should
@@ -52,10 +52,9 @@ public class GameBoard extends GridPane {
     /**
      * The blocks inside the grid
      */
-    GameBlock[][] blocks;
+    public GameBlock[][] blocks;
 
     private GameBlock hoveredBlock;
-
 
     /**
      * The listener to call when a specific block is clicked
@@ -63,7 +62,7 @@ public class GameBoard extends GridPane {
     private BlockClickedListener blockClickedListener;
 
     /**
-     * The listener to call when a specific block is right clicked
+     * The listener to call when a specific block is right-clicked
      */
     protected RightClickedListener rightClickedListener;
 
@@ -86,7 +85,7 @@ public class GameBoard extends GridPane {
     }
 
     /**
-     * Create a new GameBoard with it's own internal grid, specifying the number of columns and rows, along with the
+     * Create a new GameBoard with its own internal grid, specifying the number of columns and rows, along with the
      * visual width and height.
      *
      * @param cols number of columns for internal grid
@@ -106,7 +105,7 @@ public class GameBoard extends GridPane {
     }
 
     /**
-     * Get a specific block from the GameBoard, specified by it's row and column
+     * Get a specific block from the GameBoard, specified by its row and column
      * @param x column
      * @param y row
      * @return game block at the given column and row
@@ -137,7 +136,6 @@ public class GameBoard extends GridPane {
 
     /**
      * Create a block at the given x and y position in the GameBoard
-     *
      * @param x column
      * @param y row
      */
@@ -164,8 +162,7 @@ public class GameBoard extends GridPane {
         block.setOnMouseEntered((e) -> hover(block));
 
         // Remove hover effect when cursor is not on grid
-        block.setOnMouseExited((e) -> block.setHovering(false));
-
+        block.setOnMouseExited((e) -> block.hover(false));
     }
 
     /**
@@ -173,10 +170,10 @@ public class GameBoard extends GridPane {
      */
     public void hover(GameBlock gameBlock) {
         if (this.hoveredBlock != null) {
-            this.hoveredBlock.setHovering(false);
+            this.hoveredBlock.hover(false);
         }
         this.hoveredBlock = gameBlock;
-        gameBlock.setHovering(true);
+        gameBlock.hover(true);
     }
 
     /**
@@ -197,8 +194,7 @@ public class GameBoard extends GridPane {
     }
 
     /**
-     * Set the listener to handle an event when a block is right clicked
-     *
+     * Set the listener to handle an event when a block is right-clicked
      * @param listener listener to add
      */
     public void setOnRightClick(RightClickedListener listener) {
