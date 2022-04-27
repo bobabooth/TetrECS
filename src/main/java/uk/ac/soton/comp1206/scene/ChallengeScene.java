@@ -41,9 +41,9 @@ public class ChallengeScene extends BaseScene {
     protected PieceBoard nextPiece;
     protected GameBoard board;
     protected HBox timer;
-    protected int x = 0;
-    protected int y = 0;
-    protected Rectangle timerBar;
+    private int x = 0;
+    private int y = 0;
+    private Rectangle timerBar;
     protected IntegerProperty score = new SimpleIntegerProperty();
     protected IntegerProperty highscore = new SimpleIntegerProperty();
 
@@ -278,7 +278,7 @@ public class ChallengeScene extends BaseScene {
      * Handle keyboard input
      * @param key key pressed
      */
-    protected void keyboard(KeyEvent key) {
+    private void keyboard(KeyEvent key) {
         switch (key.getCode()) {
             case W:
             case UP:

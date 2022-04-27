@@ -5,7 +5,7 @@ import javafx.animation.RotateTransition;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -23,6 +23,11 @@ import uk.ac.soton.comp1206.ui.Multimedia;
  */
 public class MenuScene extends BaseScene {
     private static final Logger logger = LogManager.getLogger(MenuScene.class);
+    private int selector;
+    private Text local;
+    private Text instructions;
+    private Text settings;
+    private Text quit;
 
     /**
      * Create a new menu scene
@@ -35,10 +40,99 @@ public class MenuScene extends BaseScene {
     }
 
     /**
+     * Handle keyboard input in menu
+     * @param key key pressed
+     */
+    private void keyboard(KeyEvent key) {
+        switch (key.getCode()) {
+            case ESCAPE:
+                App.getInstance().shutdown();
+                break;
+            case W:
+            case UP:
+                if (selector > 1) {
+                    selector--;
+                    paint();
+                } else if (selector < 1) {
+                    selector = 1;
+                    paint();
+                }
+                break;
+            case S:
+            case DOWN:
+                if (selector < 4) {
+                    selector++;
+                    paint();
+                }
+                break;
+            case ENTER:
+                if (selector == 1) {
+                    gameWindow.startChallenge();
+                } else if (selector == 2) {
+                    gameWindow.startInstructions();
+                } else if (selector == 3) {
+                    gameWindow.startSettings();
+                } else if (selector == 4) {
+                    App.getInstance().shutdown();
+                }
+                break;
+        }
+    }
+
+    /**
+     * Create hover effect over text when selected
+     */
+    public void paint() {
+        if (selector == 1) {
+            local.getStyleClass().remove("menuItem");
+            local.getStyleClass().add("menuItem-fixed");
+
+            instructions.getStyleClass().add("menuItem");
+            instructions.getStyleClass().remove("menuItem-fixed");
+            settings.getStyleClass().add("menuItem");
+            settings.getStyleClass().remove("menuItem-fixed");
+            quit.getStyleClass().add("menuItem");
+            quit.getStyleClass().remove("menuItem-fixed");
+        } else if (selector == 2) {
+            instructions.getStyleClass().remove("menuItem");
+            instructions.getStyleClass().add("menuItem-fixed");
+
+            local.getStyleClass().add("menuItem");
+            local.getStyleClass().remove("menuItem-fixed");
+            settings.getStyleClass().add("menuItem");
+            settings.getStyleClass().remove("menuItem-fixed");
+            quit.getStyleClass().add("menuItem");
+            quit.getStyleClass().remove("menuItem-fixed");
+        } else if (selector == 3) {
+            settings.getStyleClass().remove("menuItem");
+            settings.getStyleClass().add("menuItem-fixed");
+
+            local.getStyleClass().add("menuItem");
+            local.getStyleClass().remove("menuItem-fixed");
+            instructions.getStyleClass().add("menuItem");
+            instructions.getStyleClass().remove("menuItem-fixed");
+            quit.getStyleClass().add("menuItem");
+            quit.getStyleClass().remove("menuItem-fixed");
+        } else if (selector == 4) {
+            quit.getStyleClass().remove("menuItem");
+            quit.getStyleClass().add("menuItem-fixed");
+
+            local.getStyleClass().add("menuItem");
+            local.getStyleClass().remove("menuItem-fixed");
+            instructions.getStyleClass().add("menuItem");
+            instructions.getStyleClass().remove("menuItem-fixed");
+            settings.getStyleClass().add("menuItem");
+            settings.getStyleClass().remove("menuItem-fixed");
+
+        }
+    }
+
+    /**
      * Build the menu layout
      */
     @Override
     public void build() {
+        selector = 0;
         logger.info("Building " + this.getClass().getName());
 
         root = new GamePane(gameWindow.getWidth(), gameWindow.getHeight());
@@ -72,28 +166,25 @@ public class MenuScene extends BaseScene {
         menu.setAlignment(Pos.CENTER);
         mainPane.setBottom(menu);
 
-        var local = new Text("Play");
+        local = new Text("Play");
         local.getStyleClass().add("menuItem");
-        local.setOnMouseClicked(
-                e -> {
-                    Multimedia.playAudio("select.mp3");
-                    gameWindow.startChallenge();
-                });
-        var instructions = new Text("Instructions");
+        local.setOnMouseClicked(e -> {
+            Multimedia.playAudio("select.mp3");
+            gameWindow.startChallenge();
+        });
+        instructions = new Text("Instructions");
         instructions.getStyleClass().add("menuItem");
-        instructions.setOnMouseClicked(
-                e -> {
-                    Multimedia.playAudio("select.mp3");
-                    gameWindow.startInstructions();
-                });
-        var settings = new Text("Settings");
+        instructions.setOnMouseClicked(e -> {
+            Multimedia.playAudio("select.mp3");
+            gameWindow.startInstructions();
+        });
+        settings = new Text("Settings");
         settings.getStyleClass().add("menuItem");
-        settings.setOnMouseClicked(
-                e -> {
-                    Multimedia.playAudio("select.mp3");
-                    gameWindow.startSettings();
-                });
-        var quit = new Text("Quit");
+        settings.setOnMouseClicked(e -> {
+            Multimedia.playAudio("select.mp3");
+            gameWindow.startSettings();
+        });
+        quit = new Text("Quit");
         quit.getStyleClass().add("menuItem");
         quit.setOnMouseClicked(e -> App.getInstance().shutdown());
 
@@ -107,11 +198,6 @@ public class MenuScene extends BaseScene {
     public void initialize() {
         logger.info("Initializing " + this.getClass().getName());
         Multimedia.playMusic("menu.mp3");
-        scene.setOnKeyPressed(
-                e -> {
-                    if (e.getCode() == KeyCode.ESCAPE) {
-                        App.getInstance().shutdown();
-                    }
-                });
+        scene.setOnKeyPressed(this::keyboard);
     }
 }
