@@ -2,8 +2,14 @@ package uk.ac.soton.comp1206.component;
 
 import uk.ac.soton.comp1206.game.GamePiece;
 
-public class PieceBoard extends GameBoard{
+/**
+ * Used to display an upcoming piece in a 3x3 grid
+ */
+public class PieceBoard extends GameBoard {
 
+    /**
+     * Create a piece board
+     */
     public PieceBoard(double width, double height) {
         super(3, 3, width, height);
         build();

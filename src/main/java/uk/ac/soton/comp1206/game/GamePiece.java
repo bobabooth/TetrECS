@@ -7,26 +7,43 @@ package uk.ac.soton.comp1206.game;
  * number.
  */
 public class GamePiece {
-
     /**
      * The total number of pieces in this game
      */
     public static final int PIECES = 15;
-
+    /**
+     * The value of this piece
+     */
+    private final int value;
+    /**
+     * The name of this piece
+     */
+    private final String name;
     /**
      * The 2D grid representation of the shape of this piece
      */
     private int[][] blocks;
 
     /**
-     * The value of this piece
+     * Create a new GamePiece with the given name, block makeup and value. Should not be called directly, only via the
+     * factory.
+     * @param name   name of the piece
+     * @param blocks block makeup of the piece
+     * @param value  the value of this piece
      */
-    private final int value;
+    private GamePiece(String name, int[][] blocks, int value) {
+        this.name = name;
+        this.blocks = blocks;
+        this.value = value;
 
-    /**
-     * The name of this piece
-     */
-    private final String name;
+        //Use the shape of the block to create a grid with either 0 (empty) or the value of this shape for each block.
+        for (int x = 0; x < blocks.length; x++) {
+            for (int y = 0; y < blocks[x].length; y++) {
+                if (blocks[x][y] == 0) continue;
+                blocks[x][y] = value;
+            }
+        }
+    }
 
     /**
      * Create a new GamePiece of the specified piece number
@@ -132,36 +149,14 @@ public class GamePiece {
 
     /**
      * Create a new GamePiece of the specified piece number and rotation
-     * @param piece piece number
+     * @param piece    piece number
      * @param rotation number of times to rotate
      * @return the created GamePiece
      */
     public static GamePiece createPiece(int piece, int rotation) {
         var newPiece = createPiece(piece);
-
         newPiece.rotate(rotation);
         return newPiece;
-    }
-
-    /**
-     * Create a new GamePiece with the given name, block makeup and value. Should not be called directly, only via the
-     * factory.
-     * @param name name of the piece
-     * @param blocks block makeup of the piece
-     * @param value the value of this piece
-     */
-    private GamePiece(String name, int[][] blocks, int value) {
-        this.name = name;
-        this.blocks = blocks;
-        this.value = value;
-
-        //Use the shape of the block to create a grid with either 0 (empty) or the value of this shape for each block.
-        for(int x = 0; x < blocks.length; x++) {
-            for (int y = 0; y < blocks[x].length; y++) {
-                if(blocks[x][y] == 0) continue;
-                blocks[x][y] = value;
-            }
-        }
     }
 
     /**
@@ -185,7 +180,7 @@ public class GamePiece {
      * @param rotations number of rotations
      */
     public void rotate(int rotations) {
-        for(int rotated = 0; rotated < rotations; rotated ++) {
+        for (int rotated = 0; rotated < rotations; rotated++) {
             rotate();
         }
     }

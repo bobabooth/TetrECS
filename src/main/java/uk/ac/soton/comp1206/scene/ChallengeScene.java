@@ -9,7 +9,10 @@ import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
@@ -46,7 +49,6 @@ public class ChallengeScene extends BaseScene {
 
     /**
      * Create a new Single Player challenge scene
-     *
      * @param gameWindow the Game Window
      */
     public ChallengeScene(GameWindow gameWindow) {
@@ -160,7 +162,8 @@ public class ChallengeScene extends BaseScene {
         // Current piece
         var incomingText = new Text("Incoming");
         incomingText.getStyleClass().add("heading");
-        currentPiece = new PieceBoard(100,100);
+        currentPiece = new PieceBoard(100, 100);
+        currentPiece.setPadding(new Insets(15, 0, 0, 0));
         currentPiece.blocks[1][1].center();
         currentPiece.setOnMouseClicked(e -> this.rotate());
 
@@ -172,12 +175,13 @@ public class ChallengeScene extends BaseScene {
         rightBar.getChildren().addAll(highScoreText, highScoreNum, levelText, levelNum, multiplierText, multiplierNum, incomingText, currentPiece, nextPiece);
 
         board = new GameBoard(game.getGrid(), (float) gameWindow.getWidth() / 2, (float) gameWindow.getWidth() / 2);
-        mainPane.setCenter(board);
         //Handle block on game-board grid being clicked
         board.setOnBlockClick(this::blockClicked);
         //Handle rotation on block when right-clicked
         board.setOnRightClick(this::rotate);
+        mainPane.setCenter(board);
 
+        // Countdown bar
         timer = new HBox();
         timerBar = new Rectangle();
         timerBar.setHeight(10);
@@ -225,9 +229,8 @@ public class ChallengeScene extends BaseScene {
     }
 
     /**
-     * Fade animation after line is cleared
-     *
-     * @param set set
+     * Fade animation after cleared line
+     * @param set set of block coordinates
      */
     protected void fadeLine(HashSet<GameBlockCoordinate> set) {
         logger.info("Line cleared");
@@ -236,24 +239,21 @@ public class ChallengeScene extends BaseScene {
     }
 
     /**
-     * Timer at the bottom
-     * @param time time
+     * Countdown animation
+     * @param time time left
      */
     protected void timer(int time) {
-        Timeline timeline = new Timeline();
-
         KeyValue start = new KeyValue(timerBar.widthProperty(), timer.getWidth());
         KeyValue green = new KeyValue(timerBar.fillProperty(), Color.GREEN);
         KeyValue yellow = new KeyValue(timerBar.fillProperty(), Color.YELLOW);
         KeyValue red = new KeyValue(timerBar.fillProperty(), Color.RED);
         KeyValue end = new KeyValue(timerBar.widthProperty(), 0);
-
+        Timeline timeline = new Timeline();
         timeline.getKeyFrames().add(new KeyFrame(new Duration(0), start));
         timeline.getKeyFrames().add(new KeyFrame(new Duration(0), green));
         timeline.getKeyFrames().add(new KeyFrame(new Duration((float) time / 2), yellow));
         timeline.getKeyFrames().add(new KeyFrame(new Duration((float) time * 3 / 4), red));
         timeline.getKeyFrames().add(new KeyFrame(new Duration(time), end));
-
         timeline.play();
     }
 
@@ -270,13 +270,12 @@ public class ChallengeScene extends BaseScene {
      */
     public void setupGame() {
         logger.info("Starting a new challenge");
-
         //Start new game
         game = new Game(5, 5);
     }
 
     /**
-     * Support keyboard input
+     * Handle keyboard input
      * @param key key pressed
      */
     protected void keyboard(KeyEvent key) {
@@ -336,10 +335,9 @@ public class ChallengeScene extends BaseScene {
     }
 
     /**
-     * Get the stored high score and display it
+     * Get the saved high score and display it
      * If the player exceeds it, replace old high score with the current high score
      * If the player spends points, decrease the current high score accordingly
-     *
      * @param observable   observable
      * @param oldHighScore old recorded high score
      * @param newHighScore new recorded high score
@@ -356,7 +354,7 @@ public class ChallengeScene extends BaseScene {
                 this.highscore.set(ScoresScene.loadScores().get(0).getValue());
             }
         }
-        Timeline timeline = new Timeline();
+        var timeline = new Timeline();
         KeyValue oldScore = new KeyValue(score, oldHighScore);
         KeyValue newScore = new KeyValue(score, newHighScore);
         KeyFrame oldScoreFrame = new KeyFrame(new Duration(0), oldScore);
@@ -370,13 +368,13 @@ public class ChallengeScene extends BaseScene {
      * Initialize the scene and start the game
      */
     @Override
-    public void initialise() {
-        logger.info("Initialising Challenge");
+    public void initialize() {
+        logger.info("Initializing Challenge");
         Multimedia.playMusic("game_start.wav");
         game.setNextPieceListener(this::nextPiece);
         game.setOnLineCleared(this::fadeLine);
         game.setOnGameLoop(this::timer);
-        game.scoreProperty().addListener(this::getHighScore);
+        game.score.addListener(this::getHighScore);
         highscore.set(ScoresScene.loadScores().get(0).getValue());
         game.start();
         scene.setOnKeyPressed(this::keyboard);

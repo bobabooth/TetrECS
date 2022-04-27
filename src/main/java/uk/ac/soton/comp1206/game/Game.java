@@ -24,60 +24,42 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
-import static uk.ac.soton.comp1206.game.GamePiece.PIECES;
-
 /**
  * The Game class handles the main logic, state and properties of the TetrECS game. Methods to manipulate the game state
  * and to handle actions made by the player should take place inside this class.
  */
 public class Game {
-
     private static final Logger logger = LogManager.getLogger(Game.class);
-
     /**
      * Number of rows
      */
     protected final int rows;
-
     /**
      * Number of columns
      */
     protected final int cols;
-
     /**
      * The grid model linked to the game
      */
     protected final Grid grid;
-
-    /**
-     * Keep track of the current piece
-     */
     public GamePiece currentPiece;
-    protected ScheduledFuture<?> loop;
     public GamePiece nextPiece;
-    protected ScheduledExecutorService timer;
-    int oldLevel = 0;
-
     /**
      * Initial values
      */
     public IntegerProperty score = new SimpleIntegerProperty(0);
-    public IntegerProperty level = new SimpleIntegerProperty(30);
+    public IntegerProperty level = new SimpleIntegerProperty(0);
     public IntegerProperty lives = new SimpleIntegerProperty(3);
     public IntegerProperty multiplier = new SimpleIntegerProperty(1);
+    public StringProperty name = new SimpleStringProperty();
+    protected ScheduledFuture<?> loop;
+    protected ScheduledExecutorService timer;
     protected NextPieceListener nextPieceListener = null;
     protected LineClearedListener lineClearedListener = null;
     protected GameLoopListener gameLoopListener = null;
     protected GameOverListener gameOverListener = null;
     protected ArrayList<Pair<String, Integer>> scores = new ArrayList<>();
-
-    public StringProperty name = new SimpleStringProperty();
-
-
-    public ArrayList<Pair<String, Integer>> getScores() {
-        return this.scores;
-    }
-
+    int oldLevel = 0;
 
     /**
      * Create a new game with the specified rows and columns. Creates a corresponding grid model.
@@ -89,8 +71,12 @@ public class Game {
         this.rows = rows;
 
         //Create a new grid model to represent the game state
-        this.grid = new Grid(cols,rows);
+        this.grid = new Grid(cols, rows);
         timer = Executors.newSingleThreadScheduledExecutor();
+    }
+
+    public ArrayList<Pair<String, Integer>> getScores() {
+        return this.scores;
     }
 
     /**
@@ -98,23 +84,30 @@ public class Game {
      */
     public void start() {
         logger.info("Starting game");
-        initialiseGame();
+        initializeGame();
         loop = timer.schedule(this::gameLoop, getTimerDelay(), TimeUnit.MILLISECONDS);
         gameLoopListener();
     }
 
+    /**
+     * Listens for the next piece
+     * @param listener next piece
+     */
     public void setNextPieceListener(NextPieceListener listener) {
         nextPieceListener = listener;
     }
 
-    public IntegerProperty scoreProperty() {
-        return score;
-    }
-
+    /**
+     * Listens for line cleared
+     * @param listener cleared line
+     */
     public void setOnLineCleared(LineClearedListener listener) {
         lineClearedListener = listener;
     }
 
+    /**
+     * Listens for countdown end
+     */
     public void gameLoopListener() {
         if (gameLoopListener != null) {
             gameLoopListener.gameLoop(getTimerDelay());
@@ -141,10 +134,10 @@ public class Game {
     }
 
     /**
-     * Initialise a new game and set up anything that needs to be done at the start
+     * initialize a new game and set up anything that needs to be done at the start
      */
-    public void initialiseGame() {
-        logger.info("Initialising game");
+    public void initializeGame() {
+        logger.info("initializing game");
         this.nextPiece = spawnPiece();
         nextPiece();
     }
@@ -159,7 +152,7 @@ public class Game {
         int y = gameBlock.getY() - 1;
 
         // Place the current piece
-        if (grid.playPiece(currentPiece, x, y)){
+        if (grid.playPiece(currentPiece, x, y)) {
             Multimedia.playAudio("place.wav");
             afterPiece();
             nextPiece();
@@ -167,8 +160,7 @@ public class Game {
             loop = timer.schedule(this::gameLoop, getTimerDelay(), TimeUnit.MILLISECONDS);
             gameLoopListener();
             logger.info("Timer reset");
-        }
-        else {
+        } else {
             Multimedia.playAudio("fail.wav");
         }
     }
@@ -236,7 +228,7 @@ public class Game {
 
     /**
      * Calculate the score
-     * @param lines number of lines cleared
+     * @param lines  number of lines cleared
      * @param blocks number of grid blocks cleared
      */
     public void score(int lines, int blocks) {
@@ -249,8 +241,9 @@ public class Game {
      * @return GamePiece
      */
     public GamePiece spawnPiece() {
-        Random random = new Random();
-        return GamePiece.createPiece(random.nextInt(PIECES));
+        Random piece = new Random();
+        Random rotations = new Random();
+        return GamePiece.createPiece(piece.nextInt(15), rotations.nextInt(3));
     }
 
     /**
@@ -267,7 +260,6 @@ public class Game {
 
     /**
      * Rotate the current piece
-     *
      * @param times number of rotations specified by user
      */
     public void rotateCurrentPiece(int times) {
@@ -309,7 +301,6 @@ public class Game {
 
     /**
      * Play sound when player level up
-     *
      * @param currentLevel current level
      */
     public void levelSounds(int currentLevel) {
@@ -324,7 +315,7 @@ public class Game {
      * Skip current piece with 100 points
      */
     public void skipPiece() {
-        if (scoreProperty().get() >= 50) {
+        if (score.get() >= 50) {
             score.set(score.get() - 50);
             nextPiece();
             Multimedia.playAudio("transition.wav");
@@ -339,7 +330,7 @@ public class Game {
      * Buy one life with 300 points
      */
     public void addLives() {
-        if (scoreProperty().get() >= 100) {
+        if (score.get() >= 100) {
             score.set(score.get() - 100);
             lives.set(lives.get() + 1);
             Multimedia.playAudio("lifegain.wav");
@@ -354,7 +345,7 @@ public class Game {
      * Clear the whole grid with 500 points
      */
     public void clearAll() {
-        if (scoreProperty().get() >= 200) {
+        if (score.get() >= 200) {
             score.set(score.get() - 200);
             grid.clean();
             multiplier.set(multiplier.add(1).get());
@@ -370,7 +361,7 @@ public class Game {
      * Remove a life when timer ends
      */
     public void livesReset() {
-        if (this.lives.get() > 0) {
+        if (lives.get() > 0) {
             lives.set(lives.get() - 1);
             Multimedia.playAudio("lifelose.wav");
             logger.info("Life lost");

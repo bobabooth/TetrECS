@@ -22,18 +22,16 @@ import uk.ac.soton.comp1206.ui.Multimedia;
  * The main menu of the game. Provides a gateway to the rest of the game.
  */
 public class MenuScene extends BaseScene {
-
     private static final Logger logger = LogManager.getLogger(MenuScene.class);
 
     /**
      * Create a new menu scene
-     *
      * @param gameWindow the Game Window this will be displayed in
      */
     public MenuScene(GameWindow gameWindow) {
         super(gameWindow);
-        logger.info("Creating Menu Scene");
         SettingsScene.loadSettings();
+        logger.info("Creating Menu Scene");
     }
 
     /**
@@ -81,7 +79,6 @@ public class MenuScene extends BaseScene {
                     Multimedia.playAudio("select.mp3");
                     gameWindow.startChallenge();
                 });
-
         var instructions = new Text("Instructions");
         instructions.getStyleClass().add("menuItem");
         instructions.setOnMouseClicked(
@@ -89,7 +86,6 @@ public class MenuScene extends BaseScene {
                     Multimedia.playAudio("select.mp3");
                     gameWindow.startInstructions();
                 });
-
         var settings = new Text("Settings");
         settings.getStyleClass().add("menuItem");
         settings.setOnMouseClicked(
@@ -97,19 +93,19 @@ public class MenuScene extends BaseScene {
                     Multimedia.playAudio("select.mp3");
                     gameWindow.startSettings();
                 });
-
         var quit = new Text("Quit");
         quit.getStyleClass().add("menuItem");
-        quit.setOnMouseClicked((e) -> App.getInstance().shutdown());
+        quit.setOnMouseClicked(e -> App.getInstance().shutdown());
 
         menu.getChildren().addAll(local, instructions, settings, quit);
     }
 
     /**
-     * Initialise the menu
+     * Initialize the menu
      */
     @Override
-    public void initialise() {
+    public void initialize() {
+        logger.info("Initializing " + this.getClass().getName());
         Multimedia.playMusic("menu.mp3");
         scene.setOnKeyPressed(
                 e -> {

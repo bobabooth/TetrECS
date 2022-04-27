@@ -20,14 +20,11 @@ import java.util.HashSet;
  * take place in the Grid.
  */
 public class GameBoard extends GridPane {
-
     private static final Logger logger = LogManager.getLogger(GameBoard.class);
-
     /**
      * Number of columns in the board
      */
     protected final int cols;
-
     /**
      * Number of rows in the board
      */
@@ -57,7 +54,6 @@ public class GameBoard extends GridPane {
      * The listener to call when a specific block is clicked
      */
     private BlockClickedListener blockClickedListener;
-
 
     /**
      * Create a new GameBoard, based off a given grid, with a visual width and height.
@@ -117,7 +113,6 @@ public class GameBoard extends GridPane {
         setGridLinesVisible(true);
 
         blocks = new GameBlock[cols][rows];
-
         for (var y = 0; y < rows; y++) {
             for (var x = 0; x < cols; x++) {
                 createBlock(x, y);
@@ -147,9 +142,7 @@ public class GameBoard extends GridPane {
         block.bind(grid.getGridProperty(x, y));
 
         // Add a mouse click handler to the block to trigger GameBoard blockClicked method
-        //blockClicked(block);
         block.setOnMouseClicked((e) -> blockClicked(e, block));
-
 
         // Create hover effect when cursor is over grid
         block.setOnMouseEntered((e) -> hover(block));
@@ -179,24 +172,25 @@ public class GameBoard extends GridPane {
     }
 
     /**
-     * Set the listener to handle an event when a block is clicked
-     * @param listener listener to add
+     * Listener for when a block is left-clicked
+     * @param listener blockClickedListener
      */
     public void setOnBlockClick(BlockClickedListener listener) {
         this.blockClickedListener = listener;
     }
 
     /**
-     * Set the listener to handle an event when a block is right-clicked
-     * @param listener listener to add
+     * Listener for when a block is right-clicked
+     * @param listener rightClickedListener
      */
     public void setOnRightClick(RightClickedListener listener) {
         this.rightClickedListener = listener;
     }
 
     /**
-     * Triggered when a block is clicked. Call the attached listener.
-     * @param block block clicked on
+     * Left click place piece and right click rotate piece
+     * @param event mouse click
+     * @param block block
      */
     private void blockClicked(MouseEvent event, GameBlock block) {
         logger.info("Block clicked: {}", block);

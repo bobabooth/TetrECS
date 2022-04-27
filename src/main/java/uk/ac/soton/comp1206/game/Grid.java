@@ -15,24 +15,20 @@ import javafx.beans.property.SimpleIntegerProperty;
  * The Grid should be linked to a GameBoard for its display.
  */
 public class Grid {
-
     /**
      * The number of columns in this grid
      */
     private final int cols;
-
     /**
      * The number of rows in this grid
      */
     private final int rows;
-
     /**
      * The grid is a 2D arrow with rows and columns of SimpleIntegerProperties.
      */
     private final SimpleIntegerProperty[][] grid;
-
     /**
-     * Create a new Grid with the specified number of columns and rows and initialise them
+     * Create a new Grid with the specified number of columns and rows and initialize them
      * @param cols number of columns
      * @param rows number of rows
      */
@@ -44,8 +40,8 @@ public class Grid {
         grid = new SimpleIntegerProperty[cols][rows];
 
         //Add a SimpleIntegerProperty to every block in the grid
-        for(var y = 0; y < rows; y++) {
-            for(var x = 0; x < cols; x++) {
+        for (var y = 0; y < rows; y++) {
+            for (var x = 0; x < cols; x++) {
                 grid[x][y] = new SimpleIntegerProperty(0);
             }
         }
@@ -63,8 +59,8 @@ public class Grid {
 
     /**
      * Update the value at the given x and y index within the grid
-     * @param x column
-     * @param y row
+     * @param x     column
+     * @param y     row
      * @param value the new value
      */
     public void set(int x, int y, int value) {
@@ -106,8 +102,8 @@ public class Grid {
     /**
      * Takes a GamePiece with a given x and y of the grid will return true or false if that piece can be played
      * @param piece game piece
-     * @param posX x
-     * @param posY y
+     * @param posX  x
+     * @param posY  y
      * @return true if the piece can be played
      */
     public boolean canPlayPiece(GamePiece piece, int posX, int posY) {
@@ -130,8 +126,8 @@ public class Grid {
     /**
      * Takes a GamePiece with a given x and y of the grid will place that piece in the grid
      * @param piece game piece
-     * @param posX x
-     * @param posY y
+     * @param posX  x
+     * @param posY  y
      * @return true if piece is played
      */
     public boolean playPiece(GamePiece piece, int posX, int posY) {
@@ -139,7 +135,6 @@ public class Grid {
             return false;
         }
         int[][] blocks = piece.getBlocks();
-
         // Loop through every part of the game piece
         for (int x = 0; x < blocks.length; x++) {
             for (int y = 0; y < blocks[x].length; y++) {

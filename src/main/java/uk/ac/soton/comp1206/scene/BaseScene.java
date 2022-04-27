@@ -10,13 +10,10 @@ import uk.ac.soton.comp1206.ui.GameWindow;
  * A Base Scene used in the game. Handles common functionality between all scenes.
  */
 public abstract class BaseScene {
-
     protected final GameWindow gameWindow;
-
     protected GamePane root;
     protected Scene scene;
     protected Game game;
-
 
     /**
      * Create a new scene, passing in the GameWindow the scene will be displayed in
@@ -27,9 +24,9 @@ public abstract class BaseScene {
     }
 
     /**
-     * Initialise this scene. Called after creation
+     * initialize this scene. Called after creation
      */
-    public abstract void initialise();
+    public abstract void initialize();
 
     /**
      * Build the layout of the scene

@@ -23,6 +23,9 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Holds the UI and methods for high scores at the end of a game
+ */
 public class ScoresScene extends BaseScene {
     private static final Logger logger = LogManager.getLogger(ScoresScene.class);
     private final StringProperty currentName = new SimpleStringProperty("");
@@ -34,9 +37,15 @@ public class ScoresScene extends BaseScene {
     private boolean newLocalScore = false;
     private boolean getScores = true;
 
+    /**
+     * Create a new scores scene
+     * @param gameWindow the Game Window
+     * @param game the game
+     */
     public ScoresScene(GameWindow gameWindow, Game game) {
         super(gameWindow);
         this.game = game;
+        logger.info("Creating Scores Scene");
     }
 
     /**
@@ -112,7 +121,7 @@ public class ScoresScene extends BaseScene {
     }
 
     /**
-     * Reveal the scores
+     * Reveal scores
      */
     public void revealMethod() {
         if (getScores) {
@@ -125,7 +134,7 @@ public class ScoresScene extends BaseScene {
     }
 
     /**
-     * Handle new high score
+     * Request name if new high score achieved
      */
     public void newHighScore() {
         if (!game.getScores().isEmpty()) {
@@ -186,7 +195,6 @@ public class ScoresScene extends BaseScene {
             logger.info("High score not achieved");
             provideScore.set(true);
             provideScore.set(true);
-
             localScores.reveal();
         }
     }
@@ -195,7 +203,7 @@ public class ScoresScene extends BaseScene {
      * Initialize the Scores Scene
      */
     @Override
-    public void initialise() {
+    public void initialize() {
         logger.info("Initializing " + this.getClass().getName());
         Multimedia.playMusic("end.wav");
         if (!game.getScores().isEmpty()) {
@@ -265,6 +273,9 @@ public class ScoresScene extends BaseScene {
         localScores.scores.bind(localScore);
     }
 
+    /**
+     * Interface for removing TextField and 'Confirm' Text
+     */
     interface highScoreInterface {
         void run();
     }

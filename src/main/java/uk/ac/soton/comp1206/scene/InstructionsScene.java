@@ -17,18 +17,26 @@ import uk.ac.soton.comp1206.ui.GamePane;
 import uk.ac.soton.comp1206.ui.GameWindow;
 import uk.ac.soton.comp1206.ui.Multimedia;
 
+/**
+ * Contains instructions and dynamically generated pieces
+ */
 public class InstructionsScene extends BaseScene {
     private static final Logger logger = LogManager.getLogger(InstructionsScene.class);
 
+    /**
+     * Create a new instructions scene
+     * @param gameWindow the Game Window
+     */
     public InstructionsScene(GameWindow gameWindow) {
         super(gameWindow);
+        logger.info("Creating Instructions Scene");
     }
 
     /**
-     * Initialize the scene
+     * Initialize the Instructions Scene
      */
     @Override
-    public void initialise() {
+    public void initialize() {
         logger.info("Initializing " + this.getClass().getName());
         scene.setOnKeyPressed(
                 e -> {
@@ -40,7 +48,7 @@ public class InstructionsScene extends BaseScene {
     }
 
     /**
-     * Build the scene
+     * Build the Instructions Scene
      */
     @Override
     public void build() {

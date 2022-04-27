@@ -10,19 +10,15 @@ import javafx.scene.paint.Paint;
 
 /**
  * The Visual User Interface component representing a single block in the grid.
- * <p>
  * Extends Canvas and is responsible for drawing itself.
- * <p>
- * Displays an empty square (when the value is 0) or a coloured square depending on value.
- * <p>
+ * Displays an empty square (when the value is 0) or a colored square depending on value.
  * The GameBlock value should be bound to a corresponding block in the Grid model.
  */
 public class GameBlock extends Canvas {
-
     /**
-     * The set of colours for different pieces
+     * The set of colors for different pieces
      */
-    public static final Color[] COLOURS = {
+    public static final Color[] COLORS = {
             Color.TRANSPARENT,
             Color.DEEPPINK,
             Color.RED,
@@ -55,7 +51,7 @@ public class GameBlock extends Canvas {
     private final int y;
 
     /**
-     * The value of this block (0 = empty, otherwise specifies the colour to render as)
+     * The value of this block (0 = empty, otherwise specifies the color to render as)
      */
     private final IntegerProperty value = new SimpleIntegerProperty(0);
     private boolean center = false;
@@ -63,11 +59,10 @@ public class GameBlock extends Canvas {
 
     /**
      * Create a new single Game Block
-     *
-     * @param x         the column the block exists in
-     * @param y         the row the block exists in
-     * @param width     the width of the canvas to render
-     * @param height    the height of the canvas to render
+     * @param x      the column the block exists in
+     * @param y      the row the block exists in
+     * @param width  the width of the canvas to render
+     * @param height the height of the canvas to render
      */
     public GameBlock(int x, int y, double width, double height) {
         this.width = width;
@@ -88,7 +83,6 @@ public class GameBlock extends Canvas {
 
     /**
      * When the value of this block is updated,
-     *
      * @param observable what was updated
      * @param oldValue   the old value
      * @param newValue   the new value
@@ -105,8 +99,8 @@ public class GameBlock extends Canvas {
         if (value.get() == 0) {
             paintEmpty();
         } else {
-            //If the block is not empty, paint with the colour represented by the value
-            paintColor(COLOURS[value.get()]);
+            //If the block is not empty, paint with the color represented by the value
+            paintColor(COLORS[value.get()]);
         }
         // Painting the center circle
         if (this.center) {
@@ -144,18 +138,17 @@ public class GameBlock extends Canvas {
     }
 
     /**
-     * Paint this canvas with the given colour
-     *
-     * @param colour the colour to paint
+     * Paint this canvas with the given color
+     * @param color the color to paint
      */
-    private void paintColor(Paint colour) {
+    private void paintColor(Paint color) {
         var gc = getGraphicsContext2D();
 
         //Clear
         gc.clearRect(0, 0, width, height);
 
         //Colour fill
-        gc.setFill(colour);
+        gc.setFill(color);
         gc.fillRect(0, 0, width, height);
 
         // Creates 3D effect on piece
@@ -167,12 +160,12 @@ public class GameBlock extends Canvas {
         gc.fillRect(0, 0, width, 3);
 
         //Border
-        gc.setStroke(Color.rgb(0, 0, 0, 0.7));
+        gc.setStroke(Color.rgb(0, 0, 0, 0.6));
         gc.strokeRect(0, 0, width, height);
     }
 
     /**
-     * Paint circle in the center of block
+     * Paint circle on piece center
      */
     public void center() {
         this.center = true;
@@ -180,7 +173,8 @@ public class GameBlock extends Canvas {
     }
 
     /**
-     * Set hovering
+     * Hover effect
+     * @param hoveredBlock true if mouse is over board
      */
     public void hover(boolean hoveredBlock) {
         this.hoveredBlock = hoveredBlock;
@@ -197,7 +191,6 @@ public class GameBlock extends Canvas {
 
     /**
      * Get the column of this block
-     *
      * @return column number
      */
     public int getX() {
@@ -206,7 +199,6 @@ public class GameBlock extends Canvas {
 
     /**
      * Get the row of this block
-     *
      * @return row number
      */
     public int getY() {
@@ -214,17 +206,7 @@ public class GameBlock extends Canvas {
     }
 
     /**
-     * Get the current value held by this block, representing it's colour
-     *
-     * @return value
-     */
-    public int getValue() {
-        return this.value.get();
-    }
-
-    /**
      * Bind the value of this block to another property. Used to link the visual block to a corresponding block in the Grid.
-     *
      * @param input property to bind the value to
      */
     public void bind(ObservableValue<? extends Number> input) {
@@ -232,13 +214,14 @@ public class GameBlock extends Canvas {
     }
 
     /**
-     * Create a timer for the fading animation after a line is deleted
+     * Timer for fade out animation
      */
     private class GameBlockTimer extends AnimationTimer {
         double opacity = 1;
+
         @Override
         public void handle(long a) {
-            // Fade the line by removing 0.05 opacity until gone
+            // Fade the line by removing 0.02 opacity until gone
             GameBlock.this.paintEmpty();
             opacity -= 0.02;
             if (opacity <= 0) {
@@ -246,7 +229,7 @@ public class GameBlock extends Canvas {
                 return;
             }
             var gc = GameBlock.this.getGraphicsContext2D();
-            gc.setFill(Color.rgb(0, 1, 0, this.opacity));
+            gc.setFill(Color.rgb(0, 1, 0, opacity));
             gc.fillRect(0, 0, GameBlock.this.width, GameBlock.this.height);
         }
     }

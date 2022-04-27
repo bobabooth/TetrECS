@@ -16,11 +16,14 @@ import uk.ac.soton.comp1206.ui.Multimedia;
 
 import java.io.*;
 
+/**
+ * Configuration of music, audio effects and background theme
+ */
 public class SettingsScene extends BaseScene {
     private static final Logger logger = LogManager.getLogger(SettingsScene.class);
-    private static double musicVolume = 50;
-    private static double audioVolume = 50;
-    private static Text style = new Text("challenge-background");
+    public static double musicVolume = 50;
+    public static double audioVolume = 50;
+    private static Text style = new Text();
     private Slider musicSlider;
     private Slider audioSlider;
 
@@ -34,22 +37,6 @@ public class SettingsScene extends BaseScene {
     }
 
     /**
-     * Get the music
-     * @return music volume
-     */
-    public static double getMusicVolume() {
-        return musicVolume;
-    }
-
-    /**
-     * Get the audio
-     * @return audio volume
-     */
-    public static double getAudioVolume() {
-        return audioVolume;
-    }
-
-    /**
      * Get the background
      * @return background
      */
@@ -58,8 +45,8 @@ public class SettingsScene extends BaseScene {
     }
 
     /**
-     * Try to read saved file.
-     * If nothing found, then call method to create new file
+     * Try to load settings.txt
+     * If not found, then call method to create new file
      */
     public static void loadSettings() {
         if (new File("settings.txt").exists()) {
@@ -86,7 +73,7 @@ public class SettingsScene extends BaseScene {
     }
 
     /**
-     * Save config and theme to settings.txt
+     * Save config to settings.txt
      */
     public static void writeSettings() {
         try {
@@ -119,8 +106,11 @@ public class SettingsScene extends BaseScene {
         gameWindow.startMenu();
     }
 
+    /**
+     * Initialize the Settings Scene
+     */
     @Override
-    public void initialise() {
+    public void initialize() {
         logger.info("Initializing " + this.getClass().getName());
         scene.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.ESCAPE) {
@@ -129,6 +119,9 @@ public class SettingsScene extends BaseScene {
         });
     }
 
+    /**
+     * Build the Settings Scene
+     */
     @Override
     public void build() {
         logger.info("Building " + this.getClass().getName());
@@ -197,7 +190,7 @@ public class SettingsScene extends BaseScene {
 
         volumeBox.getChildren().addAll(musicBox, audioBox);
 
-        // Background editor
+        // Theme selector
         var themeGrid = new GridPane();
         themeGrid.setHgap(15);
         themeGrid.setVgap(15);

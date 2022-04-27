@@ -15,23 +15,18 @@ import java.util.List;
  * YOU DO NOT NEED TO WORRY ABOUT THIS CLASS! Leave it be :-)
  */
 public class Communicator {
-
     private static final Logger logger = LogManager.getLogger(Communicator.class);
-
     /**
      * Attached communication listeners listening to messages on this Communicator. Each will be sent any messages.
      */
     private final List<CommunicationsListener> handlers = new ArrayList<>();
-
     private WebSocket ws = null;
 
     /**
      * Create a new communicator to the given web socket server
-     *
      * @param server server to connect to
      */
     public Communicator(String server) {
-
         try {
             var socketFactory = new WebSocketFactory();
 
@@ -46,6 +41,7 @@ public class Communicator {
                 public void onTextMessage(WebSocket websocket, String message) throws Exception {
                     Communicator.this.receive(websocket, message);
                 }
+
                 @Override
                 public void onPingFrame(WebSocket webSocket, WebSocketFrame webSocketFrame) throws Exception {
                     logger.info("Ping? Pong!");
@@ -56,15 +52,17 @@ public class Communicator {
             ws.addListener(new WebSocketAdapter() {
                 @Override
                 public void onTextMessage(WebSocket websocket, String message) throws Exception {
-                    if(message.startsWith("ERROR")) {
+                    if (message.startsWith("ERROR")) {
                         logger.error(message);
                     }
                 }
+
                 @Override
                 public void handleCallbackError(WebSocket webSocket, Throwable throwable) throws Exception {
                     logger.error("Callback Error:" + throwable.getMessage());
                     throwable.printStackTrace();
                 }
+
                 @Override
                 public void onError(WebSocket webSocket, WebSocketException e) throws Exception {
                     logger.error("Error:" + e.getMessage());
@@ -72,18 +70,18 @@ public class Communicator {
                 }
             });
 
-        } catch (Exception e){
+        } catch (Exception e) {
             logger.error("Socket error: " + e.getMessage());
             e.printStackTrace();
 
-            Alert error = new Alert(Alert.AlertType.ERROR,"Unable to communicate with the TetrECS server\n\n" + e.getMessage() + "\n\nPlease ensure you are connected to the VPN");
+            Alert error = new Alert(Alert.AlertType.ERROR, "Unable to communicate with the TetrECS server\n\n" + e.getMessage() + "\n\nPlease ensure you are connected to the VPN");
             error.showAndWait();
             System.exit(1);
         }
     }
 
-    /** Send a message to the server
-     *
+    /**
+     * Send a message to the server
      * @param message Message to send
      */
     public void send(String message) {
@@ -107,15 +105,15 @@ public class Communicator {
         this.handlers.clear();
     }
 
-    /** Receive a message from the server. Relay to any attached listeners
-     *
+    /**
+     * Receive a message from the server. Relay to any attached listeners
      * @param websocket the socket
-     * @param message the message that was received
+     * @param message   the message that was received
      */
     private void receive(WebSocket websocket, String message) {
         logger.info("Received: " + message);
 
-        for(CommunicationsListener handler : handlers) {
+        for (CommunicationsListener handler : handlers) {
             handler.receiveCommunication(message);
         }
     }

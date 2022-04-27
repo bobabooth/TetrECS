@@ -21,29 +21,23 @@ import uk.ac.soton.comp1206.scene.*;
  * methods here to add more screens to the game.
  */
 public class GameWindow {
-
     private static final Logger logger = LogManager.getLogger(GameWindow.class);
-
+    final Communicator communicator;
     private final int width;
     private final int height;
-
     private final Stage stage;
-
     private BaseScene currentScene;
     private Scene scene;
 
-    final Communicator communicator;
-
     /**
      * Create a new GameWindow attached to the given stage with the specified width and height
-     * @param stage stage
-     * @param width width
+     * @param stage  stage
+     * @param width  width
      * @param height height
      */
     public GameWindow(Stage stage, int width, int height) {
         this.width = width;
         this.height = height;
-
         this.stage = stage;
 
         //Setup window
@@ -63,15 +57,15 @@ public class GameWindow {
     }
 
     /**
-     * Setup the font and any other resources we need
+     * Set up the font and any other resources we need
      */
     private void setupResources() {
         logger.info("Loading resources");
 
         //We need to load fonts here due to the Font loader bug with spaces in URLs in the CSS files
-        Font.loadFont(getClass().getResourceAsStream("/style/Orbitron-Regular.ttf"),32);
-        Font.loadFont(getClass().getResourceAsStream("/style/Orbitron-Bold.ttf"),32);
-        Font.loadFont(getClass().getResourceAsStream("/style/Orbitron-ExtraBold.ttf"),32);
+        Font.loadFont(getClass().getResourceAsStream("/style/Orbitron-Regular.ttf"), 32);
+        Font.loadFont(getClass().getResourceAsStream("/style/Orbitron-Bold.ttf"), 32);
+        Font.loadFont(getClass().getResourceAsStream("/style/Orbitron-ExtraBold.ttf"), 32);
     }
 
     /**
@@ -110,7 +104,7 @@ public class GameWindow {
     }
 
     /**
-     * Setup the default settings for the stage itself (the window), such as the title and minimum width and height.
+     * Set up the default settings for the stage itself (the window), such as the title and minimum width and height.
      */
     public void setupStage() {
         stage.setTitle("TetrECS");
@@ -133,15 +127,15 @@ public class GameWindow {
         scene = newScene.setScene();
         stage.setScene(scene);
 
-        //Initialise the scene when ready
-        Platform.runLater(() -> currentScene.initialise());
+        //initialize the scene when ready
+        Platform.runLater(() -> currentScene.initialize());
     }
 
     /**
-     * Setup the default scene (an empty black scene) when no scene is loaded
+     * Set up the default scene (an empty black scene) when no scene is loaded
      */
     public void setupDefaultScene() {
-        this.scene = new Scene(new Pane(),width,height, Color.BLACK);
+        this.scene = new Scene(new Pane(), width, height, Color.BLACK);
         stage.setScene(this.scene);
     }
 
@@ -175,13 +169,5 @@ public class GameWindow {
      */
     public int getHeight() {
         return this.height;
-    }
-
-    /**
-     * Get the communicator
-     * @return communicator
-     */
-    public Communicator getCommunicator() {
-        return communicator;
     }
 }

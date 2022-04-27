@@ -20,23 +20,23 @@ import org.apache.logging.log4j.Logger;
 import java.util.ArrayList;
 
 /**
- * Class which creates the score list
+ * Hold and display a list of names and associated scores
  */
 public class ScoresList extends VBox {
-
     private static final Logger logger = LogManager.getLogger(ScoresList.class);
     public final SimpleListProperty<Pair<String, Integer>> scores;
-    private final ArrayList<HBox> scoreDisplay = new ArrayList<>();
     public final StringProperty nameProperty;
+    private final ArrayList<HBox> scoreDisplay = new ArrayList<>();
 
     /**
-     * Create the Scores list
+     * Create a scores list
      */
     public ScoresList() {
         getStyleClass().add("scorelist");
         scores = new SimpleListProperty<>();
         scores.addListener((ListChangeListener<? super Pair<String, Integer>>) e -> update());
         nameProperty = new SimpleStringProperty();
+        logger.info("Creating Scores List");
     }
 
     /**
@@ -56,17 +56,17 @@ public class ScoresList extends VBox {
             scoreBox.setAlignment(Pos.CENTER);
 
             var name = new Text(score.getKey() + ":" + score.getValue());
-            name.setFill(GameBlock.COLOURS[counter]);
+            name.setFill(GameBlock.COLORS[counter]);
             scoreBox.getChildren().add(name);
-
-            this.getChildren().add(scoreBox);
             scoreDisplay.add(scoreBox);
+            this.getChildren().add(scoreBox);
+
             reveal();
         }
     }
 
     /**
-     * Reveal the scores with animation
+     * Reveal scores with animation
      */
     public void reveal() {
         ArrayList<Transition> transition = new ArrayList<>();
