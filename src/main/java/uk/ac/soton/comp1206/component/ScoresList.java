@@ -77,16 +77,16 @@ public class ScoresList extends VBox {
      * Reveal scores with animation
      */
     public void reveal() {
-        ArrayList<Transition> transition = new ArrayList<>();
+        ArrayList<Transition> transitionArrayList = new ArrayList<>();
         for (HBox score : scoreDisplay) {
             FadeTransition fade = new FadeTransition(new Duration(100), score);
             fade.setFromValue(0);
             fade.setToValue(1);
             fade.setCycleCount(2);
-            transition.add(fade);
+            transitionArrayList.add(fade);
         }
-        SequentialTransition seqTransition = new SequentialTransition(transition.toArray(Animation[]::new));
-        seqTransition.play();
+        SequentialTransition transition = new SequentialTransition(transitionArrayList.toArray(Animation[]::new));
+        transition.play();
         logger.info("Score revealed");
     }
 }

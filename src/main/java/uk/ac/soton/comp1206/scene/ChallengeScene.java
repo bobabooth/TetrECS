@@ -97,7 +97,7 @@ public class ChallengeScene extends BaseScene {
         challengePane.getChildren().add(mainPane);
 
         /* Top */
-        var topBar = new HBox(140);
+        var topBar = new HBox(135);
         topBar.setAlignment(Pos.CENTER);
         BorderPane.setMargin(topBar, new Insets(10, 0, 0, 0));
         mainPane.setTop(topBar);

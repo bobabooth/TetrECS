@@ -51,7 +51,7 @@ public class Game {
     /**
      * Initial level value
      */
-    public IntegerProperty level = new SimpleIntegerProperty(10000);
+    public IntegerProperty level = new SimpleIntegerProperty(0);
     /**
      * Initial lives value
      */
