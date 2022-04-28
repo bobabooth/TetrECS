@@ -97,7 +97,7 @@ public class ChallengeScene extends BaseScene {
         challengePane.getChildren().add(mainPane);
 
         /* Top */
-        var topBar = new HBox(170);
+        var topBar = new HBox(140);
         topBar.setAlignment(Pos.CENTER);
         BorderPane.setMargin(topBar, new Insets(10, 0, 0, 0));
         mainPane.setTop(topBar);
@@ -113,8 +113,8 @@ public class ChallengeScene extends BaseScene {
         scoreBox.getChildren().addAll(scoreText, scoreNum);
 
         // Title
-        var title = new Text("Single Player");
-        title.getStyleClass().add("title");
+        var title = new Text("TetrECS");
+        title.getStyleClass().add("bigtitle");
 
         // Lives
         var livesBox = new VBox();
@@ -131,25 +131,25 @@ public class ChallengeScene extends BaseScene {
         /* Left */
         VBox leftBar = new VBox();
         leftBar.setAlignment(Pos.CENTER);
-        leftBar.setPadding(new Insets(0, 0, 0, 20));
+        leftBar.setPadding(new Insets(0, 0, 0, 15));
         mainPane.setLeft(leftBar);
 
         var skipPieceText = new Text("Skip piece");
         skipPieceText.getStyleClass().add("heading-selectable");
         skipPieceText.setOnMouseClicked(e -> game.skipPiece());
-        Text skipPieceText2 = new Text("Costs 50 points\n\n");
+        Text skipPieceText2 = new Text("50 points\n\n");
         skipPieceText2.getStyleClass().add("channelItem");
 
         var addLifeText = new Text("Buy one life");
         addLifeText.getStyleClass().add("heading-selectable");
         addLifeText.setOnMouseClicked(e -> game.addLives());
-        var addLifeText2 = new Text("Costs 100 points\n\n");
+        var addLifeText2 = new Text("100 points\n\n");
         addLifeText2.getStyleClass().add("channelItem");
 
         var clearGridText = new Text("Clear grid");
         clearGridText.getStyleClass().add("heading-selectable");
         clearGridText.setOnMouseClicked(e -> game.clearAll());
-        var clearGridText2 = new Text("Costs 200 points");
+        var clearGridText2 = new Text("200 points");
         clearGridText2.getStyleClass().add("channelItem");
 
         leftBar.getChildren().addAll(skipPieceText, skipPieceText2, addLifeText, addLifeText2, clearGridText, clearGridText2);
@@ -157,7 +157,7 @@ public class ChallengeScene extends BaseScene {
         /* Right */
         var rightBar = new VBox();
         rightBar.setAlignment(Pos.CENTER);
-        rightBar.setPadding(new Insets(0, 20, 0, 0));
+        rightBar.setPadding(new Insets(0, 15, 0, 0));
         mainPane.setRight(rightBar);
 
         // High score
@@ -178,7 +178,7 @@ public class ChallengeScene extends BaseScene {
         var multiplierText = new Text("Multiplier");
         multiplierText.getStyleClass().add("heading");
         var multiplierNum = new Text();
-        multiplierNum.getStyleClass().add("heading");
+        multiplierNum.getStyleClass().add("multiplier");
         multiplierNum.textProperty().bind(game.multiplier.asString());
 
         // Current piece
@@ -197,6 +197,7 @@ public class ChallengeScene extends BaseScene {
         rightBar.getChildren().addAll(highScoreText, highScoreNum, levelText, levelNum, multiplierText, multiplierNum, incomingText, currentPiece, nextPiece);
 
         board = new GameBoard(game.getGrid(), (float) gameWindow.getWidth() / 2, (float) gameWindow.getWidth() / 2);
+        board.getStyleClass().add("gameBox");
         //Handle block on game-board grid being clicked
         board.setOnBlockClick(this::blockClicked);
         //Handle rotation on block when right-clicked

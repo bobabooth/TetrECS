@@ -32,7 +32,7 @@ public class GamePane extends StackPane {
         this.height = height;
 
         getStyleClass().add("gamepane");
-        setAlignment(Pos.TOP_LEFT);
+        setAlignment(Pos.CENTER);
     }
 
     /**

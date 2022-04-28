@@ -69,7 +69,7 @@
 }
 
 .bigtitle {
-    -fx-fill: yellow;
+    -fx-fill: wheat;
     -fx-font-family: 'Orbitron';
     -fx-font-size: 64px;
     -fx-font-weight: 900;
@@ -160,28 +160,24 @@
     -fx-effect: dropshadow(gaussian, black, 1, 1.0, 1, 1);
 }
 
+.multiplier {
+    -fx-fill: crimson;
+    -fx-font-family: 'Orbitron';
+    -fx-font-size: 24px;
+    -fx-font-weight: 700;
+    -fx-border-color: black;
+    -fx-stroke: black;
+    -fx-text-alignment: center;
+    -fx-effect: dropshadow(gaussian, black, 1, 1.0, 1, 1);
+}
+
 .scorelist {
     -fx-font-size: 20px;
     -fx-font-family: 'Orbitron';
 }
 
-.scoreitem {
-
-}
-
-.scorer {
-
-}
-
 .myscore {
     -fx-font-weight: 700;
-}
-
-.points {
-}
-
-.channelList {
-
 }
 
 .channelItem {
@@ -196,33 +192,11 @@
     -fx-fill: yellow;
 }
 
-.leaderboard {
-    -fx-font-size: 16px;
-}
-
 .gameBox {
     -fx-padding: 10;
     -fx-background-color: rgba(0, 0, 0, 0.5);
     -fx-border-color: white;
     -fx-border-width: 1;
-}
-
-.scroller {
-    -fx-background-color: transparent;
-}
-
-.scroller .viewport {
-    -fx-background-color: transparent;
-}
-
-.messages {
-    -fx-background-color: transparent;
-    -fx-font-size: 12px;
-    -fx-font-family: 'Orbitron';
-}
-
-.messages Text {
-    -fx-fill: white;
 }
 
 TextField {
@@ -232,19 +206,6 @@ TextField {
     -fx-text-fill: white;
     -fx-prompt-text-fill: grey;
     -fx-font-family: 'Orbitron';
-}
-
-.playerBox {
-    -fx-font-size: 14px;
-    -fx-font-family: 'Orbitron';
-}
-
-.playerBox Text {
-    -fx-fill: white;
-}
-
-.myname {
-    -fx-font-weight: 700;
 }
 
 .instructions {

@@ -61,14 +61,13 @@ public class ScoresList extends VBox {
                 break;
             }
             var scoreBox = new HBox();
-            scoreBox.getStyleClass().add("scoreitem");
             scoreBox.setAlignment(Pos.CENTER);
 
             var name = new Text(score.getKey() + ":" + score.getValue());
             name.setFill(GameBlock.COLORS[counter]);
             scoreBox.getChildren().add(name);
             scoreDisplay.add(scoreBox);
-            this.getChildren().add(scoreBox);
+            getChildren().add(scoreBox);
 
             reveal();
         }
