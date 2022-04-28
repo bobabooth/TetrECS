@@ -9,7 +9,6 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.ListChangeListener;
 import javafx.geometry.Pos;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
@@ -35,7 +34,7 @@ public class ScoresList extends VBox {
     /**
      * Score to display in a list
      */
-    private final ArrayList<HBox> scoreDisplay = new ArrayList<>();
+    private final ArrayList<VBox> scoreDisplay = new ArrayList<>();
 
     /**
      * Create a scores list
@@ -60,7 +59,7 @@ public class ScoresList extends VBox {
             if (counter > 10) {
                 break;
             }
-            var scoreBox = new HBox();
+            var scoreBox = new VBox();
             scoreBox.setAlignment(Pos.CENTER);
 
             var name = new Text(score.getKey() + ":" + score.getValue());
@@ -78,7 +77,7 @@ public class ScoresList extends VBox {
      */
     public void reveal() {
         ArrayList<Transition> transitionArrayList = new ArrayList<>();
-        for (HBox score : scoreDisplay) {
+        for (var score : scoreDisplay) {
             FadeTransition fade = new FadeTransition(new Duration(100), score);
             fade.setFromValue(0);
             fade.setToValue(1);

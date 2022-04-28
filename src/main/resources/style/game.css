@@ -176,10 +176,6 @@
     -fx-font-family: 'Orbitron';
 }
 
-.myscore {
-    -fx-font-weight: 700;
-}
-
 .channelItem {
     -fx-fill: white;
     -fx-font-family: 'Orbitron';
