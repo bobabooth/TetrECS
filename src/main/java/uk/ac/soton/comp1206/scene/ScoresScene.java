@@ -293,6 +293,30 @@ public class ScoresScene extends BaseScene {
         SimpleListProperty<Pair<String, Integer>> localScore = new SimpleListProperty<>(localScoresList);
         localScores.nameProperty.bind(currentName);
         localScores.scores.bind(localScore);
+
+        /* Bottom */
+        var bottomBar = new HBox(50);
+        bottomBar.setAlignment(Pos.CENTER);
+        BorderPane.setMargin(bottomBar, new Insets(0, 0, 20, 0));
+        mainPane.setBottom(bottomBar);
+
+        // Restart
+        var restartText = new Text("Restart");
+        restartText.getStyleClass().add("heading-selectable");
+        restartText.setOnMouseClicked(e -> {
+            Multimedia.playAudio("select.mp3");
+            gameWindow.startChallenge();
+        });
+
+        // Back to menu
+        var backText = new Text("Back");
+        backText.getStyleClass().add("heading-selectable");
+        backText.setOnMouseClicked(e -> {
+            Multimedia.playAudio("back.mp3");
+            gameWindow.startMenu();
+        });
+
+        bottomBar.getChildren().addAll(restartText, backText);
     }
 
     /**

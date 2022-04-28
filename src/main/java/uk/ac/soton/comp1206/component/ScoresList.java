@@ -59,9 +59,11 @@ public class ScoresList extends VBox {
             if (counter > 10) {
                 break;
             }
+            // Center score box
             var scoreBox = new VBox();
             scoreBox.setAlignment(Pos.CENTER);
 
+            // The high score line (name + score)
             var name = new Text(score.getKey() + ":" + score.getValue());
             name.setFill(GameBlock.COLORS[counter]);
             scoreBox.getChildren().add(name);

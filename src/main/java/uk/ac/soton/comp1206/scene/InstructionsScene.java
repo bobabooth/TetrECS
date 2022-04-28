@@ -98,7 +98,7 @@ public class InstructionsScene extends BaseScene {
             hBox.setAlignment(Pos.CENTER);
             hBox.setSpacing(10);
             for (int y = 0; y < 5; y++) {
-                PieceBoard pieceBoard = new PieceBoard(50, 50);
+                var pieceBoard = new PieceBoard(50, 50);
                 GamePiece gamePiece = GamePiece.createPiece(x * 5 + y);
                 pieceBoard.showPiece(gamePiece);
                 hBox.getChildren().add(pieceBoard);
