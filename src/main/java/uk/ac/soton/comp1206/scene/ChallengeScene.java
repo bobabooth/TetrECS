@@ -129,7 +129,7 @@ public class ChallengeScene extends BaseScene {
         topBar.getChildren().addAll(scoreBox, title, livesBox);
 
         /* Left */
-        VBox leftBar = new VBox();
+        VBox leftBar = new VBox(5);
         leftBar.setAlignment(Pos.CENTER);
         leftBar.setPadding(new Insets(0, 0, 0, 15));
         mainPane.setLeft(leftBar);
