@@ -53,10 +53,6 @@ public class ChallengeScene extends BaseScene {
      */
     protected HBox timer;
     /**
-     * Current score
-     */
-    protected IntegerProperty score = new SimpleIntegerProperty();
-    /**
      * Highest high score to display
      */
     protected IntegerProperty highscore = new SimpleIntegerProperty();
@@ -378,14 +374,6 @@ public class ChallengeScene extends BaseScene {
                 this.highscore.set(ScoresScene.loadScores().get(0).getValue());
             }
         }
-        var timeline = new Timeline();
-        KeyValue oldScore = new KeyValue(score, oldHighScore);
-        KeyValue newScore = new KeyValue(score, newHighScore);
-        KeyFrame oldScoreFrame = new KeyFrame(new Duration(0), oldScore);
-        KeyFrame newScoreFrame = new KeyFrame(new Duration(100), newScore);
-        timeline.getKeyFrames().add(oldScoreFrame);
-        timeline.getKeyFrames().add(newScoreFrame);
-        timeline.play();
     }
 
     /**

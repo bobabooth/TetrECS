@@ -239,9 +239,6 @@ public class Game {
         }
         // Check if lines cleared
         if (linesCleared > 0) {
-            if (lineClearedListener != null) {
-                lineClearedListener.lineCleared(cleared);
-            }
             score(linesCleared, clear.size());
             // Multiplier increase by 1 if the next piece also clears lines
             multiplier.set(multiplier.add(1).get());
@@ -249,6 +246,9 @@ public class Game {
             level.set(Math.floorDiv(score.get(), 1000));
             // Plays sound when level up
             levelSounds(level.get());
+            if (lineClearedListener != null) {
+                lineClearedListener.lineCleared(cleared);
+            }
             // Clear block
             for (IntegerProperty block : clear) {
                 block.set(0);
