@@ -27,6 +27,7 @@ public class Grid {
      * The grid is a 2D arrow with rows and columns of SimpleIntegerProperties.
      */
     private final SimpleIntegerProperty[][] grid;
+
     /**
      * Create a new Grid with the specified number of columns and rows and initialize them
      * @param cols number of columns

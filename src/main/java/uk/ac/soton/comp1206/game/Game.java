@@ -51,7 +51,7 @@ public class Game {
     /**
      * Initial level value
      */
-    public IntegerProperty level = new SimpleIntegerProperty(10000);
+    public IntegerProperty level = new SimpleIntegerProperty(0);
     /**
      * Initial lives value
      */
@@ -60,6 +60,10 @@ public class Game {
      * Initial multiplier value
      */
     public IntegerProperty multiplier = new SimpleIntegerProperty(1);
+    /**
+     * Saved high scores
+     */
+    public ArrayList<Pair<String, Integer>> scores = new ArrayList<>();
     /**
      * Game loop
      */
@@ -84,10 +88,6 @@ public class Game {
      * Game over listener
      */
     protected GameOverListener gameOverListener = null;
-    /**
-     * Saved high scores
-     */
-    public ArrayList<Pair<String, Integer>> scores = new ArrayList<>();
     /**
      * Used to track level up
      */

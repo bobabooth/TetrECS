@@ -191,6 +191,7 @@ public class GameBlock extends Canvas {
     public void fadeOut() {
         AnimationTimer timer = new AnimationTimer() {
             double opacity = 1;
+
             @Override
             public void handle(long l) {
                 GameBlock.this.paintEmpty();

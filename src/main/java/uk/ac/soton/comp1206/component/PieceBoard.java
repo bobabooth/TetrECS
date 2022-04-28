@@ -9,7 +9,7 @@ public class PieceBoard extends GameBoard {
 
     /**
      * Create a piece board
-     * @param width width of board
+     * @param width  width of board
      * @param height height of board
      */
     public PieceBoard(double width, double height) {

@@ -53,14 +53,6 @@ public class ChallengeScene extends BaseScene {
      */
     protected HBox timer;
     /**
-     * Used for keyboard input
-     */
-    private int x = 0, y = 0;
-    /**
-     * Countdown timer at the bottom
-     */
-    private Rectangle timerBar;
-    /**
      * Current score
      */
     protected IntegerProperty score = new SimpleIntegerProperty();
@@ -68,6 +60,14 @@ public class ChallengeScene extends BaseScene {
      * Highest high score to display
      */
     protected IntegerProperty highscore = new SimpleIntegerProperty();
+    /**
+     * Used for keyboard input
+     */
+    private int x = 0, y = 0;
+    /**
+     * Countdown timer at the bottom
+     */
+    private Rectangle timerBar;
 
     /**
      * Create a new Single Player challenge scene
