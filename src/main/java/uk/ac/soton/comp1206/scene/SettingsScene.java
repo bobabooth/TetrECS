@@ -28,7 +28,7 @@ public class SettingsScene extends BaseScene {
     /**
      * The background image
      */
-    public static Text theme = new Text();
+    public static Text theme = new Text("challenge-background");
     /**
      * Sliders to control volumes of music and audio
      */
