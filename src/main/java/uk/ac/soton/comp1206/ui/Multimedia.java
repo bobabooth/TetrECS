@@ -8,7 +8,7 @@ import org.apache.logging.log4j.Logger;
 import uk.ac.soton.comp1206.scene.SettingsScene;
 
 /**
- * Get media files
+ * Get image, music and audio files
  */
 public class Multimedia {
     private static final Logger logger = LogManager.getLogger(Multimedia.class);
