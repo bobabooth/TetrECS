@@ -252,7 +252,7 @@ public class ScoresScene extends BaseScene {
         var scoresPane = new StackPane();
         scoresPane.setMaxWidth(gameWindow.getWidth());
         scoresPane.setMaxHeight(gameWindow.getHeight());
-        scoresPane.getStyleClass().add(SettingsScene.getStyle());
+        scoresPane.getStyleClass().add(SettingsScene.theme.getText());
         root.getChildren().add(scoresPane);
 
         var mainPane = new BorderPane();

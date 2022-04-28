@@ -22,17 +22,13 @@ import java.io.*;
 public class SettingsScene extends BaseScene {
     private static final Logger logger = LogManager.getLogger(SettingsScene.class);
     /**
-     * The music volume
+     * Default volume for music and audio
      */
-    public static double musicVolume = 50;
-    /**
-     * The audio volume
-     */
-    public static double audioVolume = 50;
+    public static double musicVolume = 50, audioVolume = 50;
     /**
      * The background image
      */
-    private static Text theme = new Text();
+    public static Text theme = new Text();
     /**
      * Sliders to control volumes of music and audio
      */
@@ -45,14 +41,6 @@ public class SettingsScene extends BaseScene {
     public SettingsScene(GameWindow gameWindow) {
         super(gameWindow);
         logger.info("Creating Settings Scene");
-    }
-
-    /**
-     * Get the background
-     * @return background
-     */
-    public static String getStyle() {
-        return theme.getText();
     }
 
     /**
@@ -142,7 +130,7 @@ public class SettingsScene extends BaseScene {
         var settingsPane = new StackPane();
         settingsPane.setMaxWidth(gameWindow.getWidth());
         settingsPane.setMaxHeight(gameWindow.getHeight());
-        settingsPane.getStyleClass().add(SettingsScene.getStyle());
+        settingsPane.getStyleClass().add(SettingsScene.theme.getText());
         root.getChildren().add(settingsPane);
 
         var mainPane = new BorderPane();
