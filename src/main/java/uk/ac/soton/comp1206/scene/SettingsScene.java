@@ -21,11 +21,22 @@ import java.io.*;
  */
 public class SettingsScene extends BaseScene {
     private static final Logger logger = LogManager.getLogger(SettingsScene.class);
+    /**
+     * The music volume
+     */
     public static double musicVolume = 50;
+    /**
+     * The audio volume
+     */
     public static double audioVolume = 50;
-    private static Text style = new Text();
-    private Slider musicSlider;
-    private Slider audioSlider;
+    /**
+     * The background image
+     */
+    private static Text theme = new Text();
+    /**
+     * Sliders to control volumes of music and audio
+     */
+    private Slider musicSlider, audioSlider;
 
     /**
      * Create a new settings scene
@@ -41,7 +52,7 @@ public class SettingsScene extends BaseScene {
      * @return background
      */
     public static String getStyle() {
-        return style.getText();
+        return theme.getText();
     }
 
     /**
@@ -58,7 +69,7 @@ public class SettingsScene extends BaseScene {
                     String[] parts = line.split(" ");
                     musicVolume = Double.parseDouble(parts[0]);
                     audioVolume = Double.parseDouble(parts[1]);
-                    style.setText(parts[2]);
+                    theme.setText(parts[2]);
                     br.close();
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -88,7 +99,7 @@ public class SettingsScene extends BaseScene {
             BufferedWriter settingsWriter = new BufferedWriter(new FileWriter("settings.txt"));
             settingsWriter.write(musicVolume + " ");
             settingsWriter.write(audioVolume + " ");
-            settingsWriter.write(style.getText());
+            settingsWriter.write(theme.getText());
             settingsWriter.close();
             logger.info("Settings saved");
         } catch (IOException e) {
@@ -206,7 +217,7 @@ public class SettingsScene extends BaseScene {
         one.setPreserveRatio(true);
         one.setOnMouseClicked(e -> {
             Multimedia.playAudio("select.mp3");
-            style = new Text("menu-background");
+            theme = new Text("menu-background");
             logger.info("Set theme to 1");
         });
         ImageView two = new ImageView(Multimedia.getImage("2.jpg"));
@@ -215,7 +226,7 @@ public class SettingsScene extends BaseScene {
         two.setPreserveRatio(true);
         two.setOnMouseClicked(e -> {
             Multimedia.playAudio("select.mp3");
-            style = new Text("challenge-background");
+            theme = new Text("challenge-background");
             logger.info("Set theme to 2");
         });
         ImageView three = new ImageView(Multimedia.getImage("3.jpg"));
@@ -224,7 +235,7 @@ public class SettingsScene extends BaseScene {
         three.setPreserveRatio(true);
         three.setOnMouseClicked(e -> {
             Multimedia.playAudio("select.mp3");
-            style = new Text("background3");
+            theme = new Text("background3");
             logger.info("Set theme to 3");
         });
         ImageView four = new ImageView(Multimedia.getImage("4.jpg"));
@@ -233,7 +244,7 @@ public class SettingsScene extends BaseScene {
         four.setPreserveRatio(true);
         four.setOnMouseClicked(e -> {
             Multimedia.playAudio("select.mp3");
-            style = new Text("background4");
+            theme = new Text("background4");
             logger.info("Set theme to 4");
         });
         ImageView five = new ImageView(Multimedia.getImage("5.jpg"));
@@ -242,7 +253,7 @@ public class SettingsScene extends BaseScene {
         five.setPreserveRatio(true);
         five.setOnMouseClicked(e -> {
             Multimedia.playAudio("select.mp3");
-            style = new Text("background5");
+            theme = new Text("background5");
             logger.info("Set theme to 5");
         });
         ImageView six = new ImageView(Multimedia.getImage("6.jpg"));
@@ -251,7 +262,7 @@ public class SettingsScene extends BaseScene {
         six.setPreserveRatio(true);
         six.setOnMouseClicked(e -> {
             Multimedia.playAudio("select.mp3");
-            style = new Text("background6");
+            theme = new Text("background6");
             logger.info("Set theme to 6");
         });
 

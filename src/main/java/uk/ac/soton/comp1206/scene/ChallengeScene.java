@@ -36,15 +36,37 @@ import java.util.HashSet;
  */
 public class ChallengeScene extends BaseScene {
     private static final Logger logger = LogManager.getLogger(ChallengeScene.class);
+    /**
+     * Game mode
+     */
     protected Game game;
-    protected PieceBoard currentPiece;
-    protected PieceBoard nextPiece;
+    /**
+     * Current and next piece
+     */
+    protected PieceBoard currentPiece, nextPiece;
+    /**
+     * Game board
+     */
     protected GameBoard board;
+    /**
+     * Timer
+     */
     protected HBox timer;
-    private int x = 0;
-    private int y = 0;
+    /**
+     * Used for keyboard input
+     */
+    private int x = 0, y = 0;
+    /**
+     * Countdown timer at the bottom
+     */
     private Rectangle timerBar;
+    /**
+     * Current score
+     */
     protected IntegerProperty score = new SimpleIntegerProperty();
+    /**
+     * Highest high score to display
+     */
     protected IntegerProperty highscore = new SimpleIntegerProperty();
 
     /**
@@ -191,6 +213,7 @@ public class ChallengeScene extends BaseScene {
 
     /**
      * Replace the current piece with a new piece
+     * @param piece piece to be replaced
      */
     protected void nextPiece(GamePiece piece) {
         currentPiece.showPiece(piece);

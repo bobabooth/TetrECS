@@ -28,18 +28,36 @@ import java.util.List;
  */
 public class ScoresScene extends BaseScene {
     private static final Logger logger = LogManager.getLogger(ScoresScene.class);
+    /**
+     * Player name
+     */
     private final StringProperty currentName = new SimpleStringProperty("");
+    /**
+     * Whether if scores should be displayed
+     */
     private final BooleanProperty provideScore = new SimpleBooleanProperty(false);
+    /**
+     * Local score list
+     */
     private ObservableList<Pair<String, Integer>> localScoresList;
-    private ScoresList localScores;
+    /**
+     * Center the High Scores text and scores
+     */
     private VBox centerBox;
+    private ScoresList localScores;
+    /**
+     * Whether a new high score is achieved
+     */
     private boolean newLocalScore = false;
+    /**
+     * Whether if scores should be displayed
+     */
     private boolean getScores = true;
 
     /**
      * Create a new scores scene
      * @param gameWindow the Game Window
-     * @param game the game
+     * @param game       the game
      */
     public ScoresScene(GameWindow gameWindow, Game game) {
         super(gameWindow);
@@ -90,6 +108,7 @@ public class ScoresScene extends BaseScene {
 
     /**
      * Create dummy scores.txt for first launch
+     * @param scores scores to write
      */
     public static void writeScores(List<Pair<String, Integer>> scores) {
         scores.sort((score1, score2) -> (score2.getValue()).compareTo(score1.getValue()));
@@ -136,7 +155,7 @@ public class ScoresScene extends BaseScene {
      * Request name if new high score achieved
      */
     public void newHighScore() {
-        if (!game.getScores().isEmpty()) {
+        if (!game.scores.isEmpty()) {
             provideScore.set(true);
             localScores.reveal();
             logger.info("No new score");
@@ -212,9 +231,6 @@ public class ScoresScene extends BaseScene {
     public void initialize() {
         logger.info("Initializing " + this.getClass().getName());
         Multimedia.playMusic("end.wav");
-        if (!game.getScores().isEmpty()) {
-            currentName.set(game.name.getValue());
-        }
         Platform.runLater(this::revealMethod);
         scene.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.ESCAPE) {

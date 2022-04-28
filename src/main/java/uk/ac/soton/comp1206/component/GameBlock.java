@@ -36,7 +36,6 @@ public class GameBlock extends Canvas {
             Color.MEDIUMPURPLE,
             Color.PURPLE
     };
-
     private final double width;
     private final double height;
 
@@ -54,8 +53,14 @@ public class GameBlock extends Canvas {
      * The value of this block (0 = empty, otherwise specifies the color to render as)
      */
     private final IntegerProperty value = new SimpleIntegerProperty(0);
+    /**
+     * Center of piece
+     */
     private boolean center = false;
-    private boolean hoveredBlock = false;
+    /**
+     * To hover or not to hover
+     */
+    private boolean hover = false;
 
     /**
      * Create a new single Game Block
@@ -95,25 +100,24 @@ public class GameBlock extends Canvas {
      * Handle painting of the block canvas
      */
     public void paint() {
-        //If the block is empty, paint as empty
+        // If the block is empty, paint as empty
         if (value.get() == 0) {
             paintEmpty();
         } else {
-            //If the block is not empty, paint with the color represented by the value
+            // If the block is not empty, paint with the color represented by the value
             paintColor(COLORS[value.get()]);
         }
-        // Painting the center circle
+        // If center is true, then paint center of piece
         if (this.center) {
             var gc = getGraphicsContext2D();
 
             gc.setFill(Color.rgb(255, 255, 255, 0.5));
             gc.fillOval(width / 4, height / 4, width / 2, height / 2);
         }
-        // Hoovering over the block
-        if (this.hoveredBlock) {
+        // If hover is true, then paint hover effect
+        if (this.hover) {
             var gc = getGraphicsContext2D();
 
-            // Hover block properties
             gc.setFill(Color.rgb(204, 204, 204, 0.4));
             gc.fillRect(0, 0, width, height);
         }
@@ -174,19 +178,33 @@ public class GameBlock extends Canvas {
 
     /**
      * Hover effect
-     * @param hoveredBlock true if mouse is over board
+     * @param hover true if mouse is over board
      */
-    public void hover(boolean hoveredBlock) {
-        this.hoveredBlock = hoveredBlock;
+    public void hover(boolean hover) {
+        this.hover = hover;
         paint();
     }
 
     /**
-     * Color fade for timer animation
+     * Fade line when cleared
      */
     public void fadeOut() {
-        GameBlockTimer myTimer = new GameBlockTimer();
-        myTimer.start();
+        AnimationTimer timer = new AnimationTimer() {
+            double opacity = 1;
+            @Override
+            public void handle(long l) {
+                GameBlock.this.paintEmpty();
+                opacity -= 0.02;
+                if (opacity <= 0) {
+                    stop();
+                    return;
+                }
+                var gc = getGraphicsContext2D();
+                gc.setFill(Color.rgb(0, 1, 0, opacity));
+                gc.fillRect(0, 0, GameBlock.this.width, GameBlock.this.height);
+            }
+        };
+        timer.start();
     }
 
     /**
@@ -211,26 +229,5 @@ public class GameBlock extends Canvas {
      */
     public void bind(ObservableValue<? extends Number> input) {
         value.bind(input);
-    }
-
-    /**
-     * Timer for fade out animation
-     */
-    private class GameBlockTimer extends AnimationTimer {
-        double opacity = 1;
-
-        @Override
-        public void handle(long a) {
-            // Fade the line by removing 0.02 opacity until gone
-            GameBlock.this.paintEmpty();
-            opacity -= 0.02;
-            if (opacity <= 0) {
-                stop();
-                return;
-            }
-            var gc = GameBlock.this.getGraphicsContext2D();
-            gc.setFill(Color.rgb(0, 1, 0, opacity));
-            gc.fillRect(0, 0, GameBlock.this.width, GameBlock.this.height);
-        }
     }
 }

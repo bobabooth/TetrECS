@@ -49,7 +49,7 @@ public class GameBoard extends GridPane {
      * The listener to call when a specific block is right-clicked
      */
     protected RightClickedListener rightClickedListener;
-    private GameBlock hoveredBlock;
+    private GameBlock hover;
     /**
      * The listener to call when a specific block is clicked
      */
@@ -153,17 +153,19 @@ public class GameBoard extends GridPane {
 
     /**
      * Hover effect
+     * @param gameBlock block to hover over
      */
     public void hover(GameBlock gameBlock) {
-        if (this.hoveredBlock != null) {
-            this.hoveredBlock.hover(false);
+        if (hover != null) {
+            hover.hover(false);
         }
-        this.hoveredBlock = gameBlock;
+        hover = gameBlock;
         gameBlock.hover(true);
     }
 
     /**
      * Fadeout effect
+     * @param blockCoordinates block coordinates to clear
      */
     public void fadeOut(HashSet<GameBlockCoordinate> blockCoordinates) {
         for (GameBlockCoordinate coordinates : blockCoordinates) {

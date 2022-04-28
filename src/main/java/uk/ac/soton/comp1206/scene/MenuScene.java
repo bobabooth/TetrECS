@@ -23,11 +23,14 @@ import uk.ac.soton.comp1206.ui.Multimedia;
  */
 public class MenuScene extends BaseScene {
     private static final Logger logger = LogManager.getLogger(MenuScene.class);
+    /**
+     * The current selected menu item
+     */
     private int selector;
-    private Text local;
-    private Text instructions;
-    private Text settings;
-    private Text quit;
+    /**
+     * Menu items
+     */
+    private Text local, instructions, settings, quit;
 
     /**
      * Create a new menu scene
@@ -83,47 +86,47 @@ public class MenuScene extends BaseScene {
      * Create hover effect over text when selected
      */
     public void paint() {
-        if (selector == 1) {
-            local.getStyleClass().remove("menuItem");
-            local.getStyleClass().add("menuItem-fixed");
-
-            instructions.getStyleClass().add("menuItem");
-            instructions.getStyleClass().remove("menuItem-fixed");
-            settings.getStyleClass().add("menuItem");
-            settings.getStyleClass().remove("menuItem-fixed");
-            quit.getStyleClass().add("menuItem");
-            quit.getStyleClass().remove("menuItem-fixed");
-        } else if (selector == 2) {
-            instructions.getStyleClass().remove("menuItem");
-            instructions.getStyleClass().add("menuItem-fixed");
-
-            local.getStyleClass().add("menuItem");
-            local.getStyleClass().remove("menuItem-fixed");
-            settings.getStyleClass().add("menuItem");
-            settings.getStyleClass().remove("menuItem-fixed");
-            quit.getStyleClass().add("menuItem");
-            quit.getStyleClass().remove("menuItem-fixed");
-        } else if (selector == 3) {
-            settings.getStyleClass().remove("menuItem");
-            settings.getStyleClass().add("menuItem-fixed");
-
-            local.getStyleClass().add("menuItem");
-            local.getStyleClass().remove("menuItem-fixed");
-            instructions.getStyleClass().add("menuItem");
-            instructions.getStyleClass().remove("menuItem-fixed");
-            quit.getStyleClass().add("menuItem");
-            quit.getStyleClass().remove("menuItem-fixed");
-        } else if (selector == 4) {
-            quit.getStyleClass().remove("menuItem");
-            quit.getStyleClass().add("menuItem-fixed");
-
-            local.getStyleClass().add("menuItem");
-            local.getStyleClass().remove("menuItem-fixed");
-            instructions.getStyleClass().add("menuItem");
-            instructions.getStyleClass().remove("menuItem-fixed");
-            settings.getStyleClass().add("menuItem");
-            settings.getStyleClass().remove("menuItem-fixed");
-
+        switch (selector) {
+            case 1 -> {
+                local.getStyleClass().remove("menuItem");
+                local.getStyleClass().add("menuItem-fixed");
+                instructions.getStyleClass().add("menuItem");
+                instructions.getStyleClass().remove("menuItem-fixed");
+                settings.getStyleClass().add("menuItem");
+                settings.getStyleClass().remove("menuItem-fixed");
+                quit.getStyleClass().add("menuItem");
+                quit.getStyleClass().remove("menuItem-fixed");
+            }
+            case 2 -> {
+                local.getStyleClass().add("menuItem");
+                local.getStyleClass().remove("menuItem-fixed");
+                instructions.getStyleClass().remove("menuItem");
+                instructions.getStyleClass().add("menuItem-fixed");
+                settings.getStyleClass().add("menuItem");
+                settings.getStyleClass().remove("menuItem-fixed");
+                quit.getStyleClass().add("menuItem");
+                quit.getStyleClass().remove("menuItem-fixed");
+            }
+            case 3 -> {
+                local.getStyleClass().add("menuItem");
+                local.getStyleClass().remove("menuItem-fixed");
+                instructions.getStyleClass().add("menuItem");
+                instructions.getStyleClass().remove("menuItem-fixed");
+                settings.getStyleClass().remove("menuItem");
+                settings.getStyleClass().add("menuItem-fixed");
+                quit.getStyleClass().add("menuItem");
+                quit.getStyleClass().remove("menuItem-fixed");
+            }
+            case 4 -> {
+                local.getStyleClass().add("menuItem");
+                local.getStyleClass().remove("menuItem-fixed");
+                instructions.getStyleClass().add("menuItem");
+                instructions.getStyleClass().remove("menuItem-fixed");
+                settings.getStyleClass().add("menuItem");
+                settings.getStyleClass().remove("menuItem-fixed");
+                quit.getStyleClass().remove("menuItem");
+                quit.getStyleClass().add("menuItem-fixed");
+            }
         }
     }
 

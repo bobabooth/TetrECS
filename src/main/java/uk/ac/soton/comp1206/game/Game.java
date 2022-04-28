@@ -3,8 +3,6 @@ package uk.ac.soton.comp1206.game;
 import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.util.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -42,23 +40,57 @@ public class Game {
      * The grid model linked to the game
      */
     protected final Grid grid;
-    public GamePiece currentPiece;
-    public GamePiece nextPiece;
     /**
-     * Initial values
+     * Current game piece and next game piece
+     */
+    public GamePiece currentPiece, nextPiece;
+    /**
+     * Initial score value
      */
     public IntegerProperty score = new SimpleIntegerProperty(0);
-    public IntegerProperty level = new SimpleIntegerProperty(0);
+    /**
+     * Initial level value
+     */
+    public IntegerProperty level = new SimpleIntegerProperty(10000);
+    /**
+     * Initial lives value
+     */
     public IntegerProperty lives = new SimpleIntegerProperty(3);
+    /**
+     * Initial multiplier value
+     */
     public IntegerProperty multiplier = new SimpleIntegerProperty(1);
-    public StringProperty name = new SimpleStringProperty();
+    /**
+     * Game loop
+     */
     protected ScheduledFuture<?> loop;
+    /**
+     * Calls a gameLoop method
+     */
     protected ScheduledExecutorService timer;
+    /**
+     * Next piece listener
+     */
     protected NextPieceListener nextPieceListener = null;
+    /**
+     * Line cleared listener
+     */
     protected LineClearedListener lineClearedListener = null;
+    /**
+     * Game loop listener
+     */
     protected GameLoopListener gameLoopListener = null;
+    /**
+     * Game over listener
+     */
     protected GameOverListener gameOverListener = null;
-    protected ArrayList<Pair<String, Integer>> scores = new ArrayList<>();
+    /**
+     * Saved high scores
+     */
+    public ArrayList<Pair<String, Integer>> scores = new ArrayList<>();
+    /**
+     * Used to track level up
+     */
     int oldLevel = 0;
 
     /**
@@ -73,10 +105,6 @@ public class Game {
         //Create a new grid model to represent the game state
         this.grid = new Grid(cols, rows);
         timer = Executors.newSingleThreadScheduledExecutor();
-    }
-
-    public ArrayList<Pair<String, Integer>> getScores() {
-        return this.scores;
     }
 
     /**
@@ -115,22 +143,27 @@ public class Game {
     }
 
     /**
-     * When the timer runs out, move on to the next piece and lose a life
+     * Handle events when countdown ends
      * @param listener listens for timer end
      */
     public void setOnGameLoop(GameLoopListener listener) {
         gameLoopListener = listener;
     }
 
+    /**
+     * Handle events when game ends
+     * @param listener listens for game over
+     */
     public void setOnGameOver(GameOverListener listener) {
         gameOverListener = listener;
     }
 
     /**
      * Calculate time allowed for each round
+     * @return time for each round
      */
     public int getTimerDelay() {
-        return Math.max(12000 - 500 * this.level.get(), 2500);
+        return Math.max(12000 - 500 * level.get(), 2500);
     }
 
     /**
@@ -206,6 +239,9 @@ public class Game {
         }
         // Check if lines cleared
         if (linesCleared > 0) {
+            if (lineClearedListener != null) {
+                lineClearedListener.lineCleared(cleared);
+            }
             score(linesCleared, clear.size());
             // Multiplier increase by 1 if the next piece also clears lines
             multiplier.set(multiplier.add(1).get());
@@ -216,9 +252,6 @@ public class Game {
             // Clear block
             for (IntegerProperty block : clear) {
                 block.set(0);
-            }
-            if (this.lineClearedListener != null) {
-                this.lineClearedListener.lineCleared(cleared);
             }
         } else {
             // Multiplier resets to 1 if no lines cleared

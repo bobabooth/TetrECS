@@ -12,7 +12,13 @@ import uk.ac.soton.comp1206.scene.SettingsScene;
  */
 public class Multimedia {
     private static final Logger logger = LogManager.getLogger(Multimedia.class);
+    /**
+     * Used to play music
+     */
     public static MediaPlayer musicPlayer;
+    /**
+     * Used to play audio
+     */
     public static MediaPlayer audioPlayer;
 
     /**

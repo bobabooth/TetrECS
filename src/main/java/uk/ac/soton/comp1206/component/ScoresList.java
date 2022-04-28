@@ -24,8 +24,17 @@ import java.util.ArrayList;
  */
 public class ScoresList extends VBox {
     private static final Logger logger = LogManager.getLogger(ScoresList.class);
+    /**
+     * Score achieved
+     */
     public final SimpleListProperty<Pair<String, Integer>> scores;
+    /**
+     * Player name
+     */
     public final StringProperty nameProperty;
+    /**
+     * Score to display in a list
+     */
     private final ArrayList<HBox> scoreDisplay = new ArrayList<>();
 
     /**

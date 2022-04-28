@@ -84,6 +84,7 @@ public class GameWindow {
 
     /**
      * Display scores
+     * @param game game mode to display scores from
      */
     public void startScores(Game game) {
         loadScene(new ScoresScene(this, game));
