@@ -42,36 +42,31 @@ public class ScoresList extends VBox {
     public ScoresList() {
         getStyleClass().add("scorelist");
         scores = new SimpleListProperty<>();
-        scores.addListener((ListChangeListener<? super Pair<String, Integer>>) e -> update());
+        scores.addListener((ListChangeListener<? super Pair<String, Integer>>) e -> {
+            scoreDisplay.clear();
+            getChildren().clear();
+            int counter = 0;
+            for (Pair<String, Integer> score : scores) {
+                counter++;
+                if (counter > 10) {
+                    break;
+                }
+                // Center score box
+                var scoreBox = new VBox();
+                scoreBox.setAlignment(Pos.CENTER);
+
+                // The high score line (name + score)
+                var name = new Text(score.getKey() + ":" + score.getValue());
+                name.setFill(GameBlock.COLORS[counter]);
+                scoreBox.getChildren().add(name);
+                scoreDisplay.add(scoreBox);
+                getChildren().add(scoreBox);
+
+                reveal();
+            }
+        });
         nameProperty = new SimpleStringProperty();
         logger.info("Creating Scores List");
-    }
-
-    /**
-     * Add the scores to the list
-     */
-    public void update() {
-        scoreDisplay.clear();
-        getChildren().clear();
-        int counter = 0;
-        for (Pair<String, Integer> score : scores) {
-            counter++;
-            if (counter > 10) {
-                break;
-            }
-            // Center score box
-            var scoreBox = new VBox();
-            scoreBox.setAlignment(Pos.CENTER);
-
-            // The high score line (name + score)
-            var name = new Text(score.getKey() + ":" + score.getValue());
-            name.setFill(GameBlock.COLORS[counter]);
-            scoreBox.getChildren().add(name);
-            scoreDisplay.add(scoreBox);
-            getChildren().add(scoreBox);
-
-            reveal();
-        }
     }
 
     /**
