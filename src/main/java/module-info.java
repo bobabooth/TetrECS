@@ -8,7 +8,6 @@ module uk.ac.soton.comp1206 {
     opens uk.ac.soton.comp1206.ui to javafx.fxml;
     exports uk.ac.soton.comp1206;
     exports uk.ac.soton.comp1206.ui;
-    exports uk.ac.soton.comp1206.network;
     exports uk.ac.soton.comp1206.scene;
     exports uk.ac.soton.comp1206.event;
     exports uk.ac.soton.comp1206.component;

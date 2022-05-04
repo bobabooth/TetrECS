@@ -8,10 +8,6 @@ package uk.ac.soton.comp1206.game;
  */
 public class GamePiece {
     /**
-     * The total number of pieces in this game
-     */
-    public static final int PIECES = 15;
-    /**
      * The value of this piece
      */
     private final int value;
@@ -52,98 +48,98 @@ public class GamePiece {
      */
     public static GamePiece createPiece(int piece) {
         switch (piece) {
-            //Line
+            // Line
             case 0 -> {
                 int[][] blocks = {{0, 0, 0}, {1, 1, 1}, {0, 0, 0}};
                 return new GamePiece("Line", blocks, 1);
             }
 
-            //C
+            // C
             case 1 -> {
                 int[][] blocks = {{0, 0, 0}, {1, 1, 1}, {1, 0, 1}};
                 return new GamePiece("C", blocks, 2);
             }
 
-            //Plus
+            // Plus
             case 2 -> {
                 int[][] blocks = {{0, 1, 0}, {1, 1, 1}, {0, 1, 0}};
                 return new GamePiece("Plus", blocks, 3);
             }
 
-            //Dot
+            // Dot
             case 3 -> {
                 int[][] blocks = {{0, 0, 0}, {0, 1, 0}, {0, 0, 0}};
                 return new GamePiece("Dot", blocks, 4);
             }
 
-            //Square
+            // Square
             case 4 -> {
                 int[][] blocks = {{1, 1, 0}, {1, 1, 0}, {0, 0, 0}};
                 return new GamePiece("Square", blocks, 5);
             }
 
-            //L
+            // L
             case 5 -> {
                 int[][] blocks = {{0, 0, 0}, {1, 1, 1}, {0, 0, 1}};
                 return new GamePiece("L", blocks, 6);
             }
 
-            //J
+            // J
             case 6 -> {
                 int[][] blocks = {{0, 0, 1}, {1, 1, 1}, {0, 0, 0}};
                 return new GamePiece("J", blocks, 7);
             }
 
-            //S
+            // S
             case 7 -> {
                 int[][] blocks = {{0, 0, 0}, {0, 1, 1}, {1, 1, 0}};
                 return new GamePiece("S", blocks, 8);
             }
 
-            //Z
+            // Z
             case 8 -> {
                 int[][] blocks = {{1, 1, 0}, {0, 1, 1}, {0, 0, 0}};
                 return new GamePiece("Z", blocks, 9);
             }
 
-            //T
+            // T
             case 9 -> {
                 int[][] blocks = {{1, 0, 0}, {1, 1, 0}, {1, 0, 0}};
                 return new GamePiece("T", blocks, 10);
             }
 
-            //X
+            // X
             case 10 -> {
                 int[][] blocks = {{1, 0, 1}, {0, 1, 0}, {1, 0, 1}};
                 return new GamePiece("X", blocks, 11);
             }
 
-            //Corner
+            // Corner
             case 11 -> {
                 int[][] blocks = {{0, 0, 0}, {1, 1, 0}, {1, 0, 0}};
                 return new GamePiece("Corner", blocks, 12);
             }
 
-            //Inverse Corner
+            // Inverse Corner
             case 12 -> {
                 int[][] blocks = {{1, 0, 0}, {1, 1, 0}, {0, 0, 0}};
                 return new GamePiece("Inverse Corner", blocks, 13);
             }
 
-            //Diagonal
+            // Diagonal
             case 13 -> {
                 int[][] blocks = {{1, 0, 0}, {0, 1, 0}, {0, 0, 1}};
                 return new GamePiece("Diagonal", blocks, 14);
             }
 
-            //Double
+            // Double
             case 14 -> {
                 int[][] blocks = {{0, 1, 0}, {0, 1, 0}, {0, 0, 0}};
                 return new GamePiece("Double", blocks, 15);
             }
         }
 
-        //Not a valid piece number
+        // Not a valid piece number
         throw new IndexOutOfBoundsException("No such piece: " + piece);
     }
 
@@ -157,14 +153,6 @@ public class GamePiece {
         var newPiece = createPiece(piece);
         newPiece.rotate(rotation);
         return newPiece;
-    }
-
-    /**
-     * Get the value of this piece
-     * @return piece value
-     */
-    public int getValue() {
-        return value;
     }
 
     /**

@@ -10,7 +10,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import uk.ac.soton.comp1206.App;
 import uk.ac.soton.comp1206.game.Game;
-import uk.ac.soton.comp1206.network.Communicator;
 import uk.ac.soton.comp1206.scene.*;
 
 /**
@@ -22,7 +21,6 @@ import uk.ac.soton.comp1206.scene.*;
  */
 public class GameWindow {
     private static final Logger logger = LogManager.getLogger(GameWindow.class);
-    final Communicator communicator;
     private final int width;
     private final int height;
     private final Stage stage;
@@ -48,9 +46,6 @@ public class GameWindow {
 
         //Setup default scene
         setupDefaultScene();
-
-        //Setup communicator
-        communicator = new Communicator("ws://ofb-labs.soton.ac.uk:9700");
 
         //Go to menu
         startMenu();
@@ -145,7 +140,6 @@ public class GameWindow {
      */
     public void cleanup() {
         logger.info("Clearing up previous scene");
-        communicator.clearListeners();
     }
 
     /**
