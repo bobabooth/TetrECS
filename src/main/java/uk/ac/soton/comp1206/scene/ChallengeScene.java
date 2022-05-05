@@ -55,7 +55,7 @@ public class ChallengeScene extends BaseScene {
     /**
      * Highest high score to display
      */
-    protected IntegerProperty highscore = new SimpleIntegerProperty();
+    protected IntegerProperty highScore = new SimpleIntegerProperty();
     /**
      * Used for keyboard input
      */
@@ -110,7 +110,7 @@ public class ChallengeScene extends BaseScene {
 
         // Title
         var title = new Text("TetrECS");
-        title.getStyleClass().add("bigtitle");
+        title.getStyleClass().add("bigTitle");
 
         // Lives
         var livesBox = new VBox();
@@ -160,8 +160,8 @@ public class ChallengeScene extends BaseScene {
         var highScoreText = new Text("High Score");
         highScoreText.getStyleClass().add("heading");
         var highScoreNum = new Text();
-        highScoreNum.getStyleClass().add("hiscore");
-        highScoreNum.textProperty().bind(highscore.asString());
+        highScoreNum.getStyleClass().add("hiScore");
+        highScoreNum.textProperty().bind(highScore.asString());
 
         // Level
         var levelText = new Text("Level");
@@ -194,9 +194,9 @@ public class ChallengeScene extends BaseScene {
 
         board = new GameBoard(game.getGrid(), (float) gameWindow.getWidth() / 2, (float) gameWindow.getWidth() / 2);
         board.getStyleClass().add("gameBox");
-        //Handle block on game-board grid being clicked
+        // Handle block on game-board grid being clicked
         board.setOnBlockClick(this::blockClicked);
-        //Handle rotation on block when right-clicked
+        // Handle rotation on piece when right-clicked
         board.setOnRightClick(this::rotate);
         mainPane.setCenter(board);
 
@@ -364,14 +364,14 @@ public class ChallengeScene extends BaseScene {
      */
     protected void getHighScore(ObservableValue<? extends Number> observable, Number oldHighScore, Number newHighScore) {
         logger.info("Updated high score");
-        if (newHighScore.intValue() > this.highscore.get()) {
-            this.highscore.set(newHighScore.intValue());
+        if (newHighScore.intValue() > this.highScore.get()) {
+            this.highScore.set(newHighScore.intValue());
         }
-        if (newHighScore.intValue() < this.highscore.get()) {
+        if (newHighScore.intValue() < this.highScore.get()) {
             if (newHighScore.intValue() > ScoresScene.loadScores().get(0).getValue()) {
-                this.highscore.set(newHighScore.intValue());
+                this.highScore.set(newHighScore.intValue());
             } else {
-                this.highscore.set(ScoresScene.loadScores().get(0).getValue());
+                this.highScore.set(ScoresScene.loadScores().get(0).getValue());
             }
         }
     }
@@ -387,7 +387,7 @@ public class ChallengeScene extends BaseScene {
         game.setOnLineCleared(this::fadeLine);
         game.setOnGameLoop(this::timer);
         game.score.addListener(this::getHighScore);
-        highscore.set(ScoresScene.loadScores().get(0).getValue());
+        highScore.set(ScoresScene.loadScores().get(0).getValue());
         game.start();
         scene.setOnKeyPressed(this::keyboard);
         game.setOnGameOver(() -> {

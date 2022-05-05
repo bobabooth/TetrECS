@@ -265,7 +265,7 @@ public class ScoresScene extends BaseScene {
         mainPane.setTop(topBar);
 
         Text gameOverText = new Text("Game Over");
-        gameOverText.getStyleClass().add("bigtitle");
+        gameOverText.getStyleClass().add("bigTitle");
         topBar.getChildren().add(gameOverText);
 
         /* Center */
@@ -295,28 +295,28 @@ public class ScoresScene extends BaseScene {
         localScores.scores.bind(localScore);
 
         /* Bottom */
-        var bottomBar = new HBox(50);
+        var bottomBar = new HBox(80);
         bottomBar.setAlignment(Pos.CENTER);
         BorderPane.setMargin(bottomBar, new Insets(0, 0, 20, 0));
         mainPane.setBottom(bottomBar);
 
-        // Restart
-        var restartText = new Text("Restart");
-        restartText.getStyleClass().add("heading-selectable");
-        restartText.setOnMouseClicked(e -> {
+        // Retry
+        var retryText = new Text("Retry");
+        retryText.getStyleClass().add("heading-selectable");
+        retryText.setOnMouseClicked(e -> {
             Multimedia.playAudio("select.mp3");
             gameWindow.startChallenge();
         });
 
         // Back to menu
-        var backText = new Text("Back");
+        var backText = new Text("Menu");
         backText.getStyleClass().add("heading-selectable");
         backText.setOnMouseClicked(e -> {
             Multimedia.playAudio("back.mp3");
             gameWindow.startMenu();
         });
 
-        bottomBar.getChildren().addAll(restartText, backText);
+        bottomBar.getChildren().addAll(retryText, backText);
     }
 
     /**

@@ -18,8 +18,7 @@ public class GameBlock extends Canvas {
     /**
      * The set of colors for different pieces
      */
-    public static final Color[] COLORS = {
-            Color.TRANSPARENT,
+    public static final Color[] COLORS = {Color.TRANSPARENT,
             Color.DEEPPINK,
             Color.RED,
             Color.ORANGE,
@@ -75,14 +74,14 @@ public class GameBlock extends Canvas {
         this.x = x;
         this.y = y;
 
-        //A canvas needs a fixed width and height
+        // A canvas needs a fixed width and height
         setWidth(width);
         setHeight(height);
 
-        //Do an initial paint
+        // Do an initial paint
         paint();
 
-        //When the value property is updated, call the internal updateValue method
+        // When the value property is updated, call the internal updateValue method
         value.addListener(this::updateValue);
     }
 
@@ -148,10 +147,10 @@ public class GameBlock extends Canvas {
     private void paintColor(Paint color) {
         var gc = getGraphicsContext2D();
 
-        //Clear
+        // Clear
         gc.clearRect(0, 0, width, height);
 
-        //Colour fill
+        // Color fill
         gc.setFill(color);
         gc.fillRect(0, 0, width, height);
 

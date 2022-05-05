@@ -68,27 +68,6 @@ public class GameBlockCoordinate {
     }
 
     /**
-     * Subtract a row and column reference to this one and return a new GameBlockCoordinate
-     * @param x columns to remove
-     * @param y rows to remove
-     * @return a new GameBlockCoordinate with the result of the subtraction
-     */
-    public GameBlockCoordinate subtract(int x, int y) {
-        return new GameBlockCoordinate(
-                getX() - x,
-                getY() - y);
-    }
-
-    /**
-     * Subtract another GameBlockCoordinate to this one, returning a new GameBlockCoordinate
-     * @param point point to subtract
-     * @return a new GameBlockCoordinate with the result of the subtraction
-     */
-    public GameBlockCoordinate subtract(GameBlockCoordinate point) {
-        return subtract(point.getX(), point.getY());
-    }
-
-    /**
      * Compare this GameBlockCoordinate to another GameBlockCoordinate
      * @param obj other object to compare to
      * @return true if equal, otherwise false
@@ -124,5 +103,4 @@ public class GameBlockCoordinate {
     public String toString() {
         return "GameBlockCoordinate [x = " + getX() + ", y = " + getY() + "]";
     }
-
 }

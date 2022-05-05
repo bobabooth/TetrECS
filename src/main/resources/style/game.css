@@ -2,10 +2,6 @@
     -fx-background-color: black;
 }
 
-.intro {
-    -fx-background-color: black;
-}
-
 .menu-background {
     -fx-background-image: url("../images/1.jpg");
     -fx-background-size: cover;
@@ -36,10 +32,6 @@
     -fx-background-size: cover;
 }
 
-.menu {
-    -fx-padding: 10;
-}
-
 .menuItem {
     -fx-fill: white;
     -fx-font-family: 'Orbitron';
@@ -68,7 +60,7 @@
     -fx-fill: yellow;
 }
 
-.bigtitle {
+.bigTitle {
     -fx-fill: wheat;
     -fx-font-family: 'Orbitron';
     -fx-font-size: 64px;
@@ -138,7 +130,7 @@
     -fx-effect: dropshadow(gaussian, black, 1, 1.0, 1, 1);
 }
 
-.hiscore {
+.hiScore {
     -fx-fill: orange;
     -fx-font-family: 'Orbitron';
     -fx-font-size: 24px;
@@ -171,7 +163,7 @@
     -fx-effect: dropshadow(gaussian, black, 1, 1.0, 1, 1);
 }
 
-.scorelist {
+.scoreList {
     -fx-font-size: 20px;
     -fx-font-family: 'Orbitron';
 }
@@ -184,6 +176,7 @@
     -fx-border-color: black;
     -fx-stroke: black;
 }
+
 .channelItem.selected {
     -fx-fill: yellow;
 }
@@ -202,10 +195,4 @@ TextField {
     -fx-text-fill: white;
     -fx-prompt-text-fill: grey;
     -fx-font-family: 'Orbitron';
-}
-
-.instructions {
-    -fx-font-size: 10px;
-    -fx-font-family: 'Orbitron';
-    -fx-fill: white;
 }

@@ -41,7 +41,7 @@ public class App extends Application {
         instance = this;
         this.stage = stage;
 
-        //Open game window
+        // Open game window
         openGame();
     }
 
@@ -51,12 +51,12 @@ public class App extends Application {
     public void openGame() {
         logger.info("Opening game window");
 
-        //Change the width and height in this class to change the base rendering resolution for all game parts
+        // Change the width and height in this class to change the base rendering resolution for all game parts
         int width = 800;
         int height = 600;
-        var gameWindow = new GameWindow(stage, width, height);
+        new GameWindow(stage, width, height);
 
-        //Display the GameWindow
+        // Display the GameWindow
         stage.show();
     }
 

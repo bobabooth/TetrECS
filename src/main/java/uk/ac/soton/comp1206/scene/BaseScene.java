@@ -36,7 +36,7 @@ public abstract class BaseScene {
     }
 
     /**
-     * initialize this scene. Called after creation
+     * Initialize this scene. Called after creation
      */
     public abstract void initialize();
 

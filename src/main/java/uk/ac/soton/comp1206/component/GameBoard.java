@@ -68,7 +68,7 @@ public class GameBoard extends GridPane {
         this.height = height;
         this.grid = grid;
 
-        //Build the GameBoard
+        // Build the GameBoard
         build();
     }
 
@@ -87,7 +87,7 @@ public class GameBoard extends GridPane {
         this.height = height;
         this.grid = new Grid(cols, rows);
 
-        //Build the GameBoard
+        // Build the GameBoard
         build();
     }
 

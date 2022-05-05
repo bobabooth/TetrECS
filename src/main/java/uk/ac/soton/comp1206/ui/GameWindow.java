@@ -38,16 +38,16 @@ public class GameWindow {
         this.height = height;
         this.stage = stage;
 
-        //Setup window
+        // Setup window
         setupStage();
 
-        //Setup resources
+        // Setup resources
         setupResources();
 
-        //Setup default scene
+        // Setup default scene
         setupDefaultScene();
 
-        //Go to menu
+        // Go to menu
         startMenu();
     }
 
@@ -57,7 +57,7 @@ public class GameWindow {
     private void setupResources() {
         logger.info("Loading resources");
 
-        //We need to load fonts here due to the Font loader bug with spaces in URLs in the CSS files
+        // We need to load fonts here due to the Font loader bug with spaces in URLs in the CSS files
         Font.loadFont(getClass().getResourceAsStream("/style/Orbitron-Regular.ttf"), 32);
         Font.loadFont(getClass().getResourceAsStream("/style/Orbitron-Bold.ttf"), 32);
         Font.loadFont(getClass().getResourceAsStream("/style/Orbitron-ExtraBold.ttf"), 32);
@@ -114,16 +114,16 @@ public class GameWindow {
      * @param newScene new scene to load
      */
     public void loadScene(BaseScene newScene) {
-        //Cleanup remains of the previous scene
+        // Cleanup remains of the previous scene
         cleanup();
 
-        //Create the new scene and set it up
+        // Create the new scene and set it up
         newScene.build();
         currentScene = newScene;
         scene = newScene.setScene();
         stage.setScene(scene);
 
-        //initialize the scene when ready
+        // Initialize the scene when ready
         Platform.runLater(() -> currentScene.initialize());
     }
 

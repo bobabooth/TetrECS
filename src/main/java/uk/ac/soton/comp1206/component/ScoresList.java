@@ -40,7 +40,7 @@ public class ScoresList extends VBox {
      * Create a scores list
      */
     public ScoresList() {
-        getStyleClass().add("scorelist");
+        getStyleClass().add("scoreList");
         scores = new SimpleListProperty<>();
         scores.addListener((ListChangeListener<? super Pair<String, Integer>>) e -> {
             scoreDisplay.clear();

@@ -1,16 +1,11 @@
 package uk.ac.soton.comp1206.game;
 
 /**
- * Instances of GamePiece Represents the model of a specific Game Piece with it's block makeup.
+ * Instances of GamePiece Represents the model of a specific Game Piece with its block makeup.
  *
- * The GamePiece class also contains a factory for producing a GamePiece of a particular shape, as specified by it's
- * number.
+ * The GamePiece class also contains a factory for producing a GamePiece of a particular shape, as specified by its number.
  */
 public class GamePiece {
-    /**
-     * The value of this piece
-     */
-    private final int value;
     /**
      * The name of this piece
      */
@@ -30,9 +25,8 @@ public class GamePiece {
     private GamePiece(String name, int[][] blocks, int value) {
         this.name = name;
         this.blocks = blocks;
-        this.value = value;
 
-        //Use the shape of the block to create a grid with either 0 (empty) or the value of this shape for each block.
+        // Use the shape of the block to create a grid with either 0 (empty) or the value of this shape for each block
         for (int x = 0; x < blocks.length; x++) {
             for (int y = 0; y < blocks[x].length; y++) {
                 if (blocks[x][y] == 0) continue;
@@ -174,7 +168,7 @@ public class GamePiece {
     }
 
     /**
-     * Rotate this piece exactly once by rotating it's 3x3 grid
+     * Rotate this piece exactly once by rotating its 3x3 grid
      */
     public void rotate() {
         int[][] rotated = new int[blocks.length][blocks[0].length];

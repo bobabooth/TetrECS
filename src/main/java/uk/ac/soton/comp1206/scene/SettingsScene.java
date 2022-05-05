@@ -259,7 +259,7 @@ public class SettingsScene extends BaseScene {
         /* Bottom */
         var bottomBar = new HBox();
         bottomBar.setAlignment(Pos.CENTER);
-        BorderPane.setMargin(bottomBar, new Insets(0, 0, 15, 0));
+        BorderPane.setMargin(bottomBar, new Insets(0, 0, 20, 0));
         mainPane.setBottom(bottomBar);
 
         // Save button

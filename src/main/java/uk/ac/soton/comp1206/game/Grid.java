@@ -24,7 +24,7 @@ public class Grid {
      */
     private final int rows;
     /**
-     * The grid is a 2D arrow with rows and columns of SimpleIntegerProperties.
+     * The grid is a 2D arrow with rows and columns of SimpleIntegerProperties
      */
     private final SimpleIntegerProperty[][] grid;
 
@@ -37,10 +37,10 @@ public class Grid {
         this.cols = cols;
         this.rows = rows;
 
-        //Create the grid itself
+        // Create the grid itself
         grid = new SimpleIntegerProperty[cols][rows];
 
-        //Add a SimpleIntegerProperty to every block in the grid
+        // Add a SimpleIntegerProperty to every block in the grid
         for (var y = 0; y < rows; y++) {
             for (var x = 0; x < cols; x++) {
                 grid[x][y] = new SimpleIntegerProperty(0);
@@ -76,10 +76,10 @@ public class Grid {
      */
     public int get(int x, int y) {
         try {
-            //Get the value held in the property at the x and y index provided
+            // Get the value held in the property at the x and y index provided
             return grid[x][y].get();
         } catch (ArrayIndexOutOfBoundsException e) {
-            //No such index
+            // No such index
             return -1;
         }
     }

@@ -102,7 +102,7 @@ public class Game {
         this.cols = cols;
         this.rows = rows;
 
-        //Create a new grid model to represent the game state
+        // Create a new grid model to represent the game state
         this.grid = new Grid(cols, rows);
         timer = Executors.newSingleThreadScheduledExecutor();
     }
@@ -167,7 +167,7 @@ public class Game {
     }
 
     /**
-     * initialize a new game and set up anything that needs to be done at the start
+     * Initialize a new game and set up anything that needs to be done at the start
      */
     public void initializeGame() {
         logger.info("initializing game");
@@ -180,7 +180,7 @@ public class Game {
      * @param gameBlock the block that was clicked
      */
     public void blockClicked(GameBlock gameBlock) {
-        //Get the position of this block
+        // Get the position of this block
         int x = gameBlock.getX() - 1;
         int y = gameBlock.getY() - 1;
 
