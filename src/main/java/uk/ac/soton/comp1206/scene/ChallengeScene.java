@@ -127,7 +127,7 @@ public class ChallengeScene extends BaseScene {
         /* Left */
         VBox leftBar = new VBox(5);
         leftBar.setAlignment(Pos.CENTER);
-        leftBar.setPadding(new Insets(0, 0, 0, 15));
+        leftBar.setPadding(new Insets(0, 10, 0, 15));
         mainPane.setLeft(leftBar);
 
         var skipPieceText = new Text("Skip piece");
@@ -136,7 +136,7 @@ public class ChallengeScene extends BaseScene {
         Text skipPieceText2 = new Text("50 points\n\n");
         skipPieceText2.getStyleClass().add("channelItem");
 
-        var addLifeText = new Text("Buy one life");
+        var addLifeText = new Text("Add life");
         addLifeText.getStyleClass().add("heading-selectable");
         addLifeText.setOnMouseClicked(e -> game.addLives());
         var addLifeText2 = new Text("100 points\n\n");
