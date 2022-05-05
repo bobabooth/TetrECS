@@ -127,7 +127,7 @@ public class ChallengeScene extends BaseScene {
         /* Left */
         VBox leftBar = new VBox(5);
         leftBar.setAlignment(Pos.CENTER);
-        leftBar.setPadding(new Insets(0, 10, 0, 15));
+        leftBar.setPadding(new Insets(0, 5, 0, 15));
         mainPane.setLeft(leftBar);
 
         var skipPieceText = new Text("Skip piece");
